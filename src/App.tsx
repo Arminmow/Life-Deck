@@ -1,13 +1,13 @@
 import "./App.css";
-import { Button } from "./components/ui/button";
-import { motion } from "framer-motion";
+
 import {
   SidebarInset,
   SidebarProvider,
   SidebarTrigger,
 } from "./components/ui/sidebar";
 import { AppSidebar } from "./components/sidebar/app-sidebar";
-import { Separator } from "@radix-ui/react-separator";
+import { AppActivity } from "./components/activity/app-activity";
+
 
 function App() {
   return (
@@ -15,11 +15,11 @@ function App() {
       <SidebarProvider>
         <AppSidebar />
         <SidebarInset>
-          <header className="flex h-16 shrink-0 items-center gap-2 border-b px-4">
+          <header className="flex h-16 shrink-0 items-center px-4 absolute z-50">
             <SidebarTrigger className="-ml-1" />
-            <Separator orientation="vertical" className="mr-2 h-4" />
           </header>
-          </SidebarInset>
+        <AppActivity/>
+        </SidebarInset>
       </SidebarProvider>
     </>
   );
