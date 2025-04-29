@@ -1,4 +1,4 @@
-import { ActivityContent, ActivityBanner } from "../ui/activity";
+import { ActivityContent, ActivityBanner, ActivityInfo } from "../ui/activity";
 
 export function AppActivity() {
   return (
@@ -8,6 +8,7 @@ export function AppActivity() {
         alt="Chess"
         title="Chess"
       />
+      <ActivityInfo timeSpent="2h 37m"/>
     </ActivityContent>
   );
 }
