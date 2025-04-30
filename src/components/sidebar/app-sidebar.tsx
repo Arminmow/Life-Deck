@@ -1,5 +1,6 @@
 import * as React from "react";
-
+import { signInWithPopup, signOut } from "firebase/auth";
+import { auth, googleProvider } from "../../firebase";
 import { SearchForm } from "@/components/sidebar/search-form";
 import {
   Sidebar,
@@ -13,6 +14,7 @@ import {
   SidebarMenuItem,
   SidebarRail,
 } from "@/components/ui/sidebar";
+import { Button } from "../ui/button";
 
 // This is sample data.
 const data = {
@@ -46,11 +48,24 @@ const data = {
   ],
 };
 
+const logOut = async () => {
+  try {
+    await auth.signOut();
+    alert("Logged out successfully");
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar {...props}>
       <SidebarHeader>
+        {auth.currentUser?.displayName}
         <SearchForm />
+
+        <Button onClick={logOut}>Log Out</Button>
+        <Button onClick={() => console.log(auth.currentUser?.displayName)}>Log</Button>
       </SidebarHeader>
       <SidebarContent>
         {/* We create a SidebarGroup for each parent. */}
