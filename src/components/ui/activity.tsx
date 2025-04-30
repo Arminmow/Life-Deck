@@ -1,6 +1,8 @@
 import { cn } from "@/lib/utils";
 import { ClockFading, Trophy, Play } from "lucide-react";
 import { Button } from "./button";
+import { Progress } from "./progress";
+import { Separator } from "./separator";
 
 function ActivityContent({ className, ...props }: React.ComponentProps<"div">) {
   return <div className={cn("w-full relative", className)} {...props} />;
@@ -33,6 +35,68 @@ function ActivityStat({ icon, label, value }: { icon?: React.ReactNode; label: s
       <div className="flex flex-col leading-tight">
         <span className="text-sm text-white/70">{label}</span>
         {value && <span className="font-medium">{value}</span>}
+      </div>
+    </div>
+  );
+}
+
+function ActivityAchievements({ className, ...props }: React.ComponentProps<"section">) {
+  return (
+    <section className={cn("flex flex-col w-full ", className)} {...props}>
+      <header className="pb-1">
+        <h2 className="text-lg font-semibold text-accent-foreground text-left">ACHIEVEMENTS</h2>
+      </header>
+      <ActivityAchievementsProgress />
+      <div className="bg-accent-foreground rounded-b-sm">
+        {/* unlocked achievements */}
+        <ActivityAchievementWrapper unlocked={true} />
+        <div className="flex justify-center mt-3">
+          <Separator />
+        </div>
+        <ActivityAchievementWrapper unlocked={false} />
+        <ActivityAchievementsFooter />
+      </div>
+    </section>
+  );
+}
+
+function ActivityAchievementsProgress({ className, ...props }: React.ComponentProps<"div">) {
+  return (
+    <div
+      className={cn("w-full flex flex-col gap-2 text-accent bg-accent-foreground/80 p-3 rounded-t-sm", className)}
+      {...props}
+    >
+      <span>You've unlocked 3/10 (30%)</span>
+      <Progress value={30} />
+    </div>
+  );
+}
+
+function ActivityAchievementsFooter({ className, ...props }: React.ComponentProps<"div">) {
+  return (
+    <div className={cn("w-full flex  justify-end pr-5 pb-4 ", className)} {...props}>
+      <span className="text-sm text-accent"> View my achievements</span>
+    </div>
+  );
+}
+
+function ActivityAchievementWrapper({ className, unlocked, ...props }: React.ComponentProps<"div"> & { unlocked: boolean }) {
+  return (
+    <div className="p-3 flex flex-col gap-2">
+      <header className="w-full">
+        <span className="text-accent">{unlocked ? "Unlocked achievements" : "Locked achievements"}</span>
+      </header>
+      <div className={cn("w-full flex  gap-2 text-accent flex-wrap", className)} {...props}>
+        {/* this will be a separated component */}
+        <img
+          src="https://i.ibb.co/0V2yzxPR/image.png"
+          alt="Achievement-img"
+          className={cn(
+            ` w-15 aspect-square bg-cover cursor-pointer rounded-sm`,
+            !unlocked && "grayscale contrast-75 opacity-80",
+            className
+          )}
+        />
       </div>
     </div>
   );
@@ -76,11 +140,10 @@ function ActivitySideBar({ className, ...props }: React.ComponentProps<"aside">)
 
 function ActivityFeed({ className, ...props }: React.ComponentProps<"article">) {
   return (
-    <article className={cn("border-2 h-200 bg-muted", className)} {...props}>
-      <div className="flex flex-col items-center justify-center w-full h-full ">
-        <h2 className="text-lg font-semibold ">Activity Feed</h2>
-      </div>
-    </article>
+    <article
+      className={cn("border-2 h-200 bg-muted flex flex-col items-center justify-start pt-5 px-5", className)}
+      {...props}
+    ></article>
   );
 }
 
@@ -88,4 +151,12 @@ function ActivityFeedContainer({ className, ...props }: React.ComponentProps<"di
   return <div className={cn("flex flex-row w-full", className)} {...props} />;
 }
 
-export { ActivityBanner, ActivityContent, ActivityInfo, ActivitySideBar, ActivityFeed , ActivityFeedContainer };
+export {
+  ActivityBanner,
+  ActivityContent,
+  ActivityInfo,
+  ActivitySideBar,
+  ActivityFeed,
+  ActivityFeedContainer,
+  ActivityAchievements,
+};

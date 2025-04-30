@@ -1,4 +1,4 @@
-import { ActivityContent, ActivityBanner, ActivityInfo, ActivityFeed, ActivityFeedContainer } from "../ui/activity";
+import { ActivityContent, ActivityBanner, ActivityInfo, ActivityFeed, ActivityFeedContainer, ActivityAchievements } from "../ui/activity";
 
 export function AppActivity() {
   return (
@@ -17,7 +17,9 @@ export function AppActivity() {
         </div>
         {/* sidebar */}
         <div className="w-full md:w-1/3">
-          <ActivityFeed />
+          <ActivityFeed>
+            <ActivityAchievements/>
+          </ActivityFeed>
         </div>
       </ActivityFeedContainer>
     </ActivityContent>
