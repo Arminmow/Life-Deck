@@ -1,4 +1,12 @@
-import { ActivityContent, ActivityBanner, ActivityInfo, ActivityFeed, ActivityFeedContainer, ActivityAchievements } from "../ui/activity";
+import {
+  ActivityContent,
+  ActivityBanner,
+  ActivityInfo,
+  ActivityFeed,
+  ActivityFeedContainer,
+  ActivityAchievements,
+  ActivityFeedItem,
+} from "../ui/activity";
 
 export function AppActivity() {
   return (
@@ -13,12 +21,41 @@ export function AppActivity() {
       <ActivityFeedContainer className="flex w-full flex-wrap">
         {/* main feed */}
         <div className="w-full md:w-2/3">
-          <ActivityFeed />
+          <ActivityFeed>
+            <ActivityFeedItem>
+              <p className="text-accent">
+                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aperiam necessitatibus dolores fugiat sint sapiente
+                rem accusamus molestiae vel, maxime dicta doloremque, laborum fuga, tenetur ipsum sunt ipsam excepturi
+                voluptatum. Nostrum!
+              </p>
+            </ActivityFeedItem>
+            <ActivityFeedItem>
+              <p className="text-accent">
+                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aperiam necessitatibus dolores fugiat sint sapiente
+                rem accusamus molestiae vel, maxime dicta doloremque, laborum fuga, tenetur ipsum sunt ipsam excepturi
+                voluptatum. Nostrum!
+              </p>
+            </ActivityFeedItem>
+            <ActivityFeedItem>
+              <p className="text-accent">
+                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aperiam necessitatibus dolores fugiat sint sapiente
+                rem accusamus molestiae vel, maxime dicta doloremque, laborum fuga, tenetur ipsum sunt ipsam excepturi
+                voluptatum. Nostrum!
+              </p>
+            </ActivityFeedItem>
+            <ActivityFeedItem>
+              <p className="text-accent">
+                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aperiam necessitatibus dolores fugiat sint sapiente
+                rem accusamus molestiae vel, maxime dicta doloremque, laborum fuga, tenetur ipsum sunt ipsam excepturi
+                voluptatum. Nostrum!
+              </p>
+            </ActivityFeedItem>
+          </ActivityFeed>
         </div>
         {/* sidebar */}
         <div className="w-full md:w-1/3">
           <ActivityFeed>
-            <ActivityAchievements/>
+            <ActivityAchievements />
           </ActivityFeed>
         </div>
       </ActivityFeedContainer>

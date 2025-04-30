@@ -128,22 +128,12 @@ function ActivityInfo({ className, timeSpent, ...props }: React.ComponentProps<"
   );
 }
 
-function ActivitySideBar({ className, ...props }: React.ComponentProps<"aside">) {
-  return (
-    <aside className={cn("w-1/3 h-200 bg-muted", className)} {...props}>
-      <div className="flex flex-col items-center justify-center w-full h-full ">
-        <h2 className="text-lg font-semibold text-white">Activity Sidebar</h2>
-      </div>
-    </aside>
-  );
-}
-
 function ActivityFeed({ className, ...props }: React.ComponentProps<"article">) {
   return (
     <article
-      className={cn("border-2 h-200 bg-muted flex flex-col items-center justify-start pt-5 px-5", className)}
+      className={cn("bg-muted flex gap-5 flex-col items-center justify-start pt-5 px-5", className)}
       {...props}
-    ></article>
+    />
   );
 }
 
@@ -151,12 +141,30 @@ function ActivityFeedContainer({ className, ...props }: React.ComponentProps<"di
   return <div className={cn("flex flex-row w-full", className)} {...props} />;
 }
 
+function ActivityFeedItem({ className, children, ...props }: React.ComponentProps<"div">) {
+  return (
+    <div className={cn("flex flex-col gap-2 p-3 w-full bg-accent-foreground rounded-sm ", className)} {...props}>
+      <ActivityFeedDate date="APRIL 25" />
+      {children}
+    </div>
+  );
+}
+
+function ActivityFeedDate({ className, date, ...props }: React.ComponentProps<"div"> & { date: string }) {
+  return (
+    <div className={cn("flex flex-row items-center gap-1 w-full", className)} {...props}>
+      <span className="text-lg text-accent">{date}</span>
+      <Separator />
+    </div>
+  );
+}
+
 export {
   ActivityBanner,
   ActivityContent,
   ActivityInfo,
-  ActivitySideBar,
   ActivityFeed,
   ActivityFeedContainer,
   ActivityAchievements,
+  ActivityFeedItem,
 };
