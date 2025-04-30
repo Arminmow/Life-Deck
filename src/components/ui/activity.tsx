@@ -64,4 +64,28 @@ function ActivityInfo({ className, timeSpent, ...props }: React.ComponentProps<"
   );
 }
 
-export { ActivityBanner, ActivityContent, ActivityInfo };
+function ActivitySideBar({ className, ...props }: React.ComponentProps<"aside">) {
+  return (
+    <aside className={cn("w-1/3 h-200 bg-muted", className)} {...props}>
+      <div className="flex flex-col items-center justify-center w-full h-full ">
+        <h2 className="text-lg font-semibold text-white">Activity Sidebar</h2>
+      </div>
+    </aside>
+  );
+}
+
+function ActivityFeed({ className, ...props }: React.ComponentProps<"article">) {
+  return (
+    <article className={cn("border-2 h-200 bg-muted", className)} {...props}>
+      <div className="flex flex-col items-center justify-center w-full h-full ">
+        <h2 className="text-lg font-semibold ">Activity Feed</h2>
+      </div>
+    </article>
+  );
+}
+
+function ActivityFeedContainer({ className, ...props }: React.ComponentProps<"div">) {
+  return <div className={cn("flex flex-row w-full", className)} {...props} />;
+}
+
+export { ActivityBanner, ActivityContent, ActivityInfo, ActivitySideBar, ActivityFeed , ActivityFeedContainer };
