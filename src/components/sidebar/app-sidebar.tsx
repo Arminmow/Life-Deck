@@ -1,5 +1,7 @@
 import * as React from "react";
-import { signInWithPopup, signOut } from "firebase/auth";
+import { db } from "../../firebase";
+import { getDocs, collection } from "firebase/firestore";
+
 import { auth, googleProvider } from "../../firebase";
 import { SearchForm } from "@/components/sidebar/search-form";
 import {
@@ -57,6 +59,30 @@ const logOut = async () => {
   }
 };
 
+const logShit = async () => {
+  const mycollection = collection(db, "users");
+  const data = await getDocs(mycollection);
+
+  const filteredData = await Promise.all(
+    data.docs.map(async (doc) => {
+      const activitiesRef = collection(db, "users", doc.id, "activity");
+      const activitiesSnap = await getDocs(activitiesRef);
+      const activities = activitiesSnap.docs.map((activityDoc) => ({
+        id: activityDoc.id,
+        ...activityDoc.data(),
+      }));
+
+      return {
+        id: doc.id,
+        ...doc.data(),
+        activities, // now includes all subcollection data
+      };
+    })
+  );
+
+  console.log(filteredData);
+};
+
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar {...props}>
@@ -65,7 +91,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <SearchForm />
 
         <Button onClick={logOut}>Log Out</Button>
-        <Button onClick={() => console.log(auth.currentUser?.displayName)}>Log</Button>
+        <Button onClick={logShit}>Log</Button>
       </SidebarHeader>
       <SidebarContent>
         {/* We create a SidebarGroup for each parent. */}
