@@ -60,27 +60,9 @@ const logOut = async () => {
 };
 
 const logShit = async () => {
-  const mycollection = collection(db, "users");
-  const data = await getDocs(mycollection);
+  
+console.log(auth.currentUser);
 
-  const filteredData = await Promise.all(
-    data.docs.map(async (doc) => {
-      const activitiesRef = collection(db, "users", doc.id, "activity");
-      const activitiesSnap = await getDocs(activitiesRef);
-      const activities = activitiesSnap.docs.map((activityDoc) => ({
-        id: activityDoc.id,
-        ...activityDoc.data(),
-      }));
-
-      return {
-        id: doc.id,
-        ...doc.data(),
-        activities, // now includes all subcollection data
-      };
-    })
-  );
-
-  console.log(filteredData);
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
