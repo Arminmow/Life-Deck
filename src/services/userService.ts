@@ -10,7 +10,7 @@ export const userService = {
       const result = await signInWithPopup(auth, googleProvider);
       const user = result.user;
       const userId = user.uid;
-      
+
       store.dispatch(setUserId(userId));
 
       // Check if user already exists in Firestore
@@ -19,7 +19,7 @@ export const userService = {
 
       if (!userDocSnap.exists()) {
         // If user doesn't exist, add them to Firestore
-        userService.addUserToFirestore(userId, user);  // Direct call, no 'this' needed
+        userService.addUserToFirestore(userId, user); // Direct call, no 'this' needed
       } else {
         console.log("User already exists in Firestore.");
       }
@@ -45,5 +45,16 @@ export const userService = {
       console.error("Error adding user to Firestore:", error);
     }
   },
-};
 
+  async addUserActivity(userId: string, activity: any) {
+    try {
+      const activityId = activity.id; // Make sure it's a string or something ID-safe
+      const activityRef = doc(db, "users", userId, "activities", activityId);
+
+      await setDoc(activityRef, activity); // Overwrites if exists, creates if not
+      console.log("Activity added/updated:", activityId);
+    } catch (error) {
+      console.error("Error adding activity:", error);
+    }
+  },
+};
