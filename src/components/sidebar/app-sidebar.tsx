@@ -18,6 +18,8 @@ import {
 } from "@/components/ui/sidebar";
 import { Button } from "../ui/button";
 
+import { AddActivityBtn } from "../ui/addActivityBtn";
+
 // This is sample data.
 const data = {
   navMain: [
@@ -60,9 +62,7 @@ const logOut = async () => {
 };
 
 const logShit = async () => {
-  
-console.log(auth.currentUser);
-
+  console.log(auth.currentUser);
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
@@ -104,6 +104,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         ))}
       </SidebarContent>
       <SidebarRail />
+      <AddActivityBtn />
     </Sidebar>
   );
 }

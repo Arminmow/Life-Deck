@@ -45,6 +45,7 @@ import Spinner from "./components/ui/spinner";
           <SidebarInset>
             <header className="flex h-16 shrink-0 items-center px-4 absolute z-50">
               <SidebarTrigger className="-ml-1" />
+              
             </header>
             <AppActivity />
           </SidebarInset>

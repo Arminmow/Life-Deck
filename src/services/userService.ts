@@ -2,7 +2,7 @@ import { auth, db, googleProvider } from "@/firebase";
 import { signInWithPopup } from "firebase/auth";
 import { store } from "@/redux/store";
 import { setUserId } from "@/redux/slices/userSlice";
-import { doc, getDoc, setDoc, collection } from "firebase/firestore";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 
 export const userService = {
   async logInWithGoogle() {
