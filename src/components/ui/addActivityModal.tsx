@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -10,8 +11,24 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { activityService } from "@/services/activityService";
 
-export function AddActivityBtn() {
+export function AddActivityModal() {
+  const [activity, setActivity] = useState({
+    title: "",
+    description: "",
+    banner: "",
+  });
+
+  const handleSubmit = async () => {
+    console.log("yo imma add it real quick");
+
+    const activityBuilt = activityService.buildActivityFromUserInput(activity);
+
+    await activityService.addActivity(activityBuilt);
+    alert("Activity added successfully!");
+  };
+
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -34,24 +51,55 @@ export function AddActivityBtn() {
             <Label htmlFor="name" className="text-right">
               Name
             </Label>
-            <Input id="name" placeholder="Eg. Chess (You should learn chess)" className="col-span-3" />
+            <Input
+              onChange={(e) =>
+                setActivity((prev) => ({
+                  ...prev,
+                  title: e.target.value,
+                }))
+              }
+              id="name"
+              placeholder="Eg. Chess (You should learn chess)"
+              className="col-span-3"
+            />
           </div>
 
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="username" className="text-right">
               Banner url
             </Label>
-            <Input id="username" placeholder="http://..." className="col-span-3" />
+            <Input
+              onChange={(e) =>
+                setActivity((prev) => ({
+                  ...prev,
+                  banner: e.target.value,
+                }))
+              }
+              id="username"
+              placeholder="http://..."
+              className="col-span-3"
+            />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="username" className="text-right">
               Description
             </Label>
-            <Input id="username" className="col-span-3" />
+            <Input
+              onChange={(e) =>
+                setActivity((prev) => ({
+                  ...prev,
+                  description: e.target.value,
+                }))
+              }
+              id="username"
+              className="col-span-3"
+            />
           </div>
         </div>
         <DialogFooter>
-          <Button type="submit">Add</Button>
+          <Button type="submit" onClick={handleSubmit}>
+            Add
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

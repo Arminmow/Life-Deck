@@ -18,7 +18,7 @@ import {
 } from "@/components/ui/sidebar";
 import { Button } from "../ui/button";
 
-import { AddActivityBtn } from "../ui/addActivityBtn";
+import { AddActivityModal } from "../ui/addActivityModal.tsx";
 
 // This is sample data.
 const data = {
@@ -104,7 +104,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         ))}
       </SidebarContent>
       <SidebarRail />
-      <AddActivityBtn />
+      <AddActivityModal />
     </Sidebar>
   );
 }

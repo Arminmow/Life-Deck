@@ -46,15 +46,5 @@ export const userService = {
     }
   },
 
-  async addUserActivity(userId: string, activity: any) {
-    try {
-      const activityId = activity.id; // Make sure it's a string or something ID-safe
-      const activityRef = doc(db, "users", userId, "activities", activityId);
-
-      await setDoc(activityRef, activity); // Overwrites if exists, creates if not
-      console.log("Activity added/updated:", activityId);
-    } catch (error) {
-      console.error("Error adding activity:", error);
-    }
-  },
+  
 };
