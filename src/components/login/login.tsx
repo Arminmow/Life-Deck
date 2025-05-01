@@ -1,17 +1,6 @@
-import { auth, googleProvider } from "@/firebase";
-import { signInWithPopup } from "firebase/auth";
-import { FcGoogle } from "react-icons/fc";
+import { userService } from "@/services/userService";
 
 export const Login = () => {
-  const signIn = async () => {
-    try {
-      await signInWithPopup(auth, googleProvider);
-      alert("Logged in successfully");
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   return (
     <div className="flex h-screen w-screen items-center justify-center bg-white text-gray-800">
       <div className="flex flex-col items-center gap-4">
@@ -21,7 +10,7 @@ export const Login = () => {
         <p className="text-sm text-gray-500">Your personal activity tracker</p>
 
         <button
-          onClick={signIn}
+          onClick={userService.logInWithGoogle}
           className="flex items-center gap-3 px-5 py-2.5 rounded-full border border-gray-300 hover:border-gray-400 transition-colors hover:bg-gray-50 text-sm font-medium"
         >
           <img
