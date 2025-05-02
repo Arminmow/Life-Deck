@@ -41,6 +41,7 @@ export const activityService = {
       isActive: false,
       lastActive: "",
       activationDate: null,
+      lastSessionDuration : "0m"
     };
   },
 
@@ -154,6 +155,7 @@ export const activityService = {
         // Only calculate timeSpent if activationDate exists
         if (activity.activationDate) {
           const timeSpentInSeconds = activityService.calculateTimeSpent(activity.activationDate);
+          activity.lastSessionDuration = activityService.convertSeconds(timeSpentInSeconds);
           activity.timeSpent += timeSpentInSeconds; // Adding seconds to the existing timeSpent
         }
 

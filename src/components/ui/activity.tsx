@@ -5,6 +5,7 @@ import { Progress } from "./progress";
 import { Separator } from "./separator";
 import { activityService } from "@/services/activityService";
 import { Activity } from "@/types/activity";
+import { SessionModal } from "./sessionModal";
 
 function ActivityContent({ className, ...props }: React.ComponentProps<"div">) {
   return <div className={cn("w-full relative", className)} {...props} />;
@@ -114,41 +115,38 @@ function ActivityAchievementWrapper({ className, unlocked, ...props }: React.Com
   );
 }
 
-function ActivitySessionBtn({ isActive, id }: { isActive: boolean; id: string }) {
+function ActivitySessionBtn({ activity }: { activity: Activity }) {
   const handleClick = async () => {
-    if (isActive) {
+    if (activity.isActive) {
       // If the activity is already active, stop it
-      await activityService.stopActivity(id);
+      await activityService.stopActivity(activity.id);
     } else {
       // If the activity is not active, start it
-      await activityService.activeActivity(id);
+      await activityService.activeActivity(activity.id);
     }
   };
   return (
-    <Button size="session" variant={isActive ? "sesstionActive" : "session"} onClick={handleClick}>
-      {isActive ? (
-        <span className="flex items-center gap-2">
-          <X size={32} strokeWidth={3} /> Stop
-        </span>
-      ) : (
-        <span className="flex items-center gap-2">
-          <Play size={32} strokeWidth={3} /> Start
-        </span>
-      )}
-    </Button>
+    // <Button size="session" variant={isActive ? "sesstionActive" : "session"} onClick={handleClick}>
+    //   {isActive ? (
+    //     <span className="flex items-center gap-2">
+    //       <X size={32} strokeWidth={3} /> Stop
+    //     </span>
+    //   ) : (
+    //     <span className="flex items-center gap-2">
+    //       <Play size={32} strokeWidth={3} /> Start
+    //     </span>
+    //   )}
+    // </Button>
+    <SessionModal activity= {activity} handleClick={handleClick} />
   );
 }
 
-function ActivityInfo({
-  activity,
-  className,
-  ...props
-}: React.ComponentProps<"div"> & { activity: Activity}) {
+function ActivityInfo({ activity, className, ...props }: React.ComponentProps<"div"> & { activity: Activity }) {
   return (
     <section className={cn("w-full py-5 px-4 text-sidebar-accent bg-sidebar-accent-foreground", className)} {...props}>
       {/* Session Button Block */}
       <div className="mb-5">
-        <ActivitySessionBtn id={activity.id} isActive={activity.isActive} />
+        <ActivitySessionBtn activity={activity} />
       </div>
 
       {/* Stats Grid */}

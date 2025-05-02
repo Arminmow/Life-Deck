@@ -73,6 +73,7 @@ const userSlice = createSlice({
         // Only calculate timeSpent if activationDate exists
         if (activity.activationDate) {
           const timeSpentInSeconds = activityService.calculateTimeSpent(activity.activationDate);
+          activity.lastSessionDuration = activityService.convertSeconds(timeSpentInSeconds);
           activity.timeSpent += timeSpentInSeconds; // Adding seconds to the existing timeSpent
         }
 
