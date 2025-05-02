@@ -3,11 +3,13 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 interface UserState {
   id: string | null;
   activities: object[];
+  activeId: string;
 }
 
 const initialState: UserState = {
   id: null,
   activities: [],
+  activeId: "",
 };
 
 const userSlice = createSlice({
@@ -28,8 +30,13 @@ const userSlice = createSlice({
     setActivities: (state, action: PayloadAction<object[]>) => {
       state.activities = action.payload;
     },
+    setActiveId: (state, action) => {
+      state.activeId = action.payload;
+      console.log(`Bro I did ${action.payload}`);
+      
+    },
   },
 });
 
-export const { setUserId, addActivity  , setActivities} = userSlice.actions;
+export const { setUserId, addActivity, setActivities, setActiveId } = userSlice.actions;
 export default userSlice.reducer;

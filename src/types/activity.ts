@@ -15,6 +15,7 @@ export interface FeedItem {
 }
 
 export interface Activity {
+  id : string;
   title: string;
   description: string;
   banner: string;
