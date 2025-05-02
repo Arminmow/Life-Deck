@@ -16,14 +16,18 @@ const userSlice = createSlice({
   reducers: {
     setUserId: (state, action: PayloadAction<string | null>) => {
       console.log("yoohoo");
-      
+
       state.id = action.payload;
     },
-    setActivities: (state, action: PayloadAction<object[]>) => {
-      state.activities = action.payload;
+    addActivity: (state, action: PayloadAction<object>) => {
+      const activity = action.payload;
+
+      state.activities.push(activity);
+      console.log(state.activities);
+      
     },
   },
 });
 
-export const { setUserId, setActivities } = userSlice.actions;
+export const { setUserId, addActivity } = userSlice.actions;
 export default userSlice.reducer;

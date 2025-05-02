@@ -2,6 +2,8 @@ import { db } from "@/firebase";
 import { doc, setDoc } from "firebase/firestore";
 import { auth } from "@/firebase";
 import { Activity } from "@/types/activity";
+import { addActivity } from "@/redux/slices/userSlice";
+import { store } from "@/redux/store";
 
 export const activityService = {
   async addActivity(activity: any) {
@@ -13,9 +15,10 @@ export const activityService = {
     try {
       const activityId = activity.id; // Make sure it's a string or something ID-safe
       const activityRef = doc(db, "users", userId, "activities", activityId);
-
+      store.dispatch(addActivity(activity)); 
       await setDoc(activityRef, activity); // Overwrites if exists, creates if not
       console.log("Activity added/updated:", activityId);
+   // Dispatch the action to add activity to Redux store
     } catch (error) {
       console.error("Error adding activity:", error);
     }

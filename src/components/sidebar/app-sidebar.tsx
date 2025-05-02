@@ -17,6 +17,7 @@ import {
   SidebarRail,
 } from "@/components/ui/sidebar";
 import { Button } from "../ui/button";
+import { useSelector, UseSelector } from "react-redux";
 
 import { AddActivityModal } from "../ui/addActivityModal.tsx";
 
@@ -62,10 +63,13 @@ const logOut = async () => {
 };
 
 const logShit = async () => {
-  console.log(auth.currentUser);
+
+
+  console.log(activities);
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const activities = useSelector((state: any) => state.user.activities);
   return (
     <Sidebar {...props}>
       <SidebarHeader>
@@ -73,7 +77,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <SearchForm />
 
         <Button onClick={logOut}>Log Out</Button>
-        <Button onClick={logShit}>Log</Button>
+        <Button onClick={() => console.log(activities)}>Log</Button>
       </SidebarHeader>
       <SidebarContent>
         {/* We create a SidebarGroup for each parent. */}
