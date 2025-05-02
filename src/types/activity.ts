@@ -8,7 +8,6 @@ export interface Achievement {
 }
 
 export interface FeedItem {
-  title: string;
   description: string;
   date: string;
   icon: string;
@@ -25,4 +24,5 @@ export interface Activity {
   lastActive: string;
   lastSessionDuration: string;
   activationDate: string | null;
+  feeds : FeedItem[]
 }

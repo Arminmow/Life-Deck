@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Play, X } from "lucide-react";
 import { Button } from "./button";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "./dialog";
@@ -10,6 +10,8 @@ export function SessionModal({ handleClick, activity }: { activity: Activity; ha
   const [open, setOpen] = useState(false);
   const [sessionDuration, setSessionDuration] = useState<string>("");
 
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+
   const handleOpen = () => {
     // Calculate current session duration BEFORE modal opens
     if (activity.activationDate) {
@@ -20,7 +22,11 @@ export function SessionModal({ handleClick, activity }: { activity: Activity; ha
     setOpen(true);
   };
 
-  const handleConfirmStop = () => {
+  const handleConfirmStop = async () => {
+    const description = textareaRef.current?.value || "";
+    const feedBuilt = activityService.buildFeedFromUserInput({ description });
+    console.log("Feed built: ", feedBuilt); // Debugging line
+    await activityService.addFeedToFireBase({feed: feedBuilt , activityId : activity.id})
     handleClick(); // update backend/store
     setOpen(false); // close modal AFTER click
   };
@@ -53,12 +59,13 @@ export function SessionModal({ handleClick, activity }: { activity: Activity; ha
         </DialogHeader>
         <div className="gap-4 py-4 w-full">
           <Textarea
+           ref={textareaRef}
             placeholder="Write down your session report"
             className="w-full resize-none break-words overflow-hidden"
           />
         </div>
         <DialogFooter>
-          <Button onClick={handleConfirmStop}>Confirm Stop</Button>
+          <Button onClick={async() =>handleConfirmStop()}>Confirm Stop</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

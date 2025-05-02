@@ -1,9 +1,17 @@
 import { db } from "@/firebase";
-import { collection, doc, getDocs, setDoc, deleteDoc, getDoc } from "firebase/firestore";
+import { collection, doc, getDocs, setDoc, deleteDoc, getDoc, addDoc } from "firebase/firestore";
 import { auth } from "@/firebase";
-import { Activity } from "@/types/activity";
-import { addActivity, setActivities, removeActivity, setActiveActivity, stopActivity } from "@/redux/slices/userSlice"; // Make sure you have removeActivity action in your userSlice
+import { Activity, FeedItem } from "@/types/activity";
+import {
+  addActivity,
+  setActivities,
+  removeActivity,
+  setActiveActivity,
+  stopActivity,
+  addFeedToActivity,
+} from "@/redux/slices/userSlice"; // Make sure you have removeActivity action in your userSlice
 import { store } from "@/redux/store";
+import { icons } from "lucide-react";
 
 export const activityService = {
   async addActivity(activity: any) {
@@ -41,10 +49,25 @@ export const activityService = {
       isActive: false,
       lastActive: "",
       activationDate: null,
-      lastSessionDuration : "0m"
+      lastSessionDuration: "0m",
+      feeds: [],
     };
   },
 
+  buildFeedFromUserInput(input: { description: string }): FeedItem {
+    const now = new Date();
+    const formattedDate = now.toLocaleDateString("en-GB", {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    }); // e.g., "15 April 2025"
+
+    return {
+      description: input.description,
+      date: formattedDate,
+      icon: "", // fill this later if needed
+    };
+  },
   async fetchActivitiesFromFirebase() {
     const userId = auth.currentUser?.uid;
     if (!userId) {
@@ -176,7 +199,25 @@ export const activityService = {
     }
   },
 
-  addAchievement: () => {},
+  async addFeedToFireBase({ feed, activityId }: { feed: FeedItem; activityId: string }) {
+    // add feed to Feeds subcollection of an activity
+
+    try {
+      store.dispatch(addFeedToActivity({ activityId: activityId, feedItem: feed }));
+      const feedRef = collection(db, "activities", activityId, "feeds");
+      console.log(feed);
+
+      await addDoc(feedRef, {
+        ...feed,
+        createdAt: new Date(), // optional timestamp
+      });
+
+      console.log(`${feed} added to Firestore`);
+    } catch (err) {
+      console.error("Error adding feed to Firestore:", err);
+      throw err; // Optional: rethrow for UI to handle
+    }
+  },
 
   calculateTimeSpent: (start: string): number => {
     const startDate = new Date(start);

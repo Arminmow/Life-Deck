@@ -82,9 +82,29 @@ const userSlice = createSlice({
         console.warn(`No activity found with ID: ${activityId}`);
       }
     },
+
+    addFeedToActivity: (state, action) => {
+      const { activityId, feedItem } = action.payload;
+
+      const activity = state.activities.find((a) => a.id === activityId);
+      if (activity) {
+        if (!activity.feeds) {
+          activity.feeds = [];
+        }
+        activity.feeds.push(feedItem);
+      }
+    },
   },
 });
 
-export const { setUserId, addActivity, setActivities, setActiveId, removeActivity, setActiveActivity, stopActivity } =
-  userSlice.actions;
+export const {
+  setUserId,
+  addActivity,
+  setActivities,
+  setActiveId,
+  removeActivity,
+  setActiveActivity,
+  stopActivity,
+  addFeedToActivity,
+} = userSlice.actions;
 export default userSlice.reducer;
