@@ -1,5 +1,8 @@
 import * as React from "react";
+import { db } from "../../firebase";
+import { getDocs, collection } from "firebase/firestore";
 
+import { auth, googleProvider } from "../../firebase";
 import { SearchForm } from "@/components/sidebar/search-form";
 import {
   Sidebar,
@@ -13,6 +16,9 @@ import {
   SidebarMenuItem,
   SidebarRail,
 } from "@/components/ui/sidebar";
+import { Button } from "../ui/button";
+
+import { AddActivityModal } from "../ui/addActivityModal.tsx";
 
 // This is sample data.
 const data = {
@@ -46,11 +52,28 @@ const data = {
   ],
 };
 
+const logOut = async () => {
+  try {
+    await auth.signOut();
+    alert("Logged out successfully");
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const logShit = async () => {
+  console.log(auth.currentUser);
+};
+
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar {...props}>
       <SidebarHeader>
+        {auth.currentUser?.displayName}
         <SearchForm />
+
+        <Button onClick={logOut}>Log Out</Button>
+        <Button onClick={logShit}>Log</Button>
       </SidebarHeader>
       <SidebarContent>
         {/* We create a SidebarGroup for each parent. */}
@@ -81,6 +104,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         ))}
       </SidebarContent>
       <SidebarRail />
+      <AddActivityModal />
     </Sidebar>
   );
 }
