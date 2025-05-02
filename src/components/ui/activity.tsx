@@ -143,7 +143,7 @@ function ActivityInfo({
   activity,
   className,
   ...props
-}: React.ComponentProps<"div"> & { activity: Activity; timeSpent: string; lastActive: string }) {
+}: React.ComponentProps<"div"> & { activity: Activity}) {
   return (
     <section className={cn("w-full py-5 px-4 text-sidebar-accent bg-sidebar-accent-foreground", className)} {...props}>
       {/* Session Button Block */}

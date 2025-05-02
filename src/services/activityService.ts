@@ -174,6 +174,8 @@ export const activityService = {
     }
   },
 
+  addAchievement: () => {},
+
   calculateTimeSpent: (start: string): number => {
     const startDate = new Date(start);
     const now = new Date();
