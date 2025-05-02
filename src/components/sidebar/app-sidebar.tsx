@@ -1,6 +1,11 @@
 import * as React from "react";
-
+import { auth } from "../../firebase";
 import { SearchForm } from "@/components/sidebar/search-form";
+import { Button } from "../ui/button";
+import { useDispatch, useSelector } from "react-redux";
+import { setActiveId } from "@/redux/slices/userSlice.ts";
+import { AddActivityModal } from "../ui/addActivityModal.tsx";
+import { Activity } from "@/types/activity.ts";
 import {
   Sidebar,
   SidebarContent,
@@ -14,73 +19,58 @@ import {
   SidebarRail,
 } from "@/components/ui/sidebar";
 
-// This is sample data.
-const data = {
-  navMain: [
-    {
-      title: "Activities",
-      items: [
-        {
-          title: "Chess",
-          url: "https://cdn-1.webcatalog.io/catalog/chesscom/chesscom-icon-filled-256.png?v=1714773895444",
-          timeSpent: "1h 30m",
-          isActive: true,
-        },
-        {
-          title: "Framer Motion",
-          url: "https://tsh.io/wp-content/uploads/fly-images/32664/framer-motion-logo-1-312x211.png",
-          timeSpent: "30m",
-        },
-        {
-          title: "ShadCN",
-          url: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQEQhq86LZUz7tgaiNlaxQe_lv2gjhADpK75w&s",
-          timeSpent: "1h 30m",
-        },
-        {
-          title: "Reading",
-          url: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRqMkRaX4O3weYLKg3nKUnTX5qe4LnKuJqoVw&s",
-          timeSpent: "1h 30m",
-        },
-      ],
-    },
-  ],
+const logOut = async () => {
+  try {
+    await auth.signOut();
+    alert("Logged out successfully");
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const dispatch = useDispatch();
+  const activities = useSelector((state: any) => state.user.activities);
   return (
     <Sidebar {...props}>
       <SidebarHeader>
+        {auth.currentUser?.displayName}
         <SearchForm />
+
+        <Button onClick={logOut}>Log Out</Button>
       </SidebarHeader>
       <SidebarContent>
-        {/* We create a SidebarGroup for each parent. */}
-        {data.navMain.map((item) => (
-          <SidebarGroup key={item.title}>
-            <SidebarGroupLabel>{item.title}</SidebarGroupLabel>
-            <SidebarGroupContent>
-              <SidebarMenu>
-                {item.items.map((item) => (
-                  <SidebarMenuItem key={item.title}>
-                    <SidebarMenuButton asChild isActive={item.isActive}>
-                      <article className=" border bg-card shadow-md">
-                        <div className="shrink-0">
-                          <img src={item.url} alt="Coding Icon" className="w-8 h-8 rounded-full object-cover" />
-                        </div>
+        <SidebarGroup>
+          <SidebarGroupLabel>Activities</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {activities.map((item: Activity) => (
+                <SidebarMenuItem key={item.id}>
+                  {/* <h1>{item.id}</h1> */}
+                  <SidebarMenuButton onClick={() => dispatch(setActiveId(item.id))} asChild isActive={item.isActive}>
+                    <article className=" border bg-card shadow-md">
+                      <div className="shrink-0">
+                        <img
+                          src={item.icon ? item.icon : "#"}
+                          alt="Coding Icon"
+                          className="w-8 h-8 rounded-full object-cover"
+                        />
+                      </div>
 
-                        <div className="flex justify-between items-center w-full">
-                          <h2 className="text-lg font-semibold">{item.title}</h2>
-                          <p className="text-sm text-muted-foreground">{item.timeSpent}</p>
-                        </div>
-                      </article>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                ))}
-              </SidebarMenu>
-            </SidebarGroupContent>
-          </SidebarGroup>
-        ))}
+                      <div className="flex justify-between items-center w-full">
+                        <h2 className="text-lg font-semibold">{item.title}</h2>
+                        <p className="text-sm text-muted-foreground">{item.timeSpent}</p>
+                      </div>
+                    </article>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
       </SidebarContent>
       <SidebarRail />
+      <AddActivityModal />
     </Sidebar>
   );
 }

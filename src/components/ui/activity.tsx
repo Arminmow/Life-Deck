@@ -1,14 +1,22 @@
 import { cn } from "@/lib/utils";
-import { ClockFading, Trophy, Play } from "lucide-react";
+import { ClockFading, Trophy, Play, X } from "lucide-react";
 import { Button } from "./button";
 import { Progress } from "./progress";
 import { Separator } from "./separator";
+import { activityService } from "@/services/activityService";
+import { Activity } from "@/types/activity";
 
 function ActivityContent({ className, ...props }: React.ComponentProps<"div">) {
   return <div className={cn("w-full relative", className)} {...props} />;
 }
 
-function ActivityBanner({ className, src, title, ...props }: React.ComponentProps<"img"> & { src: string; title: string }) {
+function ActivityBanner({
+  className,
+  src,
+  title,
+  id,
+  ...props
+}: React.ComponentProps<"img"> & { src: string; title: string; id: string }) {
   return (
     <div className="relative w-full h-[30vh] md:rounded-t-xl overflow-hidden">
       <img
@@ -21,14 +29,18 @@ function ActivityBanner({ className, src, title, ...props }: React.ComponentProp
         }}
         {...props}
       />
-      <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/70 to-transparent p-4 text-white">
+      <div className="flex items-center justify-between absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/70 to-transparent p-4 text-white">
         <h1 className="md:text-5xl text-3xl font-semibold">{title}</h1>
+        <div className="flex gap-2">
+          <Button>Edit</Button>
+          <Button onClick={() => activityService.deleteActivity(id)}>Delete</Button>
+        </div>
       </div>
     </div>
   );
 }
 
-function ActivityStat({ icon, label, value }: { icon?: React.ReactNode; label: string; value?: string }) {
+function ActivityStat({ icon, label, value }: { icon?: React.ReactNode; label: string; value?: string | number }) {
   return (
     <div className="flex items-center gap-2">
       {icon}
@@ -102,26 +114,47 @@ function ActivityAchievementWrapper({ className, unlocked, ...props }: React.Com
   );
 }
 
-function ActivitySessionBtn() {
+function ActivitySessionBtn({ isActive, id }: { isActive: boolean; id: string }) {
+  const handleClick = async () => {
+    if (isActive) {
+      // If the activity is already active, stop it
+      await activityService.stopActivity(id);
+    } else {
+      // If the activity is not active, start it
+      await activityService.activeActivity(id);
+    }
+  };
   return (
-    <Button size="session" variant="session">
-      <Play size={32} strokeWidth={3} /> Start
+    <Button size="session" variant={isActive ? "sesstionActive" : "session"} onClick={handleClick}>
+      {isActive ? (
+        <span className="flex items-center gap-2">
+          <X size={32} strokeWidth={3} /> Stop
+        </span>
+      ) : (
+        <span className="flex items-center gap-2">
+          <Play size={32} strokeWidth={3} /> Start
+        </span>
+      )}
     </Button>
   );
 }
 
-function ActivityInfo({ className, timeSpent, ...props }: React.ComponentProps<"div"> & { timeSpent: string }) {
+function ActivityInfo({
+  activity,
+  className,
+  ...props
+}: React.ComponentProps<"div"> & { activity: Activity}) {
   return (
     <section className={cn("w-full py-5 px-4 text-sidebar-accent bg-sidebar-accent-foreground", className)} {...props}>
       {/* Session Button Block */}
       <div className="mb-5">
-        <ActivitySessionBtn />
+        <ActivitySessionBtn id={activity.id} isActive={activity.isActive} />
       </div>
 
       {/* Stats Grid */}
       <div className="flex flex-wrap items-center justify-around gap-6 w-full">
-        <ActivityStat icon={<ClockFading />} label="Time Spent" value="24h 13m" />
-        <ActivityStat label="Last Play" value="May 16" />
+        <ActivityStat icon={<ClockFading />} label="Time Spent" value={activityService.convertSeconds(activity.timeSpent)} />
+        <ActivityStat label="Last Active" value={activity.lastActive ? activity.lastActive : "Not Active Yet"} />
         <ActivityStat icon={<Trophy />} label="Achievements" value="5 Unlocked" />
       </div>
     </section>
@@ -130,10 +163,7 @@ function ActivityInfo({ className, timeSpent, ...props }: React.ComponentProps<"
 
 function ActivityFeed({ className, ...props }: React.ComponentProps<"article">) {
   return (
-    <article
-      className={cn("bg-muted flex gap-5 flex-col items-center justify-start pt-5 px-5", className)}
-      {...props}
-    />
+    <article className={cn("bg-muted flex gap-5 flex-col items-center justify-start pt-5 px-5", className)} {...props} />
   );
 }
 
