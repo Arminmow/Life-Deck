@@ -40,7 +40,7 @@ function ActivityBanner({
   );
 }
 
-function ActivityStat({ icon, label, value }: { icon?: React.ReactNode; label: string; value?: string }) {
+function ActivityStat({ icon, label, value }: { icon?: React.ReactNode; label: string; value?: string | number }) {
   return (
     <div className="flex items-center gap-2">
       {icon}
@@ -115,8 +115,17 @@ function ActivityAchievementWrapper({ className, unlocked, ...props }: React.Com
 }
 
 function ActivitySessionBtn({ isActive, id }: { isActive: boolean; id: string }) {
+  const handleClick = async () => {
+    if (isActive) {
+      // If the activity is already active, stop it
+      await activityService.stopActivity(id);
+    } else {
+      // If the activity is not active, start it
+      await activityService.activeActivity(id);
+    }
+  };
   return (
-    <Button size="session" variant="session" onClick={() => activityService.activeActivity(id)}>
+    <Button size="session" variant={isActive ? "sesstionActive" : "session"} onClick={handleClick}>
       {isActive ? (
         <span className="flex items-center gap-2">
           <X size={32} strokeWidth={3} /> Stop
@@ -144,7 +153,7 @@ function ActivityInfo({
 
       {/* Stats Grid */}
       <div className="flex flex-wrap items-center justify-around gap-6 w-full">
-        <ActivityStat icon={<ClockFading />} label="Time Spent" value={activity.timeSpent} />
+        <ActivityStat icon={<ClockFading />} label="Time Spent" value={activityService.convertSeconds(activity.timeSpent)} />
         <ActivityStat label="Last Active" value={activity.lastActive ? activity.lastActive : "Not Active Yet"} />
         <ActivityStat icon={<Trophy />} label="Achievements" value="5 Unlocked" />
       </div>
