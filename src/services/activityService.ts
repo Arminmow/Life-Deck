@@ -139,7 +139,7 @@ export const activityService = {
       const docSnap = await getDoc(activityRef);
 
       if (docSnap.exists()) {
-        const activity = docSnap.data();
+        const activity = docSnap.data() as Activity;
 
         // Update activity to stop and calculate timeSpent
         activity.isActive = false;
@@ -166,7 +166,6 @@ export const activityService = {
         console.log(`Stopped activity: ${id}`);
 
         // Dispatch the action to update Redux store (not duplicating the logic)
-       
       } else {
         console.warn(`No activity found with ID: ${id}`);
       }
