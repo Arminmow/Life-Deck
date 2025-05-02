@@ -1,5 +1,5 @@
 import { db } from "@/firebase";
-import { doc, setDoc } from "firebase/firestore";
+import { collection, doc, getDoc, getDocs, setDoc } from "firebase/firestore";
 import { auth } from "@/firebase";
 import { Activity } from "@/types/activity";
 import { addActivity } from "@/redux/slices/userSlice";
@@ -37,4 +37,27 @@ export const activityService = {
       lastActive: "",
     };
   },
+
+  fetchActivitiesFromFirebase: async () => {
+    const userId = auth.currentUser?.uid;
+    if (!userId) {
+      console.error("No authenticated user found.");
+      return;
+    }
+  
+    try {
+      const activitiesRef = collection(db, "users", userId, "activities");
+      const snapshot = await getDocs(activitiesRef);
+  
+      const activities = snapshot.docs.map(doc => ({
+       
+        ...doc.data(),
+      }));
+  
+      return activities;
+    } catch (error) {
+      console.error("Error fetching activities:", error);
+      return null;
+    }
+  }
 };

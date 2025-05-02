@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/sidebar";
 import { Button } from "../ui/button";
 import { useSelector, UseSelector } from "react-redux";
+import { activityService } from "@/services/activityService.ts";
 
 import { AddActivityModal } from "../ui/addActivityModal.tsx";
 
@@ -65,7 +66,9 @@ const logOut = async () => {
 const logShit = async () => {
 
 
-  console.log(activities);
+  const shit = await activityService.fetchActivitiesFromFirebase()
+  console.log(shit);
+  
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
@@ -77,7 +80,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <SearchForm />
 
         <Button onClick={logOut}>Log Out</Button>
-        <Button onClick={() => console.log(activities)}>Log</Button>
+        <Button onClick={logShit}>Log</Button>
       </SidebarHeader>
       <SidebarContent>
         {/* We create a SidebarGroup for each parent. */}
