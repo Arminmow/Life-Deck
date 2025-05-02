@@ -3,12 +3,19 @@ import { ClockFading, Trophy, Play } from "lucide-react";
 import { Button } from "./button";
 import { Progress } from "./progress";
 import { Separator } from "./separator";
+import { activityService } from "@/services/activityService";
 
 function ActivityContent({ className, ...props }: React.ComponentProps<"div">) {
   return <div className={cn("w-full relative", className)} {...props} />;
 }
 
-function ActivityBanner({ className, src, title, ...props }: React.ComponentProps<"img"> & { src: string; title: string }) {
+function ActivityBanner({
+  className,
+  src,
+  title,
+  id,
+  ...props
+}: React.ComponentProps<"img"> & { src: string; title: string; id: string }) {
   return (
     <div className="relative w-full h-[30vh] md:rounded-t-xl overflow-hidden">
       <img
@@ -25,7 +32,7 @@ function ActivityBanner({ className, src, title, ...props }: React.ComponentProp
         <h1 className="md:text-5xl text-3xl font-semibold">{title}</h1>
         <div className="flex gap-2">
           <Button>Edit</Button>
-          <Button>Delete</Button>
+          <Button onClick={() => activityService.deleteActivity(id)}>Delete</Button>
         </div>
       </div>
     </div>

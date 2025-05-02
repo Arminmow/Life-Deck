@@ -25,7 +25,7 @@ export function AppActivity() {
   // Find activity by id
   return (
     <ActivityContent>
-      <ActivityBanner src={activeActivity.banner} alt="Chess" title={activeActivity.id} />
+      <ActivityBanner src={activeActivity.banner} alt="Chess" title={activeActivity.title} id={activeActivity.id} />
 
       <ActivityInfo timeSpent={activeActivity.timeSpent} lastActive={activeActivity.lastActive} />
       <ActivityFeedContainer className="flex w-full flex-wrap">

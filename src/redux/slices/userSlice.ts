@@ -33,10 +33,14 @@ const userSlice = createSlice({
     setActiveId: (state, action) => {
       state.activeId = action.payload;
       console.log(`Bro I did ${action.payload}`);
-      
+    },
+    removeActivity: (state, action: PayloadAction<string>) => {
+      // Remove activity by ID
+      state.activities = state.activities.filter((activity: any) => activity.id !== action.payload);
+      console.log(`Activity with ID ${action.payload} removed.`);
     },
   },
 });
 
-export const { setUserId, addActivity, setActivities, setActiveId } = userSlice.actions;
+export const { setUserId, addActivity, setActivities, setActiveId, removeActivity } = userSlice.actions;
 export default userSlice.reducer;
