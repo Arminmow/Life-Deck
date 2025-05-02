@@ -24,10 +24,12 @@ const userSlice = createSlice({
 
       state.activities.push(activity);
       console.log(state.activities);
-      
+    },
+    setActivities: (state, action: PayloadAction<object[]>) => {
+      state.activities = action.payload;
     },
   },
 });
 
-export const { setUserId, addActivity } = userSlice.actions;
+export const { setUserId, addActivity  , setActivities} = userSlice.actions;
 export default userSlice.reducer;

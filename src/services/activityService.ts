@@ -1,8 +1,8 @@
 import { db } from "@/firebase";
-import { collection, doc, getDoc, getDocs, setDoc } from "firebase/firestore";
+import { collection, doc, getDocs, setDoc } from "firebase/firestore";
 import { auth } from "@/firebase";
 import { Activity } from "@/types/activity";
-import { addActivity } from "@/redux/slices/userSlice";
+import { addActivity, setActivities } from "@/redux/slices/userSlice";
 import { store } from "@/redux/store";
 
 export const activityService = {
@@ -15,10 +15,10 @@ export const activityService = {
     try {
       const activityId = activity.id; // Make sure it's a string or something ID-safe
       const activityRef = doc(db, "users", userId, "activities", activityId);
-      store.dispatch(addActivity(activity)); 
+      store.dispatch(addActivity(activity));
       await setDoc(activityRef, activity); // Overwrites if exists, creates if not
       console.log("Activity added/updated:", activityId);
-   // Dispatch the action to add activity to Redux store
+      // Dispatch the action to add activity to Redux store
     } catch (error) {
       console.error("Error adding activity:", error);
     }
@@ -44,20 +44,21 @@ export const activityService = {
       console.error("No authenticated user found.");
       return;
     }
-  
+
     try {
       const activitiesRef = collection(db, "users", userId, "activities");
+      // Clear existing activities in Redux store
       const snapshot = await getDocs(activitiesRef);
-  
-      const activities = snapshot.docs.map(doc => ({
-       
+
+      const activities = snapshot.docs.map((doc) => ({
         ...doc.data(),
       }));
-  
+      store.dispatch(setActivities(activities));
+      console.log("Set activities:", store.getState().user.activities);
       return activities;
     } catch (error) {
       console.error("Error fetching activities:", error);
       return null;
     }
-  }
+  },
 };

@@ -80,7 +80,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <SearchForm />
 
         <Button onClick={logOut}>Log Out</Button>
-        <Button onClick={logShit}>Log</Button>
+        <Button onClick={async () => {
+          await logShit()
+          console.log(activities)
+        }}>Log</Button>
       </SidebarHeader>
       <SidebarContent>
         {/* We create a SidebarGroup for each parent. */}
