@@ -27,7 +27,7 @@ export function AppActivity() {
     <ActivityContent>
       <ActivityBanner src={activeActivity.banner} alt="Chess" title={activeActivity.title} id={activeActivity.id} />
 
-      <ActivityInfo timeSpent={activeActivity.timeSpent} lastActive={activeActivity.lastActive} />
+      <ActivityInfo activity={activeActivity} />
       <ActivityFeedContainer className="flex w-full flex-wrap">
         {/* main feed */}
         <div className="w-full md:w-2/3">

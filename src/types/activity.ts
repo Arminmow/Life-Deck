@@ -23,4 +23,5 @@ export interface Activity {
   timeSpent: string; // You could change to number of minutes for easier calc
   isActive: boolean;
   lastActive: string;
+  activationDate : string | null
 }

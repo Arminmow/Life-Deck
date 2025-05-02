@@ -2,7 +2,7 @@ import { db } from "@/firebase";
 import { collection, doc, getDocs, setDoc, deleteDoc } from "firebase/firestore";
 import { auth } from "@/firebase";
 import { Activity } from "@/types/activity";
-import { addActivity, setActivities, removeActivity } from "@/redux/slices/userSlice";  // Make sure you have removeActivity action in your userSlice
+import { addActivity, setActivities, removeActivity, setActiveActivity } from "@/redux/slices/userSlice"; // Make sure you have removeActivity action in your userSlice
 import { store } from "@/redux/store";
 
 export const activityService = {
@@ -23,7 +23,12 @@ export const activityService = {
     }
   },
 
-  buildActivityFromUserInput(input: { title: string; banner: string; description: string }): Activity & { id: string } {
+  buildActivityFromUserInput(input: {
+    title: string;
+    banner: string;
+    description: string;
+    icon: string;
+  }): Activity & { id: string } {
     const id = input.title.toLowerCase().trim().replace(/\s+/g, "-");
 
     return {
@@ -35,6 +40,7 @@ export const activityService = {
       timeSpent: "0m",
       isActive: false,
       lastActive: "",
+      activationDate: null,
     };
   },
 
@@ -62,7 +68,7 @@ export const activityService = {
   // Implementing the deleteActivity function
   deleteActivity: async (id: string) => {
     console.log(`deleting ${id}`);
-    
+
     const userId = auth.currentUser?.uid;
     if (!userId) {
       console.error("No authenticated user found.");
@@ -80,6 +86,45 @@ export const activityService = {
       console.log("Activity deleted:", id);
     } catch (error) {
       console.error("Error deleting activity:", error);
+    }
+  },
+
+  activeActivity: async (id: string) => {
+    const userId = auth.currentUser?.uid;
+    if (!userId) {
+      console.error("No authenticated user found.");
+      return;
+    }
+
+    try {
+      const now = new Date().toISOString();
+
+      // Find activity from store
+      const state = store.getState();
+      const activity = state.user.activities.find((act: Activity) => act.id === id);
+
+      if (!activity) {
+        console.warn(`Activity with ID ${id} not found`);
+        return;
+      }
+
+      // Update it
+      const updatedActivity = {
+        ...activity,
+        isActive: true,
+        activationDate: now,
+      };
+
+      // Update Firestore
+      const activityRef = doc(db, "users", userId, "activities", id);
+      await setDoc(activityRef, updatedActivity);
+
+      // Update Redux
+      store.dispatch(setActiveActivity(id));
+
+      console.log(`Activated activity ${id} at ${now}`);
+    } catch (error) {
+      console.error("Error activating activity:", error);
     }
   },
 };

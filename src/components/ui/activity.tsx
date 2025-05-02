@@ -1,9 +1,10 @@
 import { cn } from "@/lib/utils";
-import { ClockFading, Trophy, Play } from "lucide-react";
+import { ClockFading, Trophy, Play, X } from "lucide-react";
 import { Button } from "./button";
 import { Progress } from "./progress";
 import { Separator } from "./separator";
 import { activityService } from "@/services/activityService";
+import { Activity } from "@/types/activity";
 
 function ActivityContent({ className, ...props }: React.ComponentProps<"div">) {
   return <div className={cn("w-full relative", className)} {...props} />;
@@ -113,31 +114,38 @@ function ActivityAchievementWrapper({ className, unlocked, ...props }: React.Com
   );
 }
 
-function ActivitySessionBtn() {
+function ActivitySessionBtn({ isActive, id }: { isActive: boolean; id: string }) {
   return (
-    <Button size="session" variant="session">
-      <Play size={32} strokeWidth={3} /> Start
+    <Button size="session" variant="session" onClick={() => activityService.activeActivity(id)}>
+      {isActive ? (
+        <span className="flex items-center gap-2">
+          <X size={32} strokeWidth={3} /> Stop
+        </span>
+      ) : (
+        <span className="flex items-center gap-2">
+          <Play size={32} strokeWidth={3} /> Start
+        </span>
+      )}
     </Button>
   );
 }
 
 function ActivityInfo({
+  activity,
   className,
-  timeSpent,
-  lastActive,
   ...props
-}: React.ComponentProps<"div"> & { timeSpent: string; lastActive: string }) {
+}: React.ComponentProps<"div"> & { activity: Activity; timeSpent: string; lastActive: string }) {
   return (
     <section className={cn("w-full py-5 px-4 text-sidebar-accent bg-sidebar-accent-foreground", className)} {...props}>
       {/* Session Button Block */}
       <div className="mb-5">
-        <ActivitySessionBtn />
+        <ActivitySessionBtn id={activity.id} isActive={activity.isActive} />
       </div>
 
       {/* Stats Grid */}
       <div className="flex flex-wrap items-center justify-around gap-6 w-full">
-        <ActivityStat icon={<ClockFading />} label="Time Spent" value={timeSpent} />
-        <ActivityStat label="Last Active" value={lastActive ? lastActive : "Not Active Yet"} />
+        <ActivityStat icon={<ClockFading />} label="Time Spent" value={activity.timeSpent} />
+        <ActivityStat label="Last Active" value={activity.lastActive ? activity.lastActive : "Not Active Yet"} />
         <ActivityStat icon={<Trophy />} label="Achievements" value="5 Unlocked" />
       </div>
     </section>
