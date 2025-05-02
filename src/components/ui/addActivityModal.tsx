@@ -18,6 +18,7 @@ export function AddActivityModal() {
     title: "",
     description: "",
     banner: "",
+    icon : ""
   });
 
   const handleSubmit = async () => {
@@ -73,6 +74,22 @@ export function AddActivityModal() {
                 setActivity((prev) => ({
                   ...prev,
                   banner: e.target.value,
+                }))
+              }
+              id="username"
+              placeholder="http://..."
+              className="col-span-3"
+            />
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label htmlFor="username" className="text-right">
+              Icon url
+            </Label>
+            <Input
+              onChange={(e) =>
+                setActivity((prev) => ({
+                  ...prev,
+                  icon: e.target.value,
                 }))
               }
               id="username"

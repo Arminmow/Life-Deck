@@ -18,6 +18,7 @@ export interface Activity {
   title: string;
   description: string;
   banner: string;
+  icon: string;
   timeSpent: string; // You could change to number of minutes for easier calc
   isActive: boolean;
   lastActive: string;

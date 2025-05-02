@@ -64,11 +64,7 @@ const logOut = async () => {
 };
 
 const logShit = async () => {
-
-
-  const shit = await activityService.fetchActivitiesFromFirebase()
-  console.log(shit);
-  
+  activityService.fetchActivitiesFromFirebase();
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
@@ -80,38 +76,32 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <SearchForm />
 
         <Button onClick={logOut}>Log Out</Button>
-        <Button onClick={async () => {
-          await logShit()
-          console.log(activities)
-        }}>Log</Button>
+        <Button onClick={logShit}>Log</Button>
       </SidebarHeader>
       <SidebarContent>
-        {/* We create a SidebarGroup for each parent. */}
-        {data.navMain.map((item) => (
-          <SidebarGroup key={item.title}>
-            <SidebarGroupLabel>{item.title}</SidebarGroupLabel>
-            <SidebarGroupContent>
-              <SidebarMenu>
-                {item.items.map((item) => (
-                  <SidebarMenuItem key={item.title}>
-                    <SidebarMenuButton asChild isActive={item.isActive}>
-                      <article className=" border bg-card shadow-md">
-                        <div className="shrink-0">
-                          <img src={item.url} alt="Coding Icon" className="w-8 h-8 rounded-full object-cover" />
-                        </div>
+        <SidebarGroup>
+          <SidebarGroupLabel>Activities</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {activities.map((item) => (
+                <SidebarMenuItem key={item.title}>
+                  <SidebarMenuButton asChild isActive={item.isActive}>
+                    <article className=" border bg-card shadow-md">
+                      <div className="shrink-0">
+                        <img src={item.icon} alt="Coding Icon" className="w-8 h-8 rounded-full object-cover" />
+                      </div>
 
-                        <div className="flex justify-between items-center w-full">
-                          <h2 className="text-lg font-semibold">{item.title}</h2>
-                          <p className="text-sm text-muted-foreground">{item.timeSpent}</p>
-                        </div>
-                      </article>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                ))}
-              </SidebarMenu>
-            </SidebarGroupContent>
-          </SidebarGroup>
-        ))}
+                      <div className="flex justify-between items-center w-full">
+                        <h2 className="text-lg font-semibold">{item.title}</h2>
+                        <p className="text-sm text-muted-foreground">{item.timeSpent}</p>
+                      </div>
+                    </article>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
       </SidebarContent>
       <SidebarRail />
       <AddActivityModal />

@@ -31,6 +31,7 @@ export const activityService = {
       id,
       title: input.title,
       banner: input.banner,
+      icon : input.icon,
       description: input.description,
       timeSpent: "0m",
       isActive: false,
@@ -55,10 +56,10 @@ export const activityService = {
       }));
       store.dispatch(setActivities(activities));
       console.log("Set activities:", store.getState().user.activities);
-      return activities;
+      // return activities;
     } catch (error) {
       console.error("Error fetching activities:", error);
-      return null;
+      // return null;
     }
   },
 };
