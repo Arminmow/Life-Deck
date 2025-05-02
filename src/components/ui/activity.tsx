@@ -21,8 +21,12 @@ function ActivityBanner({ className, src, title, ...props }: React.ComponentProp
         }}
         {...props}
       />
-      <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/70 to-transparent p-4 text-white">
+      <div className="flex items-center justify-between absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/70 to-transparent p-4 text-white">
         <h1 className="md:text-5xl text-3xl font-semibold">{title}</h1>
+        <div className="flex gap-2">
+          <Button>Edit</Button>
+          <Button>Delete</Button>
+        </div>
       </div>
     </div>
   );
@@ -110,7 +114,12 @@ function ActivitySessionBtn() {
   );
 }
 
-function ActivityInfo({ className, timeSpent, ...props }: React.ComponentProps<"div"> & { timeSpent: string }) {
+function ActivityInfo({
+  className,
+  timeSpent,
+  lastActive,
+  ...props
+}: React.ComponentProps<"div"> & { timeSpent: string; lastActive: string }) {
   return (
     <section className={cn("w-full py-5 px-4 text-sidebar-accent bg-sidebar-accent-foreground", className)} {...props}>
       {/* Session Button Block */}
@@ -120,8 +129,8 @@ function ActivityInfo({ className, timeSpent, ...props }: React.ComponentProps<"
 
       {/* Stats Grid */}
       <div className="flex flex-wrap items-center justify-around gap-6 w-full">
-        <ActivityStat icon={<ClockFading />} label="Time Spent" value="24h 13m" />
-        <ActivityStat label="Last Play" value="May 16" />
+        <ActivityStat icon={<ClockFading />} label="Time Spent" value={timeSpent} />
+        <ActivityStat label="Last Active" value={lastActive ? lastActive : "Not Active Yet"} />
         <ActivityStat icon={<Trophy />} label="Achievements" value="5 Unlocked" />
       </div>
     </section>
@@ -130,10 +139,7 @@ function ActivityInfo({ className, timeSpent, ...props }: React.ComponentProps<"
 
 function ActivityFeed({ className, ...props }: React.ComponentProps<"article">) {
   return (
-    <article
-      className={cn("bg-muted flex gap-5 flex-col items-center justify-start pt-5 px-5", className)}
-      {...props}
-    />
+    <article className={cn("bg-muted flex gap-5 flex-col items-center justify-start pt-5 px-5", className)} {...props} />
   );
 }
 
