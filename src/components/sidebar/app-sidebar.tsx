@@ -18,6 +18,7 @@ import {
   SidebarMenuItem,
   SidebarRail,
 } from "@/components/ui/sidebar";
+import { activityService } from "@/services/activityService.ts";
 
 const logOut = async () => {
   try {
@@ -47,7 +48,14 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               {activities.map((item: Activity) => (
                 <SidebarMenuItem key={item.id}>
                   {/* <h1>{item.id}</h1> */}
-                  <SidebarMenuButton onClick={() => dispatch(setActiveId(item.id))} asChild isActive={item.isActive}>
+                  <SidebarMenuButton
+                    onClick={() => {
+                      dispatch(setActiveId(item.id));
+                      activityService.fetchFeedsForActivity(item.id);
+                    }}
+                    asChild
+                    isActive={item.isActive}
+                  >
                     <article className=" border bg-card shadow-md">
                       <div className="shrink-0">
                         <img

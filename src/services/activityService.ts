@@ -9,6 +9,7 @@ import {
   setActiveActivity,
   stopActivity,
   addFeedToActivity,
+  setActivityFeeds,
 } from "@/redux/slices/userSlice"; // Make sure you have removeActivity action in your userSlice
 import { store } from "@/redux/store";
 import { icons } from "lucide-react";
@@ -201,21 +202,37 @@ export const activityService = {
 
   async addFeedToFireBase({ feed, activityId }: { feed: FeedItem; activityId: string }) {
     // add feed to Feeds subcollection of an activity
-
+    const userId = auth.currentUser?.uid;
     try {
       store.dispatch(addFeedToActivity({ activityId: activityId, feedItem: feed }));
-      const feedRef = collection(db, "activities", activityId, "feeds");
+      const feedRef = collection(db, "users", userId, "activities", activityId, "feeds");
       console.log(feed);
 
       await addDoc(feedRef, {
         ...feed,
-        createdAt: new Date(), // optional timestamp
       });
 
       console.log(`${feed} added to Firestore`);
     } catch (err) {
       console.error("Error adding feed to Firestore:", err);
       throw err; // Optional: rethrow for UI to handle
+    }
+  },
+
+  async fetchFeedsForActivity(activityId: string) {
+    const userId = auth.currentUser?.uid;
+    try {
+      const feedRef = collection(db, "users", userId, "activities", activityId, "feeds");
+      const snapshot = await getDocs(feedRef);
+
+      const feeds: FeedItem[] = snapshot.docs.map((doc) => ({
+        ...doc.data(),
+      })) as FeedItem[];
+      console.log(feeds);
+
+      store.dispatch(setActivityFeeds({ activityId, feeds }));
+    } catch (err) {
+      console.error("Error fetching feeds:", err);
     }
   },
 

@@ -94,6 +94,15 @@ const userSlice = createSlice({
         activity.feeds.push(feedItem);
       }
     },
+
+    setActivityFeeds(state, action) {
+      const { activityId, feeds } = action.payload;
+      const activity = state.activities.find((a) => a.id === activityId);
+      if (activity) {
+        activity.feeds = feeds;
+      }
+    }
+    
   },
 });
 
@@ -106,5 +115,6 @@ export const {
   setActiveActivity,
   stopActivity,
   addFeedToActivity,
+  setActivityFeeds
 } = userSlice.actions;
 export default userSlice.reducer;
