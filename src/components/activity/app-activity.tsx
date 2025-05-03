@@ -9,6 +9,7 @@ import {
   ActivityFeedItem,
 } from "../ui/activity";
 import { useSelector } from "react-redux";
+import NoActivitySelected from "../ui/NoActivitySelected";
 
 export function AppActivity() {
   const activeId = useSelector((state: any) => state.user.activeId);
@@ -19,7 +20,7 @@ export function AppActivity() {
 
   // If no active activity is found, render a fallback message or loading state
   if (!activeActivity) {
-    return <div>Loading or no active activity selected</div>;
+    return <NoActivitySelected />;
   }
 
   // Find activity by id
@@ -32,9 +33,9 @@ export function AppActivity() {
         {/* main feed */}
         <div className="w-full md:w-2/3">
           <ActivityFeed>
-            {activeActivity.feeds?.map((feed , index) => (
+            {activeActivity.feeds?.map((feed, index) => (
               <ActivityFeedItem key={index} feed={feed} activity={activeActivity}>
-                <p className="text-accent">{feed.description}</p>
+                <p className="text-[17px] text-stone-700 font-medium leading-snug tracking-normal">{feed.description}</p>
               </ActivityFeedItem>
             ))}
           </ActivityFeed>

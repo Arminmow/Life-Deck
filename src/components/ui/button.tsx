@@ -11,7 +11,8 @@ const buttonVariants = cva(
       variant: {
         default: "bg-primary text-primary-foreground shadow-xs hover:bg-primary/90",
         session:
-          "bg-[#50c434] text-white shadow-xs hover:bg-[#50c434]/90 focus-visible:ring-[#50c434]/20 dark:focus-visible:ring-[#50c434]/40 dark:bg-[#50c434]/60",
+          "bg-[#C67A3C] text-[#F2EFEA] shadow-lg hover:bg-[#B96F34] focus-visible:ring-[#C67A3C]/20 dark:focus-visible:ring-[#C67A3C]/40 dark:bg-[#C67A3C]/80"
+,
         sesstionActive:
           "bg-[#1D4ED8] text-white shadow-xs hover:bg-[#2563EB]/90 focus-visible:ring-[#50c434]/20 dark:focus-visible:ring-[#50c434]/40 dark:bg-[#50c434]/60",
         destructive:

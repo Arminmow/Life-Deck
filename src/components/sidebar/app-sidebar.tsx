@@ -34,11 +34,21 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const activities = useSelector((state: any) => state.user.activities);
   return (
     <Sidebar {...props}>
-      <SidebarHeader>
-        {auth.currentUser?.displayName}
+      <SidebarHeader className="flex flex-col gap-4 p-4 border-b border-stone-200 bg-[#FAF0E6] shadow-sm rounded-b-xl">
+        <div className="flex items-center justify-between">
+          <h2 className="text-base font-semibold text-stone-700 truncate">
+            {auth.currentUser?.displayName || "Welcome 👋"}
+          </h2>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={logOut}
+            className="text-xs text-stone-500 hover:text-stone-700 transition"
+          >
+            Log Out
+          </Button>
+        </div>
         <SearchForm />
-
-        <Button onClick={logOut}>Log Out</Button>
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
@@ -56,19 +66,17 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                     asChild
                     isActive={item.isActive}
                   >
-                    <article className=" border bg-card shadow-md">
-                      <div className="shrink-0">
+                    <article className="shadow-md flex items-center justify-between gap-3 px-4 py-3 bg-[#FAF0E6] rounded-xl border border-stone-200  hover:shadow-md transition-all duration-200">
+                      <div className="flex items-center gap-3">
                         <img
-                          src={item.icon ? item.icon : "#"}
-                          alt="Coding Icon"
-                          className="w-8 h-8 rounded-full object-cover"
+                          src={item.icon || "/default-icon.png"}
+                          alt={item.title + " icon"}
+                          className="w-8 h-8 rounded-md object-cover border border-stone-300"
                         />
+                        <h2 className="text-sm font-medium text-stone-700">{item.title}</h2>
                       </div>
 
-                      <div className="flex justify-between items-center w-full">
-                        <h2 className="text-lg font-semibold">{item.title}</h2>
-                        <p className="text-sm text-muted-foreground">{activityService.convertSeconds(item.timeSpent)}</p>
-                      </div>
+                      <p className="text-xs text-stone-500 font-medium">{activityService.convertSeconds(item.timeSpent)}</p>
                     </article>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
@@ -77,8 +85,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-      <SidebarRail />
-      <AddActivityModal />
+      <div className="absolute bottom-5 right-5">
+        <AddActivityModal text="+" />
+      </div>
     </Sidebar>
   );
 }
