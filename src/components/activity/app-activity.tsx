@@ -10,6 +10,7 @@ import {
 } from "../ui/activity";
 import { useSelector } from "react-redux";
 import NoActivitySelected from "../ui/NoActivitySelected";
+import { ActiveActivitySync } from "../sync/ActiveActivitySync";
 
 export function AppActivity() {
   const activeId = useSelector((state: any) => state.user.activeId);
@@ -26,6 +27,7 @@ export function AppActivity() {
   // Find activity by id
   return (
     <ActivityContent>
+      <ActiveActivitySync/>
       <ActivityBanner src={activeActivity.banner} alt="Chess" title={activeActivity.title} id={activeActivity.id} />
 
       <ActivityInfo activity={activeActivity} />

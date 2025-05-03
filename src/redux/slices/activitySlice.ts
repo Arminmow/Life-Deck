@@ -1,4 +1,4 @@
-import { Activity } from "@/types/activity";
+import { Activity, FeedItem } from "@/types/activity";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 type ActivitiesState = {
@@ -24,8 +24,15 @@ const activitiesSlice = createSlice({
       state.list = [];
       state.loaded = false;
     },
+    setActivityFeed: (state, action: PayloadAction<{ id: string; feeds: FeedItem[] }>) => {
+      const { id, feeds } = action.payload;
+      const activityIndex = state.list.findIndex((activity) => activity.id === id);
+      if (activityIndex !== -1) {
+        state.list[activityIndex].feeds = feeds; // Update the feeds of the activity
+      }
+    },
   },
 });
 
 export default activitiesSlice.reducer;
-export const { setActivities, clearActivities } = activitiesSlice.actions;
+export const { setActivities, clearActivities , setActivityFeed } = activitiesSlice.actions;

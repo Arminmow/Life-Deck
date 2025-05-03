@@ -34,7 +34,7 @@ const userSlice = createSlice({
     },
     setActiveId: (state, action) => {
       state.activeId = action.payload;
-      console.log(`Bro I did ${action.payload}`);
+      console.log(`Active id is now: ${action.payload}`);
     },
     removeActivity: (state, action: PayloadAction<string>) => {
       // Remove activity by ID
