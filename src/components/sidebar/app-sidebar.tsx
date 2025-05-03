@@ -18,6 +18,7 @@ import {
   SidebarMenuItem,
   SidebarRail,
 } from "@/components/ui/sidebar";
+import { activityService } from "@/services/activityService.ts";
 
 const logOut = async () => {
   try {
@@ -47,7 +48,14 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               {activities.map((item: Activity) => (
                 <SidebarMenuItem key={item.id}>
                   {/* <h1>{item.id}</h1> */}
-                  <SidebarMenuButton onClick={() => dispatch(setActiveId(item.id))} asChild isActive={item.isActive}>
+                  <SidebarMenuButton
+                    onClick={() => {
+                      dispatch(setActiveId(item.id));
+                      activityService.fetchFeedsForActivity(item.id);
+                    }}
+                    asChild
+                    isActive={item.isActive}
+                  >
                     <article className=" border bg-card shadow-md">
                       <div className="shrink-0">
                         <img
@@ -59,7 +67,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
                       <div className="flex justify-between items-center w-full">
                         <h2 className="text-lg font-semibold">{item.title}</h2>
-                        <p className="text-sm text-muted-foreground">{item.timeSpent}</p>
+                        <p className="text-sm text-muted-foreground">{activityService.convertSeconds(item.timeSpent)}</p>
                       </div>
                     </article>
                   </SidebarMenuButton>

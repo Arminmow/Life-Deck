@@ -32,34 +32,11 @@ export function AppActivity() {
         {/* main feed */}
         <div className="w-full md:w-2/3">
           <ActivityFeed>
-            <ActivityFeedItem>
-              <p className="text-accent">
-                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aperiam necessitatibus dolores fugiat sint sapiente
-                rem accusamus molestiae vel, maxime dicta doloremque, laborum fuga, tenetur ipsum sunt ipsam excepturi
-                voluptatum. Nostrum!
-              </p>
-            </ActivityFeedItem>
-            <ActivityFeedItem>
-              <p className="text-accent">
-                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aperiam necessitatibus dolores fugiat sint sapiente
-                rem accusamus molestiae vel, maxime dicta doloremque, laborum fuga, tenetur ipsum sunt ipsam excepturi
-                voluptatum. Nostrum!
-              </p>
-            </ActivityFeedItem>
-            <ActivityFeedItem>
-              <p className="text-accent">
-                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aperiam necessitatibus dolores fugiat sint sapiente
-                rem accusamus molestiae vel, maxime dicta doloremque, laborum fuga, tenetur ipsum sunt ipsam excepturi
-                voluptatum. Nostrum!
-              </p>
-            </ActivityFeedItem>
-            <ActivityFeedItem>
-              <p className="text-accent">
-                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aperiam necessitatibus dolores fugiat sint sapiente
-                rem accusamus molestiae vel, maxime dicta doloremque, laborum fuga, tenetur ipsum sunt ipsam excepturi
-                voluptatum. Nostrum!
-              </p>
-            </ActivityFeedItem>
+            {activeActivity.feeds?.map((feed , index) => (
+              <ActivityFeedItem key={index} feed={feed} activity={activeActivity}>
+                <p className="text-accent">{feed.description}</p>
+              </ActivityFeedItem>
+            ))}
           </ActivityFeed>
         </div>
         {/* sidebar */}

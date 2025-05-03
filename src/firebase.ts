@@ -48,7 +48,7 @@ const test = {
           unlockDate: "2023-09-15",
         },
       ],
-      feed: [
+      feeds: [
         {
           title: "Chess.com",
           description: "Played a game against a random opponent.",

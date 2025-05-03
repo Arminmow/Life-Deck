@@ -8,14 +8,13 @@ export interface Achievement {
 }
 
 export interface FeedItem {
-  title: string;
   description: string;
   date: string;
   icon: string;
 }
 
 export interface Activity {
-  id : string;
+  id: string;
   title: string;
   description: string;
   banner: string;
@@ -23,5 +22,7 @@ export interface Activity {
   timeSpent: number; // You could change to number of minutes for easier calc
   isActive: boolean;
   lastActive: string;
-  activationDate : string | null
+  lastSessionDuration: string;
+  activationDate: string | null;
+  feeds : FeedItem[]
 }

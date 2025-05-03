@@ -4,7 +4,8 @@ import { Button } from "./button";
 import { Progress } from "./progress";
 import { Separator } from "./separator";
 import { activityService } from "@/services/activityService";
-import { Activity } from "@/types/activity";
+import { Activity, FeedItem } from "@/types/activity";
+import { SessionModal } from "./sessionModal";
 
 function ActivityContent({ className, ...props }: React.ComponentProps<"div">) {
   return <div className={cn("w-full relative", className)} {...props} />;
@@ -114,41 +115,38 @@ function ActivityAchievementWrapper({ className, unlocked, ...props }: React.Com
   );
 }
 
-function ActivitySessionBtn({ isActive, id }: { isActive: boolean; id: string }) {
+function ActivitySessionBtn({ activity }: { activity: Activity }) {
   const handleClick = async () => {
-    if (isActive) {
+    if (activity.isActive) {
       // If the activity is already active, stop it
-      await activityService.stopActivity(id);
+      await activityService.stopActivity(activity.id);
     } else {
       // If the activity is not active, start it
-      await activityService.activeActivity(id);
+      await activityService.activeActivity(activity.id);
     }
   };
   return (
-    <Button size="session" variant={isActive ? "sesstionActive" : "session"} onClick={handleClick}>
-      {isActive ? (
-        <span className="flex items-center gap-2">
-          <X size={32} strokeWidth={3} /> Stop
-        </span>
-      ) : (
-        <span className="flex items-center gap-2">
-          <Play size={32} strokeWidth={3} /> Start
-        </span>
-      )}
-    </Button>
+    // <Button size="session" variant={isActive ? "sesstionActive" : "session"} onClick={handleClick}>
+    //   {isActive ? (
+    //     <span className="flex items-center gap-2">
+    //       <X size={32} strokeWidth={3} /> Stop
+    //     </span>
+    //   ) : (
+    //     <span className="flex items-center gap-2">
+    //       <Play size={32} strokeWidth={3} /> Start
+    //     </span>
+    //   )}
+    // </Button>
+    <SessionModal activity= {activity} handleClick={handleClick} />
   );
 }
 
-function ActivityInfo({
-  activity,
-  className,
-  ...props
-}: React.ComponentProps<"div"> & { activity: Activity}) {
+function ActivityInfo({ activity, className, ...props }: React.ComponentProps<"div"> & { activity: Activity }) {
   return (
     <section className={cn("w-full py-5 px-4 text-sidebar-accent bg-sidebar-accent-foreground", className)} {...props}>
       {/* Session Button Block */}
       <div className="mb-5">
-        <ActivitySessionBtn id={activity.id} isActive={activity.isActive} />
+        <ActivitySessionBtn activity={activity} />
       </div>
 
       {/* Stats Grid */}
@@ -171,20 +169,21 @@ function ActivityFeedContainer({ className, ...props }: React.ComponentProps<"di
   return <div className={cn("flex flex-row w-full", className)} {...props} />;
 }
 
-function ActivityFeedItem({ className, children, ...props }: React.ComponentProps<"div">) {
+function ActivityFeedItem({ className, children, feed, activity ,  ...props }: React.ComponentProps<"div"> & {feed: FeedItem , activity : Activity}) {
   return (
     <div className={cn("flex flex-col gap-2 p-3 w-full bg-accent-foreground rounded-sm ", className)} {...props}>
-      <ActivityFeedDate date="APRIL 25" />
+      <ActivityFeedDate date={feed.date} duration={activity.lastSessionDuration}/>
       {children}
     </div>
   );
 }
 
-function ActivityFeedDate({ className, date, ...props }: React.ComponentProps<"div"> & { date: string }) {
+function ActivityFeedDate({ className, date, duration , ...props }: React.ComponentProps<"div"> & { date: string , duration : string}) {
   return (
-    <div className={cn("flex flex-row items-center gap-1 w-full", className)} {...props}>
+    <div className={cn("flex flex-row items-center justify-between gap-1 w-full text-center", className)} {...props}>
       <span className="text-lg text-accent">{date}</span>
       <Separator />
+      <span className="text-lg text-accent">Session duration: {duration}</span>
     </div>
   );
 }
