@@ -31,7 +31,7 @@ const logOut = async () => {
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const dispatch = useDispatch();
-  const activities = useSelector((state: any) => state.user.activities);
+  const activities = useSelector((state: any) => state.activity.list);
   return (
     <Sidebar {...props}>
       <SidebarHeader className="flex flex-col gap-4 p-4 border-b border-stone-200 bg-[#FAF0E6] shadow-sm rounded-b-xl">
