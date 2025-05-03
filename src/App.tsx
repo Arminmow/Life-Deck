@@ -10,18 +10,22 @@ import { auth } from "./firebase";
 import { Login } from "./components/login/login";
 import Spinner from "./components/ui/spinner";
 import { ActivitySync } from "./components/sync/ActivitySync";
+import { useDispatch } from "react-redux";
+import { setUserId } from "./redux/slices/userSlice";
 
 function App() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true); // Track loading state
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setUser(user); // Set user state
-      setLoading(false); // Set loading to false once Firebase finishes
       if (user) {
+        dispatch(setUserId(user.uid))
         activityService.fetchActivitiesFromFirebase(); // Fetch activities for the authenticated user
       }
+      setLoading(false);
     });
 
     // Clean up listener on component unmount
