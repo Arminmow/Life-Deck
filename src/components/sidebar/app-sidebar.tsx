@@ -78,7 +78,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </SidebarGroup>
       </SidebarContent>
       <SidebarRail />
-      <AddActivityModal />
+      <AddActivityModal text="+" className="/>
     </Sidebar>
   );
 }

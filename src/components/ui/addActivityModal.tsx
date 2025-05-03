@@ -13,12 +13,12 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { activityService } from "@/services/activityService";
 
-export function AddActivityModal() {
+export function AddActivityModal({ text }: { text: string }) {
   const [activity, setActivity] = useState({
     title: "",
     description: "",
     banner: "",
-    icon : ""
+    icon: "",
   });
 
   const handleSubmit = async () => {
@@ -33,11 +33,8 @@ export function AddActivityModal() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button
-          variant="outline"
-          className=" bg-accent-foreground text-accent cursor-pointer w-5  absolute bottom-5 right-5"
-        >
-          +
+        <Button variant="outline" className=" bg-accent-foreground text-accent cursor-pointer ">
+          {text}
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
