@@ -32,8 +32,8 @@ export function AppActivity() {
         {/* main feed */}
         <div className="w-full md:w-2/3">
           <ActivityFeed>
-            {activeActivity.feeds?.map((feed) => (
-              <ActivityFeedItem>
+            {activeActivity.feeds?.map((feed , index) => (
+              <ActivityFeedItem key={index} feed={feed} activity={activeActivity}>
                 <p className="text-accent">{feed.description}</p>
               </ActivityFeedItem>
             ))}

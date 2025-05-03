@@ -4,7 +4,7 @@ import { Button } from "./button";
 import { Progress } from "./progress";
 import { Separator } from "./separator";
 import { activityService } from "@/services/activityService";
-import { Activity } from "@/types/activity";
+import { Activity, FeedItem } from "@/types/activity";
 import { SessionModal } from "./sessionModal";
 
 function ActivityContent({ className, ...props }: React.ComponentProps<"div">) {
@@ -169,20 +169,21 @@ function ActivityFeedContainer({ className, ...props }: React.ComponentProps<"di
   return <div className={cn("flex flex-row w-full", className)} {...props} />;
 }
 
-function ActivityFeedItem({ className, children, ...props }: React.ComponentProps<"div">) {
+function ActivityFeedItem({ className, children, feed, activity ,  ...props }: React.ComponentProps<"div"> & {feed: FeedItem , activity : Activity}) {
   return (
     <div className={cn("flex flex-col gap-2 p-3 w-full bg-accent-foreground rounded-sm ", className)} {...props}>
-      <ActivityFeedDate date="APRIL 25" />
+      <ActivityFeedDate date={feed.date} duration={activity.lastSessionDuration}/>
       {children}
     </div>
   );
 }
 
-function ActivityFeedDate({ className, date, ...props }: React.ComponentProps<"div"> & { date: string }) {
+function ActivityFeedDate({ className, date, duration , ...props }: React.ComponentProps<"div"> & { date: string , duration : string}) {
   return (
-    <div className={cn("flex flex-row items-center gap-1 w-full", className)} {...props}>
+    <div className={cn("flex flex-row items-center justify-between gap-1 w-full text-center", className)} {...props}>
       <span className="text-lg text-accent">{date}</span>
       <Separator />
+      <span className="text-lg text-accent">Session duration: {duration}</span>
     </div>
   );
 }

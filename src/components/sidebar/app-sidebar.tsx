@@ -67,7 +67,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
                       <div className="flex justify-between items-center w-full">
                         <h2 className="text-lg font-semibold">{item.title}</h2>
-                        <p className="text-sm text-muted-foreground">{item.timeSpent}</p>
+                        <p className="text-sm text-muted-foreground">{activityService.convertSeconds(item.timeSpent)}</p>
                       </div>
                     </article>
                   </SidebarMenuButton>
