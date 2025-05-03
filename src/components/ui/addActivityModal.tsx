@@ -25,7 +25,6 @@ export function AddActivityModal({ text }: { text: string }) {
     console.log("yo imma add it real quick");
 
     const activityBuilt = activityService.buildActivityFromUserInput(activity);
-
     await activityService.addActivity(activityBuilt);
     alert("Activity added successfully!");
   };
@@ -33,85 +32,56 @@ export function AddActivityModal({ text }: { text: string }) {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline" className=" bg-accent-foreground text-accent cursor-pointer ">
+        <Button
+          variant="outline"
+          className="bg-[#FAF0E6] hover:bg-[#f2e7dc] text-gray-800 border-none shadow-sm px-5 py-2 rounded-xl transition-all duration-200"
+        >
           {text}
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[500px] rounded-2xl bg-[#fffdf9] border border-stone-200 shadow-lg">
         <DialogHeader>
-          <DialogTitle>Add Activity</DialogTitle>
-          <DialogDescription>
-            Add an activity you would like to track. This will be used to create a new activity card.
+          <DialogTitle className="text-xl font-semibold text-stone-700">
+            Add Activity
+          </DialogTitle>
+          <DialogDescription className="text-stone-500">
+            Create a new activity to track. Keep it ✨ aesthetic ✨.
           </DialogDescription>
         </DialogHeader>
-        <div className="grid gap-4 py-4">
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="name" className="text-right">
-              Name
-            </Label>
-            <Input
-              onChange={(e) =>
-                setActivity((prev) => ({
-                  ...prev,
-                  title: e.target.value,
-                }))
-              }
-              id="name"
-              placeholder="Eg. Chess (You should learn chess)"
-              className="col-span-3"
-            />
-          </div>
 
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="username" className="text-right">
-              Banner url
-            </Label>
-            <Input
-              onChange={(e) =>
-                setActivity((prev) => ({
-                  ...prev,
-                  banner: e.target.value,
-                }))
-              }
-              id="username"
-              placeholder="http://..."
-              className="col-span-3"
-            />
-          </div>
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="username" className="text-right">
-              Icon url
-            </Label>
-            <Input
-              onChange={(e) =>
-                setActivity((prev) => ({
-                  ...prev,
-                  icon: e.target.value,
-                }))
-              }
-              id="username"
-              placeholder="http://..."
-              className="col-span-3"
-            />
-          </div>
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="username" className="text-right">
-              Description
-            </Label>
-            <Input
-              onChange={(e) =>
-                setActivity((prev) => ({
-                  ...prev,
-                  description: e.target.value,
-                }))
-              }
-              id="username"
-              className="col-span-3"
-            />
-          </div>
+        <div className="grid gap-6 py-4">
+          {[
+            { label: "Name", key: "title", placeholder: "Eg. Chess (You should learn chess)" },
+            { label: "Banner URL", key: "banner", placeholder: "https://yourbanner.com/image.jpg" },
+            { label: "Icon URL", key: "icon", placeholder: "https://youricon.com/icon.png" },
+            { label: "Description", key: "description", placeholder: "Write a short description..." },
+          ].map(({ label, key, placeholder }) => (
+            <div key={key} className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor={key} className="text-right text-stone-600 font-medium">
+                {label}
+              </Label>
+              <Input
+                id={key}
+                placeholder={placeholder}
+                value={(activity as any)[key]}
+                onChange={(e) =>
+                  setActivity((prev) => ({
+                    ...prev,
+                    [key]: e.target.value,
+                  }))
+                }
+                className="col-span-3 bg-white border border-stone-300 focus:ring-stone-400 focus:border-stone-400 rounded-lg"
+              />
+            </div>
+          ))}
         </div>
+
         <DialogFooter>
-          <Button type="submit" onClick={handleSubmit}>
+          <Button
+            type="submit"
+            onClick={handleSubmit}
+            className="bg-stone-700 hover:bg-stone-800 text-white font-medium rounded-lg px-6 py-2 transition-all duration-200"
+          >
             Add
           </Button>
         </DialogFooter>
