@@ -35,7 +35,7 @@ export function AppActivity() {
           <ActivityFeed>
             {activeActivity.feeds?.map((feed, index) => (
               <ActivityFeedItem key={index} feed={feed} activity={activeActivity}>
-                <p className="text-accent">{feed.description}</p>
+                <p className="text-[17px] text-stone-700 font-medium leading-snug tracking-normal">{feed.description}</p>
               </ActivityFeedItem>
             ))}
           </ActivityFeed>

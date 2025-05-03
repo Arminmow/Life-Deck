@@ -66,7 +66,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                     asChild
                     isActive={item.isActive}
                   >
-                    <article className="flex items-center justify-between gap-3 px-4 py-3 bg-[#FAF0E6] rounded-xl border border-stone-200 shadow-sm hover:shadow-md transition-all duration-200">
+                    <article className="shadow-md flex items-center justify-between gap-3 px-4 py-3 bg-[#FAF0E6] rounded-xl border border-stone-200  hover:shadow-md transition-all duration-200">
                       <div className="flex items-center gap-3">
                         <img
                           src={item.icon || "/default-icon.png"}

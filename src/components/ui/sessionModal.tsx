@@ -42,7 +42,7 @@ export function SessionModal({ handleClick, activity }: { activity: Activity; ha
           </Button>
         </DialogTrigger>
       ) : (
-        <Button onClick={handleClick} size="session" variant="session">
+        <Button onClick={handleClick} size="session" variant="session" className="shadow-lg">
           <span className="flex items-center gap-2">
             <Play size={32} strokeWidth={3} /> Start
           </span>
