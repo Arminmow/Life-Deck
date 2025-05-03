@@ -12,24 +12,11 @@ import {
   setActivityFeeds,
 } from "@/redux/slices/userSlice"; // Make sure you have removeActivity action in your userSlice
 import { store } from "@/redux/store";
-import { icons } from "lucide-react";
 
 export const activityService = {
-  async addActivity(activity: any) {
-    const userId = auth.currentUser?.uid;
-    if (!userId) {
-      console.error("No authenticated user found.");
-      return;
-    }
-    try {
-      const activityId = activity.id; // Make sure it's a string or something ID-safe
-      const activityRef = doc(db, "users", userId, "activities", activityId);
-      store.dispatch(addActivity(activity));
-      await setDoc(activityRef, activity); // Overwrites if exists, creates if not
-      console.log("Activity added/updated:", activityId);
-    } catch (error) {
-      console.error("Error adding activity:", error);
-    }
+  async addActivity(userId: string, activity: Activity) {
+    const activityRef = doc(db, "users", userId, "activities", activity.id); // you give the ID!
+    await setDoc(activityRef, activity);
   },
 
   buildActivityFromUserInput(input: {

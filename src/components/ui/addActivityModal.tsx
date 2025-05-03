@@ -12,6 +12,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { activityService } from "@/services/activityService";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
 
 export function AddActivityModal({ text }: { text: string }) {
   const [activity, setActivity] = useState({
@@ -21,11 +23,17 @@ export function AddActivityModal({ text }: { text: string }) {
     icon: "",
   });
 
+  const userId = useSelector((state: RootState) => state.user.id);
+
   const handleSubmit = async () => {
     console.log("yo imma add it real quick");
+   
+    console.log(userId);
+    
+    if (!userId) return;
 
     const activityBuilt = activityService.buildActivityFromUserInput(activity);
-    await activityService.addActivity(activityBuilt);
+    await activityService.addActivity(userId, activityBuilt);
     alert("Activity added successfully!");
   };
 
@@ -41,9 +49,7 @@ export function AddActivityModal({ text }: { text: string }) {
       </DialogTrigger>
       <DialogContent className="sm:max-w-[500px] rounded-2xl bg-[#fffdf9] border border-stone-200 shadow-lg">
         <DialogHeader>
-          <DialogTitle className="text-xl font-semibold text-stone-700">
-            Add Activity
-          </DialogTitle>
+          <DialogTitle className="text-xl font-semibold text-stone-700">Add Activity</DialogTitle>
           <DialogDescription className="text-stone-500">
             Create a new activity to track. Keep it ✨ aesthetic ✨.
           </DialogDescription>
