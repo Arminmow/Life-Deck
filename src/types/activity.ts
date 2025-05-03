@@ -19,7 +19,7 @@ export interface Activity {
   description: string;
   banner: string;
   icon: string;
-  timeSpent: number; // You could change to number of minutes for easier calc
+  timeSpent: number;
   isActive: boolean;
   lastActive: string;
   lastSessionDuration: string;
