@@ -4,7 +4,7 @@ import { AddActivityModal } from "./addActivityModal";
 
 export default function NoActivitySelected() {
   return (
-    <div className="flex items-center justify-center w-full h-full bg-gradient-to-br from-gray-50 via-white to-gray-100">
+    <div className="flex items-center justify-center w-full h-full bg-[#FDFCF9 ] rounded-2xl via-white to-gray-100">
       <div className="text-center max-w-md px-6">
         <div className="flex justify-center mb-6">
           <PlusCircle className="w-16 h-16 text-gray-400" />

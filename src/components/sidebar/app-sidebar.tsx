@@ -85,7 +85,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-      <AddActivityModal text="+" />
+      <div className="absolute bottom-5 right-5">
+        <AddActivityModal text="+" />
+      </div>
     </Sidebar>
   );
 }

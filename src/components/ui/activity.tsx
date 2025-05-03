@@ -8,7 +8,7 @@ import { Activity, FeedItem } from "@/types/activity";
 import { SessionModal } from "./sessionModal";
 
 function ActivityContent({ className, ...props }: React.ComponentProps<"div">) {
-  return <div className={cn("w-full relative", className)} {...props} />;
+  return <div className={cn("w-full  relative", className)} {...props} />;
 }
 
 function ActivityBanner({
