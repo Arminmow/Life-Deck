@@ -9,6 +9,7 @@ import { useState, useEffect } from "react";
 import { auth } from "./firebase";
 import { Login } from "./components/login/login";
 import Spinner from "./components/ui/spinner";
+import { ActivitySync } from "./components/sync/ActivitySync";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -40,7 +41,7 @@ function App() {
   return (
     <>
       {/* if not logged in */}
-
+      <ActivitySync />
       {/* if logged in */}
       <SidebarProvider>
         <AppSidebar />
