@@ -96,7 +96,7 @@ function ActivityAchievements({ className, activity, ...props }: React.Component
       <ActivityAchievementsProgress />
 
       <div className="bg-[#FAF0E6] rounded-b-md shadow-lg py-3 px-4">
-        {activity.achievements ? (
+        {activity.achievements?.length > 0 ? (
           <>
             {" "}
             {/* unlocked achievements */}
