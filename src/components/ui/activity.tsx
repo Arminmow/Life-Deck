@@ -6,6 +6,7 @@ import { Separator } from "./separator";
 import { activityService } from "@/services/activityService";
 import { Activity, FeedItem } from "@/types/activity";
 import { SessionModal } from "./sessionModal";
+import { AddAchievementsModal } from "./addAchievemntModal";
 
 function ActivityContent({ className, ...props }: React.ComponentProps<"div">) {
   return <div className={cn("w-full  relative", className)} {...props} />;
@@ -75,13 +76,7 @@ function NoAchivements({ className, ...props }: React.ComponentProps<"div">) {
     >
       <h2 className="text-xl font-semibold text-muted-foreground">No Achievements Yet</h2>
       <p className="text-sm text-muted-foreground">You haven’t added any trophies. Let’s change that.</p>
-      <Button
-        size="lg"
-        className="bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-lg hover:brightness-110 gap-2 px-6 py-4 rounded-xl"
-      >
-        <PlusCircle className="w-5 h-5" />
-        Add Achievement
-      </Button>
+      <AddAchievementsModal/>
     </div>
   );
 }
