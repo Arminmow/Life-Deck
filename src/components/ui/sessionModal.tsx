@@ -24,6 +24,7 @@ export function SessionModal({ handleClick, activity }: { activity: Activity; ha
 
   const handleConfirmStop = async () => {
     const description = textareaRef.current?.value || "";
+    if (!description)  handleClick();
     const feedBuilt: FeedItem = activityService.buildFeedFromUserInput({
       description: description,
       duration: sessionDuration,
