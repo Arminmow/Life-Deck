@@ -11,6 +11,7 @@ export interface FeedItem {
   description: string;
   date: string;
   icon: string;
+  duration: string
 }
 
 export interface Activity {

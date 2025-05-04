@@ -42,7 +42,7 @@ export const activityService = {
     };
   },
 
-  buildFeedFromUserInput(input: { description: string }): FeedItem {
+  buildFeedFromUserInput(input: { description: string , duration : string }): FeedItem {
     const now = new Date();
     const formattedDate = now.toLocaleDateString("en-GB", {
       day: "numeric",
@@ -53,6 +53,7 @@ export const activityService = {
     return {
       description: input.description,
       date: formattedDate,
+      duration : input.duration,
       icon: "", // fill this later if needed
     };
   },
@@ -126,12 +127,9 @@ export const activityService = {
         isActive: true,
         activationDate: now,
       };
-      store.dispatch(setActiveActivity(id));
       // Update Firestore
       const activityRef = doc(db, "users", userId, "activities", id);
       await setDoc(activityRef, updatedActivity);
-
-      // Update Redux
 
       console.log(`Activated activity ${id} at ${now}`);
     } catch (error) {
@@ -171,7 +169,6 @@ export const activityService = {
         }
 
         activity.activationDate = null; // Clear activationDate after stopping the activity
-        store.dispatch(stopActivity(id)); // This will handle the state update
 
         // Update activity in Firestore
         await setDoc(activityRef, activity);
@@ -218,12 +215,10 @@ export const activityService = {
     // try {
     //   const feedRef = collection(db, "users", userId, "activities", activityId, "feeds");
     //   const snapshot = await getDocs(feedRef);
-
     //   const feeds: FeedItem[] = snapshot.docs.map((doc) => ({
     //     ...doc.data(),
     //   })) as FeedItem[];
     //   console.log(feeds);
-
     //   store.dispatch(setActivityFeeds({ activityId, feeds }));
     // } catch (err) {
     //   console.error("Error fetching feeds:", err);
