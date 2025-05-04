@@ -31,7 +31,7 @@ export function AppActivity() {
       <ActivityBanner src={activeActivity.banner} alt="Chess" title={activeActivity.title} id={activeActivity.id} />
 
       <ActivityInfo activity={activeActivity} />
-      <ActivityFeedContainer className="flex w-full flex-wrap">
+      <ActivityFeedContainer className="flex w-full flex-wrap-reverse">
         {/* main feed */}
         <div className="w-full md:w-2/3">
           <ActivityFeed>
