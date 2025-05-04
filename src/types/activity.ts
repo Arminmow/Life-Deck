@@ -11,7 +11,7 @@ export interface FeedItem {
   description: string;
   date: string;
   icon: string;
-  duration: string
+  duration: string;
 }
 
 export interface Activity {
@@ -25,6 +25,8 @@ export interface Activity {
   lastActive: string;
   lastSessionDuration: string;
   activationDate: string | null;
-  feeds : FeedItem[];
-  achievements : Achievement []
+  feeds: FeedItem[];
+  achievementsLocked: Achievement[];
+  achievementsUnlocked: Achievement[];
+  totalAchievements : number;
 }

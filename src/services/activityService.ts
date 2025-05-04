@@ -39,11 +39,13 @@ export const activityService = {
       activationDate: null,
       lastSessionDuration: "0m",
       feeds: [],
-      achievements : []
+      achievementsLocked: [],
+      achievementsUnlocked: [],
+      totalAchievements: 0
     };
   },
 
-  buildFeedFromUserInput(input: { description: string , duration : string }): FeedItem {
+  buildFeedFromUserInput(input: { description: string; duration: string }): FeedItem {
     const now = new Date();
     const formattedDate = now.toLocaleDateString("en-GB", {
       day: "numeric",
@@ -54,7 +56,7 @@ export const activityService = {
     return {
       description: input.description,
       date: formattedDate,
-      duration : input.duration,
+      duration: input.duration,
       icon: "", // fill this later if needed
     };
   },
