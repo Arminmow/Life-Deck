@@ -112,7 +112,6 @@ function ActivityAchievements({ className, activity, ...props }: React.Component
         ) : (
           <NoAchivements />
         )}
-  
       </div>
     </section>
   );
@@ -160,33 +159,34 @@ function ActivityAchievementWrapper({
       <header className="w-full">
         <span className="text-sm font-medium text-[#3E322C]">
           {unlocked ? "Unlocked achievements" : "Locked achievements"}
-          {unlocked
-            ? activity.achievementsUnlocked.map((item, i) => (
-                <div key={i} className={cn("w-full flex gap-3 text-accent flex-wrap", className)} {...props}>
-                  <img
-                    src={item.icon}
-                    alt="Achievement-img"
-                    className={cn(
-                      "w-16 h-16 bg-cover cursor-pointer rounded-md transition-all duration-300 hover:scale-105",
-                      !unlocked && "grayscale opacity-70"
-                    )}
-                  />
-                </div>
-              ))
-            : activity.achievementsLocked.map((item, i) => (
-                <div key={i} className={cn("w-full flex gap-3 text-accent flex-wrap", className)} {...props}>
-                  <img
-                    src={item.icon ? item.icon : "#"}
-                    alt="Achievement-img"
-                    className={cn(
-                      "w-16 h-16 bg-cover cursor-pointer rounded-md transition-all duration-300 hover:scale-105",
-                      !unlocked && "grayscale opacity-70"
-                    )}
-                  />
-                </div>
-              ))}
         </span>
       </header>
+      <div className="flex justify-start gap-2">{unlocked
+        ? activity.achievementsUnlocked.map((item, i) => (
+            <div key={i} className={cn("w-full flex gap-3 text-accent flex-wrap", className)} {...props}>
+              <img
+                src={item.icon}
+                alt="Achievement-img"
+                className={cn(
+                  "w-16 h-16 bg-cover cursor-pointer rounded-md transition-all duration-300 hover:scale-105",
+                  !unlocked && "grayscale opacity-70"
+                )}
+              />
+            </div>
+          ))
+        : activity.achievementsLocked.map((item, i) => (
+            <div key={i} className={cn("w-full flex gap-3 text-accent flex-wrap", className)} {...props}>
+              <img
+                src={item.icon ? item.icon : "#"}
+                alt="Achievement-img"
+                className={cn(
+                  "w-16 h-16 bg-cover cursor-pointer rounded-md transition-all duration-300 hover:scale-105",
+                  !unlocked && "grayscale opacity-70"
+                )}
+              />
+            </div>
+          ))}</div>
+      
     </div>
   );
 }
