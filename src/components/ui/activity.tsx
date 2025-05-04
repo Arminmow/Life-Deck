@@ -93,10 +93,10 @@ function ActivityAchievements({ className, activity, ...props }: React.Component
         <h2 className="text-xl font-semibold text-accent-foreground">{`ACHIEVEMENTS`}</h2>
       </header>
 
-      <ActivityAchievementsProgress />
+      <ActivityAchievementsProgress total={activity.totalAchievements} unlocked={activity.achievementsUnlocked?.length} />
 
       <div className="bg-[#FAF0E6] rounded-b-md shadow-lg py-3 px-4">
-        {activity.achievements?.length > 0 ? (
+        {activity.totalAchievements > 0 ? (
           <>
             {" "}
             {/* unlocked achievements */}
@@ -116,7 +116,13 @@ function ActivityAchievements({ className, activity, ...props }: React.Component
   );
 }
 
-function ActivityAchievementsProgress({ className, ...props }: React.ComponentProps<"div">) {
+function ActivityAchievementsProgress({
+  className,
+  total,
+  unlocked,
+  ...props
+}: React.ComponentProps<"div"> & { total: number; unlocked: number }) {
+  const value = total === 0 ? 0 : unlocked / total;
   return (
     <div
       className={cn(
@@ -125,8 +131,10 @@ function ActivityAchievementsProgress({ className, ...props }: React.ComponentPr
       )}
       {...props}
     >
-      <span className="text-sm font-medium">You've unlocked 3/10 (30%)</span>
-      <Progress value={30} className="mt-2 bg-[#D4C6B3] rounded-full shadow-sm" />
+      <span className="text-sm font-medium">
+        You've unlocked {unlocked}/{total} ({`${value}%`})
+      </span>
+      <Progress value={value} className="mt-2 bg-[#D4C6B3] rounded-full shadow-sm" />
     </div>
   );
 }
@@ -203,7 +211,15 @@ function ActivityInfo({ activity, className, ...props }: React.ComponentProps<"d
           value={activityService.convertSeconds(activity.timeSpent)}
         />
         <ActivityStat label="Last Active" value={activity.lastActive ? activity.lastActive : "Not Active Yet"} />
-        <ActivityStat icon={<Trophy className="text-stone-500" />} label="Achievements" value="5 Unlocked" />
+        <ActivityStat
+          icon={<Trophy className="text-stone-500" />}
+          label="Achievements"
+          value={
+            activity.achievementsUnlocked.length === 0 
+              ? 'No Achievements' 
+              : `${activity.achievementsUnlocked.length} Unlocked`
+          }
+        />
       </div>
     </section>
   );
