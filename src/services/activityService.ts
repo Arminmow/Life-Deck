@@ -1,16 +1,7 @@
 import { db } from "@/firebase";
-import { collection, doc, getDocs, setDoc, deleteDoc, getDoc, addDoc, updateDoc, arrayUnion } from "firebase/firestore";
+import { doc, setDoc, deleteDoc, getDoc, updateDoc, arrayUnion, increment } from "firebase/firestore";
 import { auth } from "@/firebase";
-import { Activity, FeedItem } from "@/types/activity";
-import {
-  addActivity,
-  setActivities,
-  removeActivity,
-  setActiveActivity,
-  stopActivity,
-  addFeedToActivity,
-  setActivityFeeds,
-} from "@/redux/slices/userSlice"; // Make sure you have removeActivity action in your userSlice
+import { Achievement, Activity, FeedItem } from "@/types/activity";
 import { store } from "@/redux/store";
 
 export const activityService = {
@@ -41,7 +32,7 @@ export const activityService = {
       feeds: [],
       achievementsLocked: [],
       achievementsUnlocked: [],
-      totalAchievements: 0
+      totalAchievements: 0,
     };
   },
 
@@ -61,24 +52,22 @@ export const activityService = {
     };
   },
   async fetchActivitiesFromFirebase() {
-    const userId = auth.currentUser?.uid;
-    if (!userId) {
-      console.error("No authenticated user found.");
-      return;
-    }
-
-    try {
-      const activitiesRef = collection(db, "users", userId, "activities");
-      const snapshot = await getDocs(activitiesRef);
-
-      const activities = snapshot.docs.map((doc) => ({
-        ...doc.data(),
-      }));
-      store.dispatch(setActivities(activities));
-      console.log("Set activities:", store.getState().user.activities);
-    } catch (error) {
-      console.error("Error fetching activities:", error);
-    }
+    // const userId = auth.currentUser?.uid;
+    // if (!userId) {
+    //   console.error("No authenticated user found.");
+    //   return;
+    // }
+    // try {
+    //   const activitiesRef = collection(db, "users", userId, "activities");
+    //   const snapshot = await getDocs(activitiesRef);
+    //   const activities = snapshot.docs.map((doc) => ({
+    //     ...doc.data(),
+    //   }));
+    //   store.dispatch(setActivities(activities));
+    //   console.log("Set activities:", store.getState().user.activities);
+    // } catch (error) {
+    //   console.error("Error fetching activities:", error);
+    // }
   },
 
   // Implementing the deleteActivity function
@@ -97,7 +86,6 @@ export const activityService = {
       await deleteDoc(activityRef); // Deletes the activity from Firestore
 
       // Dispatch action to remove the activity from Redux store
-      store.dispatch(removeActivity(id));
 
       console.log("Activity deleted:", id);
     } catch (error) {
@@ -210,6 +198,28 @@ export const activityService = {
     } catch (err) {
       console.error("Error adding feed to Firestore:", err);
       throw err; // Optional: rethrow for UI to handle
+    }
+  },
+
+  async addAchievement({ achievement, activityId }: { achievement: Achievement; activityId: string }) {
+    const userId = auth.currentUser?.uid;
+
+    if (!userId) {
+      console.error("Yo WTF there is no valid user id");
+      return;
+    }
+
+    try {
+      const activityRef = doc(db, "users", userId, "activities", activityId);
+      await updateDoc(activityRef, {
+        achievementsLocked: arrayUnion(achievement),
+        totalAchievements: increment(1),
+      });;
+
+      console.log(`Achievement added : ${achievement.title}`);
+    } catch (err) {
+      console.error(err);
+      throw err;
     }
   },
 

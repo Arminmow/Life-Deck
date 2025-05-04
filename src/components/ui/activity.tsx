@@ -76,7 +76,7 @@ function NoAchivements({ className, ...props }: React.ComponentProps<"div">) {
     >
       <h2 className="text-xl font-semibold text-muted-foreground">No Achievements Yet</h2>
       <p className="text-sm text-muted-foreground">You haven’t added any trophies. Let’s change that.</p>
-      <AddAchievementsModal/>
+      <AddAchievementsModal />
     </div>
   );
 }
@@ -90,23 +90,29 @@ function ActivityAchievements({ className, activity, ...props }: React.Component
 
       <ActivityAchievementsProgress total={activity.totalAchievements} unlocked={activity.achievementsUnlocked?.length} />
 
-      <div className="bg-[#FAF0E6] rounded-b-md shadow-lg py-3 px-4">
+      <div className="bg-[#FAF0E6] rounded-b-md shadow-lg">
         {activity.totalAchievements > 0 ? (
           <>
             {" "}
             {/* unlocked achievements */}
-            <ActivityAchievementWrapper unlocked={true} />
-            <div className="flex justify-center mt-2">
-              <Separator className="border-t-2 border-accent-foreground w-3/4" />
-            </div>
-            <ActivityAchievementWrapper unlocked={false} />
+            {activity.achievementsUnlocked?.length > 0 ? (
+              <>
+                {" "}
+                <ActivityAchievementWrapper activity={activity} unlocked={true} />
+                <div className="flex justify-center mt-2">
+                  <Separator className="border-t-2 border-accent-foreground" />
+                </div>
+              </>
+            ) : (
+              <></>
+            )}
+            <ActivityAchievementWrapper activity={activity} unlocked={false} />
           </>
         ) : (
           <NoAchivements />
         )}
+        <ActivityAchievementsFooter />
       </div>
-
-      <ActivityAchievementsFooter />
     </section>
   );
 }
@@ -136,30 +142,50 @@ function ActivityAchievementsProgress({
 
 function ActivityAchievementsFooter({ className, ...props }: React.ComponentProps<"div">) {
   return (
-    <div className={cn("w-full flex  justify-end pr-5 pb-4 ", className)} {...props}>
-      <span className="text-sm text-accent"> View my achievements</span>
+    <div className={cn("w-full flex flex-col justify-end  ", className)} {...props}>
+      <AddAchievementsModal />
     </div>
   );
 }
 
-function ActivityAchievementWrapper({ className, unlocked, ...props }: React.ComponentProps<"div"> & { unlocked: boolean }) {
+function ActivityAchievementWrapper({
+  className,
+  unlocked,
+  activity,
+  ...props
+}: React.ComponentProps<"div"> & { unlocked: boolean; activity: Activity }) {
   return (
     <div className="p-3 flex flex-col gap-2">
       <header className="w-full">
         <span className="text-sm font-medium text-[#3E322C]">
           {unlocked ? "Unlocked achievements" : "Locked achievements"}
+          {unlocked
+            ? activity.achievementsUnlocked.map((item, i) => (
+                <div key={i} className={cn("w-full flex gap-3 text-accent flex-wrap", className)} {...props}>
+                  <img
+                    src={item.icon}
+                    alt="Achievement-img"
+                    className={cn(
+                      "w-16 h-16 bg-cover cursor-pointer rounded-md transition-all duration-300 hover:scale-105",
+                      !unlocked && "grayscale opacity-70"
+                    )}
+                  />
+                </div>
+              ))
+            : activity.achievementsLocked.map((item, i) => (
+                <div key={i} className={cn("w-full flex gap-3 text-accent flex-wrap", className)} {...props}>
+                  <img
+                    src={item.icon ? item.icon : "#"}
+                    alt="Achievement-img"
+                    className={cn(
+                      "w-16 h-16 bg-cover cursor-pointer rounded-md transition-all duration-300 hover:scale-105",
+                      !unlocked && "grayscale opacity-70"
+                    )}
+                  />
+                </div>
+              ))}
         </span>
       </header>
-      <div className={cn("w-full flex gap-3 text-accent flex-wrap", className)} {...props}>
-        <img
-          src="https://i.ibb.co/0V2yzxPR/image.png"
-          alt="Achievement-img"
-          className={cn(
-            "w-16 h-16 bg-cover cursor-pointer rounded-md transition-all duration-300 hover:scale-105",
-            !unlocked && "grayscale opacity-70"
-          )}
-        />
-      </div>
     </div>
   );
 }
@@ -210,8 +236,8 @@ function ActivityInfo({ activity, className, ...props }: React.ComponentProps<"d
           icon={<Trophy className="text-stone-500" />}
           label="Achievements"
           value={
-            activity.achievementsUnlocked.length === 0 
-              ? 'No Achievements' 
+            activity.achievementsUnlocked.length === 0
+              ? "No Achievements"
               : `${activity.achievementsUnlocked.length} Unlocked`
           }
         />

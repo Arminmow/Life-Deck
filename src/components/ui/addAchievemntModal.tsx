@@ -12,19 +12,28 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { PlusCircle } from "lucide-react";
-// import { useSelector } from "react-redux";
-// import { RootState } from "@/redux/store";
+import { Achievement } from "@/types/activity";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
+import { activityService } from "@/services/activityService";
 
 export function AddAchievementsModal() {
+  const date = new Date();
+  const formatted = date.getDate() + " " + date.toLocaleString("en-US", { month: "short" }).toUpperCase();
+  const activeId = useSelector((state: RootState) => state.user.activeId);
+
   const [achievement, setAchievement] = useState({
     title: "",
     description: "",
     icon: "",
-    banner: "",
-  });
+    createDate: formatted,
+    unlockDate: "",
+  } as Achievement);
 
   const handleSubmit = async () => {
     console.log("yo imma add it real quick");
+    await activityService.addAchievement({achievement : achievement , activityId : activeId})
+    alert("Added , chill")
   };
 
   return (
