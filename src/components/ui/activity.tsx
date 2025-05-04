@@ -107,11 +107,12 @@ function ActivityAchievements({ className, activity, ...props }: React.Component
               <></>
             )}
             <ActivityAchievementWrapper activity={activity} unlocked={false} />
+            <ActivityAchievementsFooter />
           </>
         ) : (
           <NoAchivements />
         )}
-        <ActivityAchievementsFooter />
+  
       </div>
     </section>
   );
@@ -142,7 +143,7 @@ function ActivityAchievementsProgress({
 
 function ActivityAchievementsFooter({ className, ...props }: React.ComponentProps<"div">) {
   return (
-    <div className={cn("w-full flex flex-col justify-end  ", className)} {...props}>
+    <div className={cn("w-full flex flex-col justify-end  p-5", className)} {...props}>
       <AddAchievementsModal />
     </div>
   );
