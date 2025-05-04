@@ -3,7 +3,7 @@ import { Play, X } from "lucide-react";
 import { Button } from "./button";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "./dialog";
 import { Textarea } from "./textarea";
-import { Activity } from "@/types/activity";
+import { Activity, FeedItem } from "@/types/activity";
 import { activityService } from "@/services/activityService";
 
 export function SessionModal({ handleClick, activity }: { activity: Activity; handleClick: () => void }) {
@@ -24,15 +24,25 @@ export function SessionModal({ handleClick, activity }: { activity: Activity; ha
 
   const handleConfirmStop = async () => {
     const description = textareaRef.current?.value || "";
-    const feedBuilt = activityService.buildFeedFromUserInput({ description });
+    if (!description)  handleClick();
+    const feedBuilt: FeedItem = activityService.buildFeedFromUserInput({
+      description: description,
+      duration: sessionDuration,
+    });
     console.log("Feed built: ", feedBuilt); // Debugging line
-    await activityService.addFeedToFireBase({feed: feedBuilt , activityId : activity.id})
+    await activityService.addFeedToFireBase({ feed: feedBuilt, activityId: activity.id });
     handleClick(); // update backend/store
     setOpen(false); // close modal AFTER click
   };
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog
+      open={open}
+      onOpenChange={(isOpen) => {
+        if (!isOpen) handleClick(); // Always run this on close
+        setOpen(isOpen);
+      }}
+    >
       {activity.isActive ? (
         <DialogTrigger asChild>
           <Button onClick={handleOpen} size="session" variant="sesstionActive">
@@ -59,13 +69,13 @@ export function SessionModal({ handleClick, activity }: { activity: Activity; ha
         </DialogHeader>
         <div className="gap-4 py-4 w-full">
           <Textarea
-           ref={textareaRef}
+            ref={textareaRef}
             placeholder="Write down your session report"
             className="w-full resize-none break-words overflow-hidden"
           />
         </div>
         <DialogFooter>
-          <Button onClick={async() =>handleConfirmStop()}>Confirm Stop</Button>
+          <Button onClick={async () => handleConfirmStop()}>Confirm Stop</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

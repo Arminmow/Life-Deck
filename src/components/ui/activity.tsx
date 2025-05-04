@@ -67,42 +67,40 @@ function ActivityStat({ icon, label, value }: { icon?: React.ReactNode; label: s
 function ActivityAchievements({ className, ...props }: React.ComponentProps<"section">) {
   return (
     <section className={cn("flex flex-col w-full", className)} {...props}>
-    <header className="pb-2">
-      <h2 className="text-xl font-semibold text-accent-foreground">{`ACHIEVEMENTS`}</h2>
-    </header>
-  
-    <ActivityAchievementsProgress />
-  
-    <div className="bg-[#FAF0E6] rounded-b-md shadow-lg py-3 px-4">
-      {/* unlocked achievements */}
-      <ActivityAchievementWrapper unlocked={true} />
-  
-      <div className="flex justify-center mt-2">
-        <Separator className="border-t-2 border-accent-foreground w-3/4" />
+      <header className="pb-2">
+        <h2 className="text-xl font-semibold text-accent-foreground">{`ACHIEVEMENTS`}</h2>
+      </header>
+
+      <ActivityAchievementsProgress />
+
+      <div className="bg-[#FAF0E6] rounded-b-md shadow-lg py-3 px-4">
+        {/* unlocked achievements */}
+        <ActivityAchievementWrapper unlocked={true} />
+
+        <div className="flex justify-center mt-2">
+          <Separator className="border-t-2 border-accent-foreground w-3/4" />
+        </div>
+
+        <ActivityAchievementWrapper unlocked={false} />
       </div>
-  
-      <ActivityAchievementWrapper unlocked={false} />
-    </div>
-  
-    <ActivityAchievementsFooter />
-  </section>
-  
+
+      <ActivityAchievementsFooter />
+    </section>
   );
 }
 
 function ActivityAchievementsProgress({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
-  className={cn(
-    "w-full flex flex-col gap-2 text-[#3E322C] bg-[#EAE1D8] p-4 rounded-t-md shadow-sm transition-all duration-300 hover:shadow-lg hover:bg-[#D8C8B8]",
-    className
-  )}
-  {...props}
->
-  <span className="text-sm font-medium">You've unlocked 3/10 (30%)</span>
-  <Progress value={30} className="mt-2 bg-[#D4C6B3] rounded-full shadow-sm" />
-</div>
-
+      className={cn(
+        "w-full flex flex-col gap-2 text-[#3E322C] bg-[#EAE1D8] p-4 rounded-t-md shadow-sm transition-all duration-300 hover:shadow-lg hover:bg-[#D8C8B8]",
+        className
+      )}
+      {...props}
+    >
+      <span className="text-sm font-medium">You've unlocked 3/10 (30%)</span>
+      <Progress value={30} className="mt-2 bg-[#D4C6B3] rounded-full shadow-sm" />
+    </div>
   );
 }
 
@@ -117,24 +115,22 @@ function ActivityAchievementsFooter({ className, ...props }: React.ComponentProp
 function ActivityAchievementWrapper({ className, unlocked, ...props }: React.ComponentProps<"div"> & { unlocked: boolean }) {
   return (
     <div className="p-3 flex flex-col gap-2">
-  <header className="w-full">
-    <span className="text-sm font-medium text-[#3E322C]">
-      {unlocked ? "Unlocked achievements" : "Locked achievements"}
-    </span>
-  </header>
-  <div className={cn("w-full flex gap-3 text-accent flex-wrap", className)} {...props}>
-    <img
-      src="https://i.ibb.co/0V2yzxPR/image.png"
-      alt="Achievement-img"
-      className={cn(
-        "w-16 h-16 bg-cover cursor-pointer rounded-md transition-all duration-300 hover:scale-105",
-        !unlocked && "grayscale opacity-70"
-      )}
-    />
-  </div>
-</div>
-
-
+      <header className="w-full">
+        <span className="text-sm font-medium text-[#3E322C]">
+          {unlocked ? "Unlocked achievements" : "Locked achievements"}
+        </span>
+      </header>
+      <div className={cn("w-full flex gap-3 text-accent flex-wrap", className)} {...props}>
+        <img
+          src="https://i.ibb.co/0V2yzxPR/image.png"
+          alt="Achievement-img"
+          className={cn(
+            "w-16 h-16 bg-cover cursor-pointer rounded-md transition-all duration-300 hover:scale-105",
+            !unlocked && "grayscale opacity-70"
+          )}
+        />
+      </div>
+    </div>
   );
 }
 
@@ -203,7 +199,7 @@ function ActivityFeedItem({
 }: React.ComponentProps<"div"> & { feed: FeedItem; activity: Activity }) {
   return (
     <div className={cn(" shadow-lg flex flex-col gap-2 p-4 w-full bg-[#FAF0E6] rounded-xl ", className)} {...props}>
-      <ActivityFeedDate date={feed.date} duration={activity.lastSessionDuration} />
+      <ActivityFeedDate date={feed.date} duration={feed.duration} />
       {children}
     </div>
   );
@@ -217,10 +213,9 @@ function ActivityFeedDate({
 }: React.ComponentProps<"div"> & { date: string; duration: string }) {
   return (
     <div className={cn("flex justify-between items-center w-full", className)} {...props}>
-    <span className="text-sm text-stone-600 font-light">{date}</span>
-    <span className="text-sm text-stone-600 font-light">{`Session duration: ${duration}`}</span>
-  </div>
-  
+      <span className="text-sm text-stone-600 font-light">{date}</span>
+      <span className="text-sm text-stone-600 font-light">{`Session duration: ${duration}`}</span>
+    </div>
   );
 }
 

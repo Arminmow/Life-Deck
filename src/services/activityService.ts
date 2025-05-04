@@ -1,5 +1,5 @@
 import { db } from "@/firebase";
-import { collection, doc, getDocs, setDoc, deleteDoc, getDoc, addDoc } from "firebase/firestore";
+import { collection, doc, getDocs, setDoc, deleteDoc, getDoc, addDoc, updateDoc, arrayUnion } from "firebase/firestore";
 import { auth } from "@/firebase";
 import { Activity, FeedItem } from "@/types/activity";
 import {
@@ -12,24 +12,11 @@ import {
   setActivityFeeds,
 } from "@/redux/slices/userSlice"; // Make sure you have removeActivity action in your userSlice
 import { store } from "@/redux/store";
-import { icons } from "lucide-react";
 
 export const activityService = {
-  async addActivity(activity: any) {
-    const userId = auth.currentUser?.uid;
-    if (!userId) {
-      console.error("No authenticated user found.");
-      return;
-    }
-    try {
-      const activityId = activity.id; // Make sure it's a string or something ID-safe
-      const activityRef = doc(db, "users", userId, "activities", activityId);
-      store.dispatch(addActivity(activity));
-      await setDoc(activityRef, activity); // Overwrites if exists, creates if not
-      console.log("Activity added/updated:", activityId);
-    } catch (error) {
-      console.error("Error adding activity:", error);
-    }
+  async addActivity(userId: string, activity: Activity) {
+    const activityRef = doc(db, "users", userId, "activities", activity.id); // you give the ID!
+    await setDoc(activityRef, activity);
   },
 
   buildActivityFromUserInput(input: {
@@ -55,7 +42,7 @@ export const activityService = {
     };
   },
 
-  buildFeedFromUserInput(input: { description: string }): FeedItem {
+  buildFeedFromUserInput(input: { description: string , duration : string }): FeedItem {
     const now = new Date();
     const formattedDate = now.toLocaleDateString("en-GB", {
       day: "numeric",
@@ -66,6 +53,7 @@ export const activityService = {
     return {
       description: input.description,
       date: formattedDate,
+      duration : input.duration,
       icon: "", // fill this later if needed
     };
   },
@@ -126,7 +114,7 @@ export const activityService = {
 
       // Find activity from store
       const state = store.getState();
-      const activity = state.user.activities.find((act: Activity) => act.id === id);
+      const activity = state.activity.list.find((act: Activity) => act.id === id);
 
       if (!activity) {
         console.warn(`Activity with ID ${id} not found`);
@@ -139,12 +127,9 @@ export const activityService = {
         isActive: true,
         activationDate: now,
       };
-      store.dispatch(setActiveActivity(id));
       // Update Firestore
       const activityRef = doc(db, "users", userId, "activities", id);
       await setDoc(activityRef, updatedActivity);
-
-      // Update Redux
 
       console.log(`Activated activity ${id} at ${now}`);
     } catch (error) {
@@ -184,7 +169,6 @@ export const activityService = {
         }
 
         activity.activationDate = null; // Clear activationDate after stopping the activity
-        store.dispatch(stopActivity(id)); // This will handle the state update
 
         // Update activity in Firestore
         await setDoc(activityRef, activity);
@@ -201,18 +185,25 @@ export const activityService = {
   },
 
   async addFeedToFireBase({ feed, activityId }: { feed: FeedItem; activityId: string }) {
-    // add feed to Feeds subcollection of an activity
     const userId = auth.currentUser?.uid;
-    try {
-      store.dispatch(addFeedToActivity({ activityId: activityId, feedItem: feed }));
-      const feedRef = collection(db, "users", userId, "activities", activityId, "feeds");
-      console.log(feed);
+    if (!userId) {
+      console.error("No authenticated user found.");
+      return;
+    }
 
-      await addDoc(feedRef, {
-        ...feed,
+    try {
+      // Reference to the activity document
+      const activityRef = doc(db, "users", userId, "activities", activityId);
+
+      // Update the feeds array by adding the new feed to the array
+      await updateDoc(activityRef, {
+        feeds: arrayUnion(feed), // This will add the new feed to the array without replacing it
       });
 
-      console.log(`${feed} added to Firestore`);
+      console.log(`Feed added to activity ${activityId}`);
+
+      // Optionally update Redux if you need to reflect the new state in your app
+      // store.dispatch(addFeedToActivity({ activityId: activityId, feedItem: feed }));
     } catch (err) {
       console.error("Error adding feed to Firestore:", err);
       throw err; // Optional: rethrow for UI to handle
@@ -220,20 +211,18 @@ export const activityService = {
   },
 
   async fetchFeedsForActivity(activityId: string) {
-    const userId = auth.currentUser?.uid;
-    try {
-      const feedRef = collection(db, "users", userId, "activities", activityId, "feeds");
-      const snapshot = await getDocs(feedRef);
-
-      const feeds: FeedItem[] = snapshot.docs.map((doc) => ({
-        ...doc.data(),
-      })) as FeedItem[];
-      console.log(feeds);
-
-      store.dispatch(setActivityFeeds({ activityId, feeds }));
-    } catch (err) {
-      console.error("Error fetching feeds:", err);
-    }
+    // const userId = auth.currentUser?.uid;
+    // try {
+    //   const feedRef = collection(db, "users", userId, "activities", activityId, "feeds");
+    //   const snapshot = await getDocs(feedRef);
+    //   const feeds: FeedItem[] = snapshot.docs.map((doc) => ({
+    //     ...doc.data(),
+    //   })) as FeedItem[];
+    //   console.log(feeds);
+    //   store.dispatch(setActivityFeeds({ activityId, feeds }));
+    // } catch (err) {
+    //   console.error("Error fetching feeds:", err);
+    // }
   },
 
   calculateTimeSpent: (start: string): number => {

@@ -13,7 +13,7 @@ export const userService = {
 
       store.dispatch(setUserId(userId));
 
-      // Check if user already exists in Firestore
+      // use my custom hook here insted of these?
       const userDocRef = doc(db, "users", userId);
       const userDocSnap = await getDoc(userDocRef);
 
