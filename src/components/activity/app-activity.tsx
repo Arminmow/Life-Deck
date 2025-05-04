@@ -27,7 +27,7 @@ export function AppActivity() {
   // Find activity by id
   return (
     <ActivityContent>
-      <ActiveActivitySync/>
+      {/* <ActiveActivitySync/> */}
       <ActivityBanner src={activeActivity.banner} alt="Chess" title={activeActivity.title} id={activeActivity.id} />
 
       <ActivityInfo activity={activeActivity} />
