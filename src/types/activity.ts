@@ -25,5 +25,6 @@ export interface Activity {
   lastActive: string;
   lastSessionDuration: string;
   activationDate: string | null;
-  feeds : FeedItem[]
+  feeds : FeedItem[];
+  achievements : Achievement []
 }

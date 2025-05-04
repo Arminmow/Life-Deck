@@ -10,7 +10,6 @@ import {
 } from "../ui/activity";
 import { useSelector } from "react-redux";
 import NoActivitySelected from "../ui/NoActivitySelected";
-import { ActiveActivitySync } from "../sync/ActiveActivitySync";
 
 export function AppActivity() {
   const activeId = useSelector((state: any) => state.user.activeId);
@@ -45,7 +44,7 @@ export function AppActivity() {
         {/* sidebar */}
         <div className="w-full md:w-1/3">
           <ActivityFeed>
-            <ActivityAchievements />
+            <ActivityAchievements activity={activeActivity}/>
           </ActivityFeed>
         </div>
       </ActivityFeedContainer>

@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import { ClockFading, Trophy, Play, X } from "lucide-react";
+import { ClockFading, Trophy, Play, X, PlusCircle } from "lucide-react";
 import { Button } from "./button";
 import { Progress } from "./progress";
 import { Separator } from "./separator";
@@ -64,7 +64,29 @@ function ActivityStat({ icon, label, value }: { icon?: React.ReactNode; label: s
   );
 }
 
-function ActivityAchievements({ className, ...props }: React.ComponentProps<"section">) {
+function NoAchivements({ className, ...props }: React.ComponentProps<"div">) {
+  return (
+    <div
+      className={cn(
+        "flex flex-col items-center justify-center text-center p-6 rounded-2xl border border-muted shadow-sm gap-4",
+        className
+      )}
+      {...props}
+    >
+      <h2 className="text-xl font-semibold text-muted-foreground">No Achievements Yet</h2>
+      <p className="text-sm text-muted-foreground">You haven’t added any trophies. Let’s change that.</p>
+      <Button
+        size="lg"
+        className="bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-lg hover:brightness-110 gap-2 px-6 py-4 rounded-xl"
+      >
+        <PlusCircle className="w-5 h-5" />
+        Add Achievement
+      </Button>
+    </div>
+  );
+}
+
+function ActivityAchievements({ className, activity, ...props }: React.ComponentProps<"section"> & { activity: Activity }) {
   return (
     <section className={cn("flex flex-col w-full", className)} {...props}>
       <header className="pb-2">
@@ -74,14 +96,19 @@ function ActivityAchievements({ className, ...props }: React.ComponentProps<"sec
       <ActivityAchievementsProgress />
 
       <div className="bg-[#FAF0E6] rounded-b-md shadow-lg py-3 px-4">
-        {/* unlocked achievements */}
-        <ActivityAchievementWrapper unlocked={true} />
-
-        <div className="flex justify-center mt-2">
-          <Separator className="border-t-2 border-accent-foreground w-3/4" />
-        </div>
-
-        <ActivityAchievementWrapper unlocked={false} />
+        {activity.achievements ? (
+          <>
+            {" "}
+            {/* unlocked achievements */}
+            <ActivityAchievementWrapper unlocked={true} />
+            <div className="flex justify-center mt-2">
+              <Separator className="border-t-2 border-accent-foreground w-3/4" />
+            </div>
+            <ActivityAchievementWrapper unlocked={false} />
+          </>
+        ) : (
+          <NoAchivements />
+        )}
       </div>
 
       <ActivityAchievementsFooter />

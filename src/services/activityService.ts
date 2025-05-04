@@ -39,6 +39,7 @@ export const activityService = {
       activationDate: null,
       lastSessionDuration: "0m",
       feeds: [],
+      achievements : []
     };
   },
 
