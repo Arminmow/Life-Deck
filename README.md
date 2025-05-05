@@ -8,7 +8,16 @@ It’s kinda like a Steam library — but instead of games, you log real-life ac
 - Write quick session reports to keep a personal log of what you actually did
 - Add achievements to celebrate progress (just like Steam trophies)
 - Stay motivated by seeing how consistent you've been over time
-
+---
+  ## Check it out
+https://life-deck.netlify.app/
+You can also install it.
+---
+## TODO
+- Smooth user experience (no net lag)
+- PWA (Service worker , cache , etc..)
+- QOF tweaks (Animations , Achievement viewver , Toast , ...)
+---
 ## ⚙️ Built With
 - Next.js + TypeScript
 - TailwindCSS + ShadCN UI
