@@ -19,7 +19,7 @@ You can also install it.
 - QOF tweaks (Animations , Achievement viewver , Toast , ...)
 ---
 ## ⚙️ Built With
-- Next.js + TypeScript
+- React.js + TypeScript
 - TailwindCSS + ShadCN UI
 - Framer Motion for animations
-- Firebase Firestore for real-time sync
+- Firebase & Firestore for real-time sync
