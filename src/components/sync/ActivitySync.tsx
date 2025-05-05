@@ -9,7 +9,6 @@ import { setActivities } from "@/redux/slices/activitySlice";
 export const ActivitySync = () => {
   const dispatch = useDispatch();
   const userId = useSelector((state: RootState) => state.user.id);
-console.log(userId);
 
   useEffect(() => {
     if (!userId) return;

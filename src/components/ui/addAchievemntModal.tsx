@@ -31,7 +31,6 @@ export function AddAchievementsModal() {
   } as Achievement);
 
   const handleSubmit = async () => {
-    console.log("yo imma add it real quick");
     await activityService.addAchievement({achievement : achievement , activityId : activeId})
     alert("Added , chill")
   };

@@ -26,9 +26,7 @@ export function AddActivityModal({ text }: { text: string }) {
   const userId = useSelector((state: RootState) => state.user.id);
 
   const handleSubmit = async () => {
-    console.log("yo imma add it real quick");
    
-    console.log(userId);
     
     if (!userId) return;
 

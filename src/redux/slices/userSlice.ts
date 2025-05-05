@@ -19,7 +19,6 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     setUserId: (state, action: PayloadAction<string | null>) => {
-      console.log("yoohoo");
 
       state.id = action.payload;
     },
@@ -27,19 +26,16 @@ const userSlice = createSlice({
       const activity = action.payload;
 
       state.activities.push(activity);
-      console.log(state.activities);
     },
     setActivities: (state, action: PayloadAction<Activity[]>) => {
       state.activities = action.payload;
     },
     setActiveId: (state, action) => {
       state.activeId = action.payload;
-      console.log(`Active id is now: ${action.payload}`);
     },
     removeActivity: (state, action: PayloadAction<string>) => {
       // Remove activity by ID
       state.activities = state.activities.filter((activity: any) => activity.id !== action.payload);
-      console.log(`Activity with ID ${action.payload} removed.`);
     },
     setActiveActivity: (state, action: PayloadAction<string>) => {
       const activityId = action.payload;
@@ -50,7 +46,6 @@ const userSlice = createSlice({
       if (activity) {
         activity.isActive = true;
         activity.activationDate = now;
-        console.log(`Activity ${activityId} is now active at ${now}`);
       } else {
         console.warn(`No activity found with ID: ${activityId}`);
       }

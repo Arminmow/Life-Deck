@@ -20,10 +20,7 @@ export const userService = {
       if (!userDocSnap.exists()) {
         // If user doesn't exist, add them to Firestore
         userService.addUserToFirestore(userId, user); // Direct call, no 'this' needed
-      } else {
-        console.log("User already exists in Firestore.");
-      }
-
+      } 
       alert("Logged in successfully");
     } catch (error) {
       console.error("Error logging in with Google: ", error);
@@ -40,7 +37,6 @@ export const userService = {
         photoURL: user.photoURL,
         createdAt: new Date(), // Optional: store when the user was created
       });
-      console.log("User added to Firestore with ID:", userId);
     } catch (error) {
       console.error("Error adding user to Firestore:", error);
     }

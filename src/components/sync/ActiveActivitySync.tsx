@@ -11,7 +11,6 @@ export function ActiveActivitySync() {
 
   const activeActivityId = useSelector((state: RootState) => state.user.activeId);
   const userId = useSelector((state: RootState) => state.user.id);
-    console.log(`I am alive`);
     
   useEffect(() => {
     if (!userId || !activeActivityId) return;

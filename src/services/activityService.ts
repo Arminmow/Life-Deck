@@ -51,28 +51,9 @@ export const activityService = {
       icon: "", // fill this later if needed
     };
   },
-  async fetchActivitiesFromFirebase() {
-    // const userId = auth.currentUser?.uid;
-    // if (!userId) {
-    //   console.error("No authenticated user found.");
-    //   return;
-    // }
-    // try {
-    //   const activitiesRef = collection(db, "users", userId, "activities");
-    //   const snapshot = await getDocs(activitiesRef);
-    //   const activities = snapshot.docs.map((doc) => ({
-    //     ...doc.data(),
-    //   }));
-    //   store.dispatch(setActivities(activities));
-    //   console.log("Set activities:", store.getState().user.activities);
-    // } catch (error) {
-    //   console.error("Error fetching activities:", error);
-    // }
-  },
 
   // Implementing the deleteActivity function
   deleteActivity: async (id: string) => {
-    console.log(`deleting ${id}`);
 
     const userId = auth.currentUser?.uid;
     if (!userId) {
@@ -87,7 +68,6 @@ export const activityService = {
 
       // Dispatch action to remove the activity from Redux store
 
-      console.log("Activity deleted:", id);
     } catch (error) {
       console.error("Error deleting activity:", error);
     }
@@ -122,7 +102,6 @@ export const activityService = {
       const activityRef = doc(db, "users", userId, "activities", id);
       await setDoc(activityRef, updatedActivity);
 
-      console.log(`Activated activity ${id} at ${now}`);
     } catch (error) {
       console.error("Error activating activity:", error);
     }
@@ -164,7 +143,6 @@ export const activityService = {
         // Update activity in Firestore
         await setDoc(activityRef, activity);
 
-        console.log(`Stopped activity: ${id}`);
 
         // Dispatch the action to update Redux store (not duplicating the logic)
       } else {
@@ -191,7 +169,6 @@ export const activityService = {
         feeds: arrayUnion(feed), // This will add the new feed to the array without replacing it
       });
 
-      console.log(`Feed added to activity ${activityId}`);
 
       // Optionally update Redux if you need to reflect the new state in your app
       // store.dispatch(addFeedToActivity({ activityId: activityId, feedItem: feed }));
@@ -216,7 +193,6 @@ export const activityService = {
         totalAchievements: increment(1),
       });
 
-      console.log(`Achievement added : ${achievement.title}`);
     } catch (err) {
       console.error(err);
       throw err;

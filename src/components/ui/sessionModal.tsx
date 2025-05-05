@@ -29,7 +29,6 @@ export function SessionModal({ handleClick, activity }: { activity: Activity; ha
       description: description,
       duration: sessionDuration,
     });
-    console.log("Feed built: ", feedBuilt); // Debugging line
     await activityService.addFeedToFireBase({ feed: feedBuilt, activityId: activity.id });
     handleClick(); // update backend/store
     setOpen(false); // close modal AFTER click
