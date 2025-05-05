@@ -1,12 +1,13 @@
 import { cn } from "@/lib/utils";
-import { ClockFading, Trophy, Play, X, PlusCircle } from "lucide-react";
+import { ClockFading, Trophy, Play, X, PlusCircle, CalendarIcon } from "lucide-react";
 import { Button } from "./button";
 import { Progress } from "./progress";
 import { Separator } from "./separator";
 import { activityService } from "@/services/activityService";
-import { Activity, FeedItem } from "@/types/activity";
+import { Achievement, Activity, FeedItem } from "@/types/activity";
 import { SessionModal } from "./sessionModal";
 import { AddAchievementsModal } from "./addAchievemntModal";
+import { HoverCard, HoverCardContent, HoverCardTrigger } from "./hover-card";
 
 function ActivityContent({ className, ...props }: React.ComponentProps<"div">) {
   return <div className={cn("w-full  relative", className)} {...props} />;
@@ -155,39 +156,63 @@ function ActivityAchievementWrapper({
   ...props
 }: React.ComponentProps<"div"> & { unlocked: boolean; activity: Activity }) {
   return (
-    <div className="p-3 flex flex-col gap-2">
+    <div className="p-3 flex flex-col gap-2" {...props}>
       <header className="w-full">
         <span className="text-sm font-medium text-[#3E322C]">
           {unlocked ? "Unlocked achievements" : "Locked achievements"}
         </span>
       </header>
-      <div className="flex w-full justify-start md:justify-around flex-wrap gap-2">{unlocked
-        ? activity.achievementsUnlocked.map((item, i) => (
-            <div key={i} className={cn("w-full flex gap-3 text-accent flex-wrap", className)} {...props}>
-              <img
-                src={item.icon}
-                alt="Achievement-img"
-                className={cn(
-                  "w-16 h-16 bg-cover cursor-pointer rounded-md transition-all duration-300 hover:scale-105",
-                  !unlocked && "grayscale opacity-70"
-                )}
-              />
-            </div>
-          ))
-        : activity.achievementsLocked?.map((item, i) => (
-            <div key={i} className={cn(" aspect-square flex gap-3 text-accent flex-wrap justify-start", className)} {...props}>
-              <img
-                src={item.icon ? item.icon : "#"}
-                alt="Achievement-img"
-                className={cn(
-                  "w-16 h-16 bg-gray-400 cursor-pointer rounded-md transition-all duration-300 hover:scale-105",
-                  !unlocked && "grayscale opacity-70"
-                )}
-              />
-            </div>
-          ))}</div>
-      
+      <div className="flex w-full justify-start md:justify-around flex-wrap gap-2">
+        {unlocked
+          ? activity.achievementsUnlocked.map((item, i) => <AchievementItem item={item} i={i} unlocked={unlocked} />)
+          : activity.achievementsLocked?.map((item, i) => <AchievementItem item={item} i={i} unlocked={unlocked} />)}
+      </div>
     </div>
+  );
+}
+
+function AchievementItem({
+  className,
+  item,
+  i,
+  unlocked,
+}: React.ComponentProps<"div"> & { item: Achievement; i: number; unlocked: boolean }) {
+  return (
+    <HoverCard>
+      <HoverCardTrigger asChild>
+        <div key={i} className={cn("aspect-square flex gap-3 text-accent flex-wrap justify-start", className)}>
+          <img
+            src={item.icon}
+            alt="Achievement-img"
+            className={cn(
+              "w-16 h-16 bg-red-800 cursor-pointer rounded-md transition-all duration-300 hover:scale-105",
+              !unlocked && "grayscale opacity-70 bg-gray-400"
+            )}
+          />
+        </div>
+      </HoverCardTrigger>
+
+      <HoverCardContent className="w-80 bg-[#F2EFEA] text-[#2E2E2E] rounded-md shadow-xl border-none">
+        <div className="flex items-start gap-4">
+          <img
+            src={item.icon}
+            alt="icon preview"
+            className={cn(
+              "w-10 h-10 rounded-md object-cover border border-white shadow-sm",
+              !unlocked && "grayscale opacity-70 bg-gray-400"
+            )}
+          />
+          <div className="space-y-1">
+            <h4 className="text-base font-semibold tracking-tight">{item.title}</h4>
+            <p className="text-sm text-muted-foreground leading-snug">{item.description}</p>
+            <div className="flex items-center gap-1 pt-2 text-xs text-muted-foreground">
+              <CalendarIcon className="w-4 h-4 opacity-70" />
+              <span>Added {item.createDate}</span>
+            </div>
+          </div>
+        </div>
+      </HoverCardContent>
+    </HoverCard>
   );
 }
 
@@ -236,11 +261,7 @@ function ActivityInfo({ activity, className, ...props }: React.ComponentProps<"d
         <ActivityStat
           icon={<Trophy className="text-stone-500" />}
           label="Achievements"
-          value={
-            activity.totalAchievements === 0
-              ? "No Achievements"
-              : `${activity.achievementsUnlocked.length} Unlocked`
-          }
+          value={activity.totalAchievements === 0 ? "No Achievements" : `${activity.achievementsUnlocked.length} Unlocked`}
         />
       </div>
     </section>
