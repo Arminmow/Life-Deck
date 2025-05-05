@@ -23,9 +23,9 @@ It’s kinda like a Steam library — but instead of games, you log real-life ac
 - You can also install it.
 ---
 ## TODO
-- Smooth user experience (no net lag)
-- PWA (Service worker , cache , etc..)
-- QOF tweaks (Animations , Achievement viewver , Toast , ...)
+- Improve performance on slow networks
+- Add full PWA support (service worker, offline cache, ...)
+- Polish UX (animations, achievements viewer, toasts, ...)
 ---
 ## ⚙️ Built With
 - React.js + TypeScript
