@@ -161,7 +161,7 @@ function ActivityAchievementWrapper({
           {unlocked ? "Unlocked achievements" : "Locked achievements"}
         </span>
       </header>
-      <div className="flex justify-start gap-2">{unlocked
+      <div className="flex w-full justify-start md:justify-around flex-wrap gap-2">{unlocked
         ? activity.achievementsUnlocked.map((item, i) => (
             <div key={i} className={cn("w-full flex gap-3 text-accent flex-wrap", className)} {...props}>
               <img
@@ -174,13 +174,13 @@ function ActivityAchievementWrapper({
               />
             </div>
           ))
-        : activity.achievementsLocked.map((item, i) => (
-            <div key={i} className={cn("w-full flex gap-3 text-accent flex-wrap", className)} {...props}>
+        : activity.achievementsLocked?.map((item, i) => (
+            <div key={i} className={cn(" aspect-square flex gap-3 text-accent flex-wrap justify-start", className)} {...props}>
               <img
                 src={item.icon ? item.icon : "#"}
                 alt="Achievement-img"
                 className={cn(
-                  "w-16 h-16 bg-cover cursor-pointer rounded-md transition-all duration-300 hover:scale-105",
+                  "w-16 h-16 bg-gray-400 cursor-pointer rounded-md transition-all duration-300 hover:scale-105",
                   !unlocked && "grayscale opacity-70"
                 )}
               />
@@ -237,7 +237,7 @@ function ActivityInfo({ activity, className, ...props }: React.ComponentProps<"d
           icon={<Trophy className="text-stone-500" />}
           label="Achievements"
           value={
-            activity.achievementsUnlocked.length === 0
+            activity.totalAchievements === 0
               ? "No Achievements"
               : `${activity.achievementsUnlocked.length} Unlocked`
           }
