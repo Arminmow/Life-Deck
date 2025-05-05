@@ -23,7 +23,6 @@ function App() {
       setUser(user); // Set user state
       if (user) {
         dispatch(setUserId(user.uid))
-        activityService.fetchActivitiesFromFirebase(); // Fetch activities for the authenticated user
       }
       setLoading(false);
     });
