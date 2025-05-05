@@ -8,9 +8,18 @@ It’s kinda like a Steam library — but instead of games, you log real-life ac
 - Write quick session reports to keep a personal log of what you actually did
 - Add achievements to celebrate progress (just like Steam trophies)
 - Stay motivated by seeing how consistent you've been over time
+
+### It's not much but it include these:
+- Real-time sync 
+- Cloud persistence
+- Redux state management
+- Typed (Typescript) + Modular architecture
+- Responsive UI
+- Installable as a PWA & Offline support (in progress)
 ---
   ## Check it out
 https://life-deck.netlify.app/
+If it ain't working , use a vpn ,firebase acting all crazy.
 You can also install it.
 ---
 ## TODO
