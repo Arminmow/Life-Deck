@@ -18,9 +18,9 @@ It’s kinda like a Steam library — but instead of games, you log real-life ac
 - Installable as a PWA & Offline support (in progress)
 ---
   ## Check it out
-https://life-deck.netlify.app/
-If it ain't working , use a vpn ,firebase acting all crazy.
-You can also install it.
+- https://life-deck.netlify.app/
+- If it ain't working , use a vpn ,firebase acting all crazy.
+- You can also install it.
 ---
 ## TODO
 - Smooth user experience (no net lag)
