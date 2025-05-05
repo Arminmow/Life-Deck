@@ -1,0 +1,22 @@
+{
+    "name": "LifeDeck",
+    "short_name": "LifeDeck",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#fffdf9",
+    "theme_color": "#fffdf9",
+    "description": "Track your activities, sessions, and achievements like a boss.",
+    "icons": [
+      {
+        "src": "/icons/icon-192x192.png",
+        "sizes": "192x192",
+        "type": "image/png"
+      },
+      {
+        "src": "/icons/icon-512x512.png",
+        "sizes": "512x512",
+        "type": "image/png"
+      }
+    ]
+  }
+  
