@@ -4,7 +4,6 @@ import { SidebarInset, SidebarProvider, SidebarTrigger } from "./components/ui/s
 import { AppSidebar } from "./components/sidebar/app-sidebar";
 import { AppActivity } from "./components/activity/app-activity";
 import { onAuthStateChanged, User } from "firebase/auth";
-import { activityService } from "./services/activityService";
 import { useState, useEffect } from "react";
 import { auth } from "./firebase";
 import { Login } from "./components/login/login";
