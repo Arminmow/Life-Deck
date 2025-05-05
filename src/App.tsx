@@ -3,7 +3,7 @@ import "./App.css";
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "./components/ui/sidebar";
 import { AppSidebar } from "./components/sidebar/app-sidebar";
 import { AppActivity } from "./components/activity/app-activity";
-import { onAuthStateChanged } from "firebase/auth";
+import { onAuthStateChanged, User } from "firebase/auth";
 import { activityService } from "./services/activityService";
 import { useState, useEffect } from "react";
 import { auth } from "./firebase";
@@ -14,7 +14,7 @@ import { useDispatch } from "react-redux";
 import { setUserId } from "./redux/slices/userSlice";
 
 function App() {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true); // Track loading state
   const dispatch = useDispatch();
 

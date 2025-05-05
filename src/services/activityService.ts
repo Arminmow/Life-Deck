@@ -214,28 +214,13 @@ export const activityService = {
       await updateDoc(activityRef, {
         achievementsLocked: arrayUnion(achievement),
         totalAchievements: increment(1),
-      });;
+      });
 
       console.log(`Achievement added : ${achievement.title}`);
     } catch (err) {
       console.error(err);
       throw err;
     }
-  },
-
-  async fetchFeedsForActivity(activityId: string) {
-    // const userId = auth.currentUser?.uid;
-    // try {
-    //   const feedRef = collection(db, "users", userId, "activities", activityId, "feeds");
-    //   const snapshot = await getDocs(feedRef);
-    //   const feeds: FeedItem[] = snapshot.docs.map((doc) => ({
-    //     ...doc.data(),
-    //   })) as FeedItem[];
-    //   console.log(feeds);
-    //   store.dispatch(setActivityFeeds({ activityId, feeds }));
-    // } catch (err) {
-    //   console.error("Error fetching feeds:", err);
-    // }
   },
 
   calculateTimeSpent: (start: string): number => {

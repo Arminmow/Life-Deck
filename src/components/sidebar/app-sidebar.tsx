@@ -16,7 +16,6 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarRail,
 } from "@/components/ui/sidebar";
 import { activityService } from "@/services/activityService.ts";
 
@@ -61,7 +60,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                   <SidebarMenuButton
                     onClick={() => {
                       dispatch(setActiveId(item.id));
-                      activityService.fetchFeedsForActivity(item.id);
                     }}
                     asChild
                     isActive={item.isActive}

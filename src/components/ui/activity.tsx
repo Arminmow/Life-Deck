@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import { ClockFading, Trophy, Play, X, PlusCircle, CalendarIcon } from "lucide-react";
+import { ClockFading, Trophy, CalendarIcon } from "lucide-react";
 import { Button } from "./button";
 import { Progress } from "./progress";
 import { Separator } from "./separator";
