@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import { ClockFading, Trophy, CalendarIcon } from "lucide-react";
+import { ClockFading, Trophy, CalendarIcon, PlusCircle } from "lucide-react";
 import { Button } from "./button";
 import { Progress } from "./progress";
 import { Separator } from "./separator";
@@ -8,6 +8,11 @@ import { Achievement, Activity, FeedItem } from "@/types/activity";
 import { SessionModal } from "./sessionModal";
 import { AddAchievementsModal } from "./addAchievemntModal";
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "./hover-card";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "./dialog";
+import { Label } from "@radix-ui/react-label";
+import { Input } from "./input";
+import { toogleAchievementsModal } from "@/redux/slices/userSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 function ActivityContent({ className, ...props }: React.ComponentProps<"div">) {
   return <div className={cn("w-full  relative", className)} {...props} />;
@@ -155,6 +160,7 @@ function ActivityAchievementWrapper({
   activity,
   ...props
 }: React.ComponentProps<"div"> & { unlocked: boolean; activity: Activity }) {
+  const disptch = useDispatch();
   return (
     <div className="p-3 flex flex-col gap-2" {...props}>
       <header className="w-full">
@@ -165,9 +171,31 @@ function ActivityAchievementWrapper({
       <div className="flex w-full justify-start md:justify-around flex-wrap gap-2">
         {unlocked
           ? activity.achievementsUnlocked.map((item, i) => <AchievementItem item={item} i={i} unlocked={unlocked} />)
-          : activity.achievementsLocked?.map((item, i) => <AchievementItem item={item} i={i} unlocked={unlocked} />)}
+          : activity.achievementsLocked?.map((item, i) => (
+              <AchievementItem onClick={() => disptch(toogleAchievementsModal())} item={item} i={i} unlocked={unlocked} />
+            ))}
       </div>
+      <AchievementsModal />
     </div>
+  );
+}
+
+function AchievementsModal() {
+  const open = useSelector((state) => state.user.achivementsOpen);
+  const disptch = useDispatch();
+  return (
+    <Dialog open={open} onOpenChange={() => disptch(toogleAchievementsModal())}>
+      <DialogContent className="sm:max-w-[540px] rounded-3xl bg-[#fffdf9] border border-stone-200 shadow-2xl px-8 py-6 space-y-6">
+        <DialogHeader>
+          <DialogTitle className="text-2xl font-bold text-stone-700">Create New Achievement</DialogTitle>
+          <DialogDescription className="text-stone-500">
+            Define what success looks like — make it meaningful.
+          </DialogDescription>
+        </DialogHeader>
+
+        <DialogFooter></DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
 }
 
@@ -176,11 +204,16 @@ function AchievementItem({
   item,
   i,
   unlocked,
+  onClick,
 }: React.ComponentProps<"div"> & { item: Achievement; i: number; unlocked: boolean }) {
   return (
     <HoverCard>
       <HoverCardTrigger asChild>
-        <div key={i} className={cn("aspect-square flex gap-3 text-accent flex-wrap justify-start", className)}>
+        <div
+          onClick={onClick}
+          key={i}
+          className={cn("aspect-square flex gap-3 text-accent flex-wrap justify-start", className)}
+        >
           <img
             src={item.icon}
             alt="Achievement-img"

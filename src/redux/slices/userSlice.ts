@@ -6,12 +6,14 @@ interface UserState {
   id: string | null;
   activities: Activity[];
   activeId: string;
+  achivementsOpen: boolean;
 }
 
 const initialState: UserState = {
   id: null,
   activities: [],
   activeId: "",
+  achivementsOpen: false,
 };
 
 const userSlice = createSlice({
@@ -19,7 +21,6 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     setUserId: (state, action: PayloadAction<string | null>) => {
-
       state.id = action.payload;
     },
     addActivity: (state, action: PayloadAction<Activity>) => {
@@ -96,8 +97,13 @@ const userSlice = createSlice({
       if (activity) {
         activity.feeds = feeds;
       }
+    },
+
+    toogleAchievementsModal (state) {
+      console.log("Toggle now");
+      
+      state.achivementsOpen = !state.achivementsOpen
     }
-    
   },
 });
 
@@ -110,6 +116,7 @@ export const {
   setActiveActivity,
   stopActivity,
   addFeedToActivity,
-  setActivityFeeds
+  setActivityFeeds,
+  toogleAchievementsModal
 } = userSlice.actions;
 export default userSlice.reducer;
