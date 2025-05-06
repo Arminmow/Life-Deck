@@ -13,6 +13,7 @@ import { Label } from "@radix-ui/react-label";
 import { Input } from "./input";
 import { toogleAchievementsModal } from "@/redux/slices/userSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
 
 function ActivityContent({ className, ...props }: React.ComponentProps<"div">) {
   return <div className={cn("w-full  relative", className)} {...props} />;
@@ -175,27 +176,89 @@ function ActivityAchievementWrapper({
               <AchievementItem onClick={() => disptch(toogleAchievementsModal())} item={item} i={i} unlocked={unlocked} />
             ))}
       </div>
-      <AchievementsModal />
+      <AchievementsModal activity={activity} />
     </div>
   );
 }
 
-function AchievementsModal() {
-  const open = useSelector((state) => state.user.achivementsOpen);
+function AchievementsModal({ activity }: { activity: Activity }) {
+  const open = useSelector((state: RootState) => state.user.achivementsOpen);
   const disptch = useDispatch();
   return (
     <Dialog open={open} onOpenChange={() => disptch(toogleAchievementsModal())}>
-      <DialogContent className="sm:max-w-[540px] rounded-3xl bg-[#fffdf9] border border-stone-200 shadow-2xl px-8 py-6 space-y-6">
+      <DialogContent className="sm:max-w-[540px] rounded-3xl bg-[#fffdf9] border border-stone-200 shadow-2xl space-y-6">
         <DialogHeader>
-          <DialogTitle className="text-2xl font-bold text-stone-700">Create New Achievement</DialogTitle>
-          <DialogDescription className="text-stone-500">
-            Define what success looks like — make it meaningful.
-          </DialogDescription>
+          <DialogTitle className="text-2xl font-bold text-stone-700">{activity.title} Achievements</DialogTitle>
+          <div className="flex flex-col gap-4 p-4 w-full bg-[#F2EFEA] rounded-lg shadow-md">
+            <span className="text-lg font-semibold text-accent-foreground">
+              {activity.achievementsUnlocked.length} OF {activity.totalAchievements} ACHIEVEMENTS EARNED
+            </span>
+            <div className="w-full bg-[#E0D7C7] rounded-full h-2.5 mt-2">
+              <div
+                className="bg-[#50c434] h-2.5 rounded-full transition-all duration-300"
+                style={{
+                  width: `${(activity.achievementsUnlocked.length / activity.totalAchievements) * 100}%`,
+                }}
+              ></div>
+            </div>
+          </div>
         </DialogHeader>
+        {activity.achievementsUnlocked.length > 0 ? (
+          <div>
+            <h2>Unlocked Achievements</h2>
+            <div>
+              {activity.achievementsUnlocked.map((item) => (
+                <>
+                  <AcievementListItem achievement={item} />
+                </>
+              ))}
+            </div>
+          </div>
+        ) : (
+          <></>
+        )}
+
+        <div>
+          <h2>Locked Achievements</h2>
+          <div>
+            {activity.achievementsLocked.map((item) => (
+              <>
+                <AcievementListItem achievement={item} />
+              </>
+            ))}
+          </div>
+        </div>
 
         <DialogFooter></DialogFooter>
       </DialogContent>
     </Dialog>
+  );
+}
+
+function AcievementListItem({ achievement }: { achievement: Achievement }) {
+  return (
+    <div className="flex items-center w-full py-3 border-b border-gray-300">
+      {/* Left: Icon */}
+      <div className="flex-shrink-0 mr-3">
+        <img
+          src={achievement.icon}
+          alt="Achievement Icon"
+          className={cn(
+            "w-10 h-10 rounded-md object-cover border border-white shadow-sm",
+            !achievement.locked && "grayscale opacity-70 bg-gray-400"
+          )}
+        />
+      </div>
+
+      {/* Right: Title and Description beside the icon */}
+      <div className="flex flex-col">
+        <h1 className="text-xl font-semibold text-stone-700">{achievement.title}</h1>
+        <p className="text-sm text-stone-500">{achievement.description}</p>
+      </div>
+
+      {/* Right: Date */}
+      <div className="ml-auto text-sm text-stone-400">{achievement.createDate}</div>
+    </div>
   );
 }
 
