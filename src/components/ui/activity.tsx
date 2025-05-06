@@ -171,7 +171,13 @@ function ActivityAchievementWrapper({
         {unlocked
           ? activity.achievementsUnlocked.map((item, i) => <AchievementItem item={item} i={i} unlocked={unlocked} />)
           : activity.achievementsLocked?.map((item, i) => (
-              <AchievementItem key={i} onClick={() => disptch(toogleAchievementsModal())} item={item} i={i} unlocked={unlocked} />
+              <AchievementItem
+                key={i}
+                onClick={() => disptch(toogleAchievementsModal())}
+                item={item}
+                i={i}
+                unlocked={unlocked}
+              />
             ))}
       </div>
       <AchievementsModal activity={activity} />
@@ -184,22 +190,14 @@ function AchievementsModal({ activity }: { activity: Activity }) {
   const disptch = useDispatch();
   return (
     <Dialog open={open} onOpenChange={() => disptch(toogleAchievementsModal())}>
-      <DialogContent className="sm:max-w-[540px] rounded-3xl bg-[#fffdf9] border border-stone-200 shadow-2xl space-y-6 max-h-[90%] overflow-hidden">
+      <DialogContent className="sm:max-w-[540px] rounded-3xl p-3 bg-[#fffdf9] border border-stone-200 shadow-2xl  max-h-[90%] overflow-hidden">
         <DialogHeader>
-          <DialogTitle className="text-2xl font-bold text-stone-700">{activity.title} Achievements</DialogTitle>
-          <div className="flex flex-col gap-4 p-4 w-full bg-[#F2EFEA] rounded-lg shadow-md">
-            <span className="text-lg font-semibold text-accent-foreground">
-              {activity.achievementsUnlocked.length} OF {activity.totalAchievements} ACHIEVEMENTS EARNED
-            </span>
-            <div className="w-full bg-[#E0D7C7] rounded-full h-2.5 mt-2">
-              <div
-                className="bg-[#50c434] h-2.5 rounded-full transition-all duration-300"
-                style={{
-                  width: `${(activity.achievementsUnlocked.length / activity.totalAchievements) * 100}%`,
-                }}
-              ></div>
-            </div>
-          </div>
+          <DialogTitle className="text-xl font-bold text-stone-700">{activity.title} Achievements</DialogTitle>
+
+          <ActivityAchievementsProgress
+            total={activity.totalAchievements}
+            unlocked={activity.achievementsUnlocked?.length}
+          />
         </DialogHeader>
 
         {/* Scrollable Content Area */}
