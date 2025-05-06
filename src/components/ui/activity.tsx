@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import { ClockFading, Trophy, CalendarIcon, PlusCircle } from "lucide-react";
+import { ClockFading, Trophy, CalendarIcon } from "lucide-react";
 import { Button } from "./button";
 import { Progress } from "./progress";
 import { Separator } from "./separator";
@@ -8,9 +8,7 @@ import { Achievement, Activity, FeedItem } from "@/types/activity";
 import { SessionModal } from "./sessionModal";
 import { AddAchievementsModal } from "./addAchievemntModal";
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "./hover-card";
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "./dialog";
-import { Label } from "@radix-ui/react-label";
-import { Input } from "./input";
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "./dialog";
 import { toogleAchievementsModal } from "@/redux/slices/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
@@ -173,7 +171,7 @@ function ActivityAchievementWrapper({
         {unlocked
           ? activity.achievementsUnlocked.map((item, i) => <AchievementItem item={item} i={i} unlocked={unlocked} />)
           : activity.achievementsLocked?.map((item, i) => (
-              <AchievementItem onClick={() => disptch(toogleAchievementsModal())} item={item} i={i} unlocked={unlocked} />
+              <AchievementItem key={i} onClick={() => disptch(toogleAchievementsModal())} item={item} i={i} unlocked={unlocked} />
             ))}
       </div>
       <AchievementsModal activity={activity} />
@@ -186,7 +184,7 @@ function AchievementsModal({ activity }: { activity: Activity }) {
   const disptch = useDispatch();
   return (
     <Dialog open={open} onOpenChange={() => disptch(toogleAchievementsModal())}>
-      <DialogContent className="sm:max-w-[540px] rounded-3xl bg-[#fffdf9] border border-stone-200 shadow-2xl space-y-6">
+      <DialogContent className="sm:max-w-[540px] rounded-3xl bg-[#fffdf9] border border-stone-200 shadow-2xl space-y-6 max-h-[90%] overflow-hidden">
         <DialogHeader>
           <DialogTitle className="text-2xl font-bold text-stone-700">{activity.title} Achievements</DialogTitle>
           <div className="flex flex-col gap-4 p-4 w-full bg-[#F2EFEA] rounded-lg shadow-md">
@@ -203,29 +201,27 @@ function AchievementsModal({ activity }: { activity: Activity }) {
             </div>
           </div>
         </DialogHeader>
-        {activity.achievementsUnlocked.length > 0 ? (
-          <div>
-            <h2>Unlocked Achievements</h2>
+
+        {/* Scrollable Content Area */}
+        <div className="h-[calc(100vh-250px)] overflow-y-auto">
+          {activity.achievementsUnlocked.length > 0 && (
             <div>
-              {activity.achievementsUnlocked.map((item) => (
-                <>
-                  <AcievementListItem achievement={item} />
-                </>
+              <h2>Unlocked Achievements</h2>
+              <div>
+                {activity.achievementsUnlocked.map((item, i) => (
+                  <AcievementListItem key={i} achievement={item} />
+                ))}
+              </div>
+            </div>
+          )}
+
+          <div>
+            <h2>Locked Achievements</h2>
+            <div className="mb-15">
+              {activity.achievementsLocked.map((item, i) => (
+                <AcievementListItem key={i} achievement={item} />
               ))}
             </div>
-          </div>
-        ) : (
-          <></>
-        )}
-
-        <div>
-          <h2>Locked Achievements</h2>
-          <div>
-            {activity.achievementsLocked.map((item) => (
-              <>
-                <AcievementListItem achievement={item} />
-              </>
-            ))}
           </div>
         </div>
 

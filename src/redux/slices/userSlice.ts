@@ -100,7 +100,6 @@ const userSlice = createSlice({
     },
 
     toogleAchievementsModal (state) {
-      console.log("Toggle now");
       
       state.achivementsOpen = !state.achivementsOpen
     }
