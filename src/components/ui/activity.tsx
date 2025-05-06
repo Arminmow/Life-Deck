@@ -8,6 +8,10 @@ import { Achievement, Activity, FeedItem } from "@/types/activity";
 import { SessionModal } from "./sessionModal";
 import { AddAchievementsModal } from "./addAchievemntModal";
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "./hover-card";
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "./dialog";
+import { toogleAchievementsModal } from "@/redux/slices/userSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
 
 function ActivityContent({ className, ...props }: React.ComponentProps<"div">) {
   return <div className={cn("w-full  relative", className)} {...props} />;
@@ -155,6 +159,7 @@ function ActivityAchievementWrapper({
   activity,
   ...props
 }: React.ComponentProps<"div"> & { unlocked: boolean; activity: Activity }) {
+  const disptch = useDispatch();
   return (
     <div className="p-3 flex flex-col gap-2" {...props}>
       <header className="w-full">
@@ -165,8 +170,90 @@ function ActivityAchievementWrapper({
       <div className="flex w-full justify-start md:justify-around flex-wrap gap-2">
         {unlocked
           ? activity.achievementsUnlocked.map((item, i) => <AchievementItem item={item} i={i} unlocked={unlocked} />)
-          : activity.achievementsLocked?.map((item, i) => <AchievementItem item={item} i={i} unlocked={unlocked} />)}
+          : activity.achievementsLocked?.map((item, i) => (
+              <AchievementItem key={i} onClick={() => disptch(toogleAchievementsModal())} item={item} i={i} unlocked={unlocked} />
+            ))}
       </div>
+      <AchievementsModal activity={activity} />
+    </div>
+  );
+}
+
+function AchievementsModal({ activity }: { activity: Activity }) {
+  const open = useSelector((state: RootState) => state.user.achivementsOpen);
+  const disptch = useDispatch();
+  return (
+    <Dialog open={open} onOpenChange={() => disptch(toogleAchievementsModal())}>
+      <DialogContent className="sm:max-w-[540px] rounded-3xl bg-[#fffdf9] border border-stone-200 shadow-2xl space-y-6 max-h-[90%] overflow-hidden">
+        <DialogHeader>
+          <DialogTitle className="text-2xl font-bold text-stone-700">{activity.title} Achievements</DialogTitle>
+          <div className="flex flex-col gap-4 p-4 w-full bg-[#F2EFEA] rounded-lg shadow-md">
+            <span className="text-lg font-semibold text-accent-foreground">
+              {activity.achievementsUnlocked.length} OF {activity.totalAchievements} ACHIEVEMENTS EARNED
+            </span>
+            <div className="w-full bg-[#E0D7C7] rounded-full h-2.5 mt-2">
+              <div
+                className="bg-[#50c434] h-2.5 rounded-full transition-all duration-300"
+                style={{
+                  width: `${(activity.achievementsUnlocked.length / activity.totalAchievements) * 100}%`,
+                }}
+              ></div>
+            </div>
+          </div>
+        </DialogHeader>
+
+        {/* Scrollable Content Area */}
+        <div className="h-[calc(100vh-250px)] overflow-y-auto">
+          {activity.achievementsUnlocked.length > 0 && (
+            <div>
+              <h2>Unlocked Achievements</h2>
+              <div>
+                {activity.achievementsUnlocked.map((item, i) => (
+                  <AcievementListItem key={i} achievement={item} />
+                ))}
+              </div>
+            </div>
+          )}
+
+          <div>
+            <h2>Locked Achievements</h2>
+            <div className="mb-15">
+              {activity.achievementsLocked.map((item, i) => (
+                <AcievementListItem key={i} achievement={item} />
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <DialogFooter></DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+function AcievementListItem({ achievement }: { achievement: Achievement }) {
+  return (
+    <div className="flex items-center w-full py-3 border-b border-gray-300">
+      {/* Left: Icon */}
+      <div className="flex-shrink-0 mr-3">
+        <img
+          src={achievement.icon}
+          alt="Achievement Icon"
+          className={cn(
+            "w-10 h-10 rounded-md object-cover border border-white shadow-sm",
+            !achievement.locked && "grayscale opacity-70 bg-gray-400"
+          )}
+        />
+      </div>
+
+      {/* Right: Title and Description beside the icon */}
+      <div className="flex flex-col">
+        <h1 className="text-xl font-semibold text-stone-700">{achievement.title}</h1>
+        <p className="text-sm text-stone-500">{achievement.description}</p>
+      </div>
+
+      {/* Right: Date */}
+      <div className="ml-auto text-sm text-stone-400">{achievement.createDate}</div>
     </div>
   );
 }
@@ -176,11 +263,16 @@ function AchievementItem({
   item,
   i,
   unlocked,
+  onClick,
 }: React.ComponentProps<"div"> & { item: Achievement; i: number; unlocked: boolean }) {
   return (
     <HoverCard>
       <HoverCardTrigger asChild>
-        <div key={i} className={cn("aspect-square flex gap-3 text-accent flex-wrap justify-start", className)}>
+        <div
+          onClick={onClick}
+          key={i}
+          className={cn("aspect-square flex gap-3 text-accent flex-wrap justify-start", className)}
+        >
           <img
             src={item.icon}
             alt="Achievement-img"
