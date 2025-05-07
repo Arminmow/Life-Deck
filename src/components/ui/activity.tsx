@@ -98,11 +98,9 @@ function ActivityAchievements({ className, activity, ...props }: React.Component
       <div className="bg-[#FAF0E6] rounded-b-md shadow-lg">
         {activity.totalAchievements > 0 ? (
           <>
-            {" "}
             {/* unlocked achievements */}
             {activity.achievementsUnlocked?.length > 0 ? (
               <>
-                {" "}
                 <ActivityAchievementWrapper activity={activity} unlocked={true} />
                 <div className="flex justify-center mt-2">
                   <Separator className="border-t-2 border-accent-foreground" />
@@ -128,7 +126,7 @@ function ActivityAchievementsProgress({
   unlocked,
   ...props
 }: React.ComponentProps<"div"> & { total: number; unlocked: number }) {
-  const value = total === 0 ? 0 : unlocked / total;
+  const value = total === 0 ? 0 : Math.floor((unlocked / total) * 100);
   return (
     <div
       className={cn(
@@ -169,7 +167,15 @@ function ActivityAchievementWrapper({
       </header>
       <div className="flex w-full justify-start md:justify-around flex-wrap gap-2">
         {unlocked
-          ? activity.achievementsUnlocked.map((item, i) => <AchievementItem item={item} i={i} unlocked={unlocked} />)
+          ? activity.achievementsUnlocked.map((item, i) => (
+              <AchievementItem
+                key={i}
+                onClick={() => disptch(toogleAchievementsModal())}
+                item={item}
+                i={i}
+                unlocked={unlocked}
+              />
+            ))
           : activity.achievementsLocked?.map((item, i) => (
               <AchievementItem
                 key={i}
@@ -213,7 +219,7 @@ function AchievementsModal({ activity }: { activity: Activity }) {
             </div>
           )}
 
-          <div>
+          <div className="mt-10">
             <h2>Locked Achievements</h2>
             <div className="mb-15">
               {activity.achievementsLocked.map((item, i) => (
@@ -231,15 +237,15 @@ function AchievementsModal({ activity }: { activity: Activity }) {
 
 function AcievementListItem({ achievement }: { achievement: Achievement }) {
   return (
-    <div className="flex items-center w-full py-3 border-b border-gray-300">
+    <div className="flex items-center w-full py-3 border-b border-gray-300 ">
       {/* Left: Icon */}
       <div className="flex-shrink-0 mr-3">
         <img
           src={achievement.icon}
           alt="Achievement Icon"
           className={cn(
-            "w-10 h-10 rounded-md object-cover border border-white shadow-sm",
-            !achievement.locked && "grayscale opacity-70 bg-gray-400"
+            "w-10 h-10 bg-[#EAE1D8] rounded-md object-cover border border-white shadow-sm",
+            achievement.locked && "grayscale opacity-70 bg-gray-400"
           )}
         />
       </div>
@@ -275,7 +281,7 @@ function AchievementItem({
             src={item.icon}
             alt="Achievement-img"
             className={cn(
-              "w-16 h-16 bg-red-800 cursor-pointer rounded-md transition-all duration-300 hover:scale-105",
+              "w-16 h-16  bg-[#EAE1D8] cursor-pointer rounded-md transition-all duration-300 hover:scale-105",
               !unlocked && "grayscale opacity-70 bg-gray-400"
             )}
           />
@@ -359,7 +365,7 @@ function ActivityInfo({ activity, className, ...props }: React.ComponentProps<"d
 }
 
 function ActivityFeed({ className, ...props }: React.ComponentProps<"article">) {
-  return <article className={cn("flex gap-5 flex-col items-center justify-start pt-5 px-5", className)} {...props} />;
+  return <article className={cn("flex gap-5 flex-col-reverse items-center justify-start pt-5 px-5", className)} {...props} />;
 }
 
 function ActivityFeedContainer({ className, ...props }: React.ComponentProps<"div">) {
