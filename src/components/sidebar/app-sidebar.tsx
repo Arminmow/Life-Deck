@@ -1,6 +1,5 @@
 import * as React from "react";
 import { auth } from "../../firebase";
-import { SearchForm } from "@/components/sidebar/search-form";
 import { Button } from "../ui/button";
 import { useDispatch, useSelector } from "react-redux";
 import { setActiveId } from "@/redux/slices/userSlice.ts";
