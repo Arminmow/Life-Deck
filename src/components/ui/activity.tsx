@@ -165,7 +165,7 @@ function ActivityAchievementWrapper({
           {unlocked ? "Unlocked achievements" : "Locked achievements"}
         </span>
       </header>
-      <div className="flex w-full justify-start md:justify-around flex-wrap gap-2">
+      <div className="flex w-full justify-start md:justify-start flex-wrap gap-2">
         {unlocked
           ? activity.achievementsUnlocked.map((item, i) => (
               <AchievementItem
@@ -322,20 +322,7 @@ function ActivitySessionBtn({ activity }: { activity: Activity }) {
       await activityService.activeActivity(activity.id);
     }
   };
-  return (
-    // <Button size="session" variant={isActive ? "sesstionActive" : "session"} onClick={handleClick}>
-    //   {isActive ? (
-    //     <span className="flex items-center gap-2">
-    //       <X size={32} strokeWidth={3} /> Stop
-    //     </span>
-    //   ) : (
-    //     <span className="flex items-center gap-2">
-    //       <Play size={32} strokeWidth={3} /> Start
-    //     </span>
-    //   )}
-    // </Button>
-    <SessionModal activity={activity} handleClick={handleClick} />
-  );
+  return <SessionModal activity={activity} handleClick={handleClick} />;
 }
 
 function ActivityInfo({ activity, className, ...props }: React.ComponentProps<"div"> & { activity: Activity }) {
@@ -365,7 +352,9 @@ function ActivityInfo({ activity, className, ...props }: React.ComponentProps<"d
 }
 
 function ActivityFeed({ className, ...props }: React.ComponentProps<"article">) {
-  return <article className={cn("flex gap-5 flex-col-reverse items-center justify-start pt-5 px-5", className)} {...props} />;
+  return (
+    <article className={cn("flex gap-5 flex-col-reverse items-center justify-start pt-5 px-5", className)} {...props} />
+  );
 }
 
 function ActivityFeedContainer({ className, ...props }: React.ComponentProps<"div">) {
