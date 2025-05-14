@@ -2,7 +2,7 @@
     "name": "LifeDeck",
     "short_name": "LifeDeck",
     "start_url": "/",
-    "display": "standalone",
+    "display": "fullscreen",
     "background_color": "#fffdf9",
     "theme_color": "#fffdf9",
     "description": "Track your activities, sessions, and achievements like a boss.",

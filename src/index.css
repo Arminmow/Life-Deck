@@ -46,7 +46,7 @@
   --color-text-subtle: var(--textSubtle);
   --color-cta-btn: var(--ctaBtn);
   --color-cta-hover: var(--ctaHover);
-  --color-cta-active : var(--ctaActive)
+  --color-cta-active: var(--ctaActive);
 }
 
 :root {
@@ -92,7 +92,7 @@
   --textSubtle: #a6a6a6;
   --ctaBtn: #d4af37;
   --ctaHover: #e3c56b;
-  --ctaActive : #2563EB;
+  --ctaActive: #2563eb;
 }
 
 @layer base {
@@ -102,4 +102,8 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+body {
+  padding-top: env(safe-area-inset-top);
 }
