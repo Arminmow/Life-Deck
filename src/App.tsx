@@ -49,7 +49,7 @@ function App() {
         <AppSidebar />
         <SidebarInset>
           <header className="flex h-16 shrink-0 items-center px-4 absolute z-50">
-            <SidebarTrigger className="-ml-1 bg-[#F8F4E9]"/>
+            <SidebarTrigger className="-ml-1 bg-card-bg text-text-subtle"/>
           </header>
           <AppActivity />
         </SidebarInset>

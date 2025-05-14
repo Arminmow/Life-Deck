@@ -9,16 +9,15 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground shadow-xs hover:bg-primary/90",
+        default: "bg-background text-primary-foreground shadow-xs hover:bg-primary/90",
         session:
-          "bg-[#C67A3C] text-[#F2EFEA] shadow-lg hover:bg-[#B96F34] focus-visible:ring-[#C67A3C]/20 dark:focus-visible:ring-[#C67A3C]/40 dark:bg-[#C67A3C]/80"
-,
+          "bg-cta-btn text-[#F2EFEA] shadow-lg hover:bg-cta-hover cursor-pointer focus-visible:ring-[#C67A3C]/20 dark:focus-visible:ring-[#C67A3C]/40",
         sesstionActive:
-          "bg-[#1D4ED8] text-white shadow-xs hover:bg-[#2563EB]/90 focus-visible:ring-[#50c434]/20 dark:focus-visible:ring-[#50c434]/40 dark:bg-[#50c434]/60",
+          "bg-cta-active cursor-pointer text-white shadow-xs hover:bg-[#2563EB]/90 focus-visible:ring-[#50c434]/20 dark:focus-visible:ring-[#50c434]/40",
         destructive:
           "bg-destructive text-white shadow-xs hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60",
         outline:
-          "border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50",
+          "border bg-cta-btn shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50",
         secondary: "bg-secondary text-secondary-foreground shadow-xs hover:bg-secondary/80",
         ghost: "hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50",
         link: "text-primary underline-offset-4 hover:underline",

@@ -47,10 +47,10 @@ export function AddAchievementsModal() {
         </Button>
       </DialogTrigger>
 
-      <DialogContent className="sm:max-w-[540px] rounded-3xl bg-[#fffdf9] border border-stone-200 shadow-2xl px-8 py-6 space-y-6">
+      <DialogContent className="sm:max-w-[540px] rounded-3xl bg-card-bg text-text-main border border-text-subtle shadow-2xl px-8 py-6 space-y-6">
         <DialogHeader>
-          <DialogTitle className="text-2xl font-bold text-stone-700">Create New Achievement</DialogTitle>
-          <DialogDescription className="text-stone-500">
+          <DialogTitle className="text-2xl font-bold">Create New Achievement</DialogTitle>
+          <DialogDescription className="text-text-subtle">
             Define what success looks like — make it meaningful.
           </DialogDescription>
         </DialogHeader>
@@ -62,7 +62,7 @@ export function AddAchievementsModal() {
             { label: "Icon URL", key: "icon", placeholder: "https://youricon.com/icon.png" },
           ].map(({ label, key, placeholder }) => (
             <div key={key} className="space-y-2">
-              <Label htmlFor={key} className="text-stone-600 font-medium">
+              <Label htmlFor={key} className="font-medium">
                 {label}
               </Label>
               <Input
@@ -75,7 +75,7 @@ export function AddAchievementsModal() {
                     [key]: e.target.value,
                   }))
                 }
-                className="bg-white border border-stone-300 focus:ring-2 focus:ring-stone-400 focus:border-stone-400 rounded-lg px-4 py-2 transition"
+                className=" border border-stone-300 focus:ring-2 focus:ring-stone-400 focus:border-stone-400 rounded-lg px-4 py-2 transition"
               />
             </div>
           ))}
