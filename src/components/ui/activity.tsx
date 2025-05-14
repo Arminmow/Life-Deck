@@ -25,7 +25,7 @@ function ActivityBanner({
   ...props
 }: React.ComponentProps<"img"> & { src: string; title: string; id: string }) {
   return (
-    <div className="relative w-full h-[30vh] md:rounded-t-3xl overflow-hidden shadow-lg bg-[#F2EFEA]">
+    <div className="relative w-full h-[30vh] md:rounded-t-3xl overflow-hidden shadow-lg">
       <img
         className={cn("w-full h-full object-cover transition-transform duration-300 hover:scale-[1.02]", className)}
         src={src}
@@ -63,8 +63,8 @@ function ActivityStat({ icon, label, value }: { icon?: React.ReactNode; label: s
     <div className="flex items-center gap-2">
       {icon}
       <div className="flex flex-col leading-tight">
-        <span className="text-sm text-stone-500">{label}</span>
-        {value && <span className="font-medium text-stone-800">{value}</span>}
+        <span className="text-sm text-text-main">{label}</span>
+        {value && <span className="font-medium text-text-subtle">{value}</span>}
       </div>
     </div>
   );
@@ -95,7 +95,7 @@ function ActivityAchievements({ className, activity, ...props }: React.Component
 
       <ActivityAchievementsProgress total={activity.totalAchievements} unlocked={activity.achievementsUnlocked?.length} />
 
-      <div className="bg-[#FAF0E6] rounded-b-md shadow-lg">
+      <div className="bg-card-bg rounded-b-md shadow-lg">
         {activity.totalAchievements > 0 ? (
           <>
             {/* unlocked achievements */}
@@ -130,7 +130,7 @@ function ActivityAchievementsProgress({
   return (
     <div
       className={cn(
-        "w-full flex flex-col gap-2 text-[#3E322C] bg-[#EAE1D8] p-4 rounded-t-md shadow-sm transition-all duration-300 hover:shadow-lg hover:bg-[#D8C8B8]",
+        "w-full flex flex-col gap-2 text-text-main bg-sidebar-bg p-4 rounded-t-md shadow-sm transition-all duration-300 hover:shadow-lg hover:bg-main-bg",
         className
       )}
       {...props}
@@ -161,7 +161,7 @@ function ActivityAchievementWrapper({
   return (
     <div className="p-3 flex flex-col gap-2" {...props}>
       <header className="w-full">
-        <span className="text-sm font-medium text-[#3E322C]">
+        <span className="text-sm font-medium text-text-main">
           {unlocked ? "Unlocked achievements" : "Locked achievements"}
         </span>
       </header>
@@ -196,9 +196,9 @@ function AchievementsModal({ activity }: { activity: Activity }) {
   const disptch = useDispatch();
   return (
     <Dialog open={open} onOpenChange={() => disptch(toogleAchievementsModal())}>
-      <DialogContent className="sm:max-w-[540px] rounded-3xl p-3 bg-[#fffdf9] border border-stone-200 shadow-2xl  max-h-[90%] overflow-hidden">
+      <DialogContent className="sm:max-w-[540px] bg-card-bg text-text-main rounded-3xl p-3 border-text-subtle shadow-2xl  max-h-[90%] overflow-hidden">
         <DialogHeader>
-          <DialogTitle className="text-xl font-bold text-stone-700">{activity.title} Achievements</DialogTitle>
+          <DialogTitle className="text-xl font-bold ">{activity.title} Achievements</DialogTitle>
 
           <ActivityAchievementsProgress
             total={activity.totalAchievements}
@@ -237,14 +237,14 @@ function AchievementsModal({ activity }: { activity: Activity }) {
 
 function AcievementListItem({ achievement }: { achievement: Achievement }) {
   return (
-    <div className="flex items-center w-full py-3 border-b border-gray-300 ">
+    <div className="flex items-center w-full py-3 border-b border-text-subtle ">
       {/* Left: Icon */}
       <div className="flex-shrink-0 mr-3">
         <img
           src={achievement.icon}
           alt="Achievement Icon"
           className={cn(
-            "w-10 h-10 bg-[#EAE1D8] rounded-md object-cover border border-white shadow-sm",
+            "w-10 h-10 bg-card-bg rounded-md object-cover border border-text-subtle shadow-sm",
             achievement.locked && "grayscale opacity-70 bg-gray-400"
           )}
         />
@@ -252,12 +252,12 @@ function AcievementListItem({ achievement }: { achievement: Achievement }) {
 
       {/* Right: Title and Description beside the icon */}
       <div className="flex flex-col">
-        <h1 className="text-xl font-semibold text-stone-700">{achievement.title}</h1>
-        <p className="text-sm text-stone-500">{achievement.description}</p>
+        <h1 className="text-xl font-semibold text-text-main">{achievement.title}</h1>
+        <p className="text-sm text-text-subtle">{achievement.description}</p>
       </div>
 
       {/* Right: Date */}
-      <div className="ml-auto text-sm text-stone-400">{achievement.createDate}</div>
+      <div className="ml-auto text-sm text-text-subtle">{achievement.createDate}</div>
     </div>
   );
 }
@@ -281,14 +281,14 @@ function AchievementItem({
             src={item.icon}
             alt="Achievement-img"
             className={cn(
-              "w-16 h-16  bg-[#EAE1D8] cursor-pointer rounded-md transition-all duration-300 hover:scale-105",
+              "w-16 h-16  bg-sidebar-bg cursor-pointer rounded-md transition-all duration-300 hover:scale-105",
               !unlocked && "grayscale opacity-70 bg-gray-400"
             )}
           />
         </div>
       </HoverCardTrigger>
 
-      <HoverCardContent className="w-80 bg-[#F2EFEA] text-[#2E2E2E] rounded-md shadow-xl border-none">
+      <HoverCardContent className="w-80 bg-card-bg text-[#2E2E2E] rounded-md shadow-xl border-none">
         <div className="flex items-start gap-4">
           <img
             src={item.icon}
@@ -298,7 +298,7 @@ function AchievementItem({
               !unlocked && "grayscale opacity-70 bg-gray-400"
             )}
           />
-          <div className="space-y-1">
+          <div className="space-y-1 text-text-main">
             <h4 className="text-base font-semibold tracking-tight">{item.title}</h4>
             <p className="text-sm text-muted-foreground leading-snug">{item.description}</p>
             <div className="flex items-center gap-1 pt-2 text-xs text-muted-foreground">
@@ -327,22 +327,18 @@ function ActivitySessionBtn({ activity }: { activity: Activity }) {
 
 function ActivityInfo({ activity, className, ...props }: React.ComponentProps<"div"> & { activity: Activity }) {
   return (
-    <section className={cn(" w-full py-6 px-5 text-sidebar-accent bg-[#FAF0E6]  shadow-lg", className)} {...props}>
+    <section className={cn(" w-full py-6 px-5 text-sidebar-accent bg-card-bg  shadow-lg", className)} {...props}>
       {/* Session Button Block */}
       <div className="mb-6">
         <ActivitySessionBtn activity={activity} />
       </div>
 
       {/* Stats Grid */}
-      <div className="flex flex-wrap items-center justify-around gap-8 w-full">
-        <ActivityStat
-          icon={<ClockFading className="text-stone-500" />}
-          label="Time Spent"
-          value={activityService.convertSeconds(activity.timeSpent)}
-        />
+      <div className="flex flex-wrap items-center justify-around gap-8 w-full ">
+        <ActivityStat icon={<ClockFading />} label="Time Spent" value={activityService.convertSeconds(activity.timeSpent)} />
         <ActivityStat label="Last Active" value={activity.lastActive ? activity.lastActive : "Not Active Yet"} />
         <ActivityStat
-          icon={<Trophy className="text-stone-500" />}
+          icon={<Trophy />}
           label="Achievements"
           value={activity.totalAchievements === 0 ? "No Achievements" : `${activity.achievementsUnlocked.length} Unlocked`}
         />
@@ -358,7 +354,7 @@ function ActivityFeed({ className, ...props }: React.ComponentProps<"article">) 
 }
 
 function ActivityFeedContainer({ className, ...props }: React.ComponentProps<"div">) {
-  return <div className={cn("bg-[#FDFCF9] flex flex-row w-full", className)} {...props} />;
+  return <div className={cn("bg-main-bg flex flex-row w-full", className)} {...props} />;
 }
 
 function ActivityFeedItem({
@@ -369,7 +365,10 @@ function ActivityFeedItem({
   ...props
 }: React.ComponentProps<"div"> & { feed: FeedItem; activity: Activity }) {
   return (
-    <div className={cn(" shadow-lg flex flex-col gap-2 p-4 w-full bg-[#FAF0E6] rounded-xl ", className)} {...props}>
+    <div
+      className={cn(" shadow-lg flex flex-col gap-2 p-4 w-full bg-card-bg rounded-xl text-text-main", className)}
+      {...props}
+    >
       <ActivityFeedDate date={feed.date} duration={feed.duration} />
       {children}
     </div>
@@ -383,9 +382,9 @@ function ActivityFeedDate({
   ...props
 }: React.ComponentProps<"div"> & { date: string; duration: string }) {
   return (
-    <div className={cn("flex justify-between items-center w-full", className)} {...props}>
-      <span className="text-sm text-stone-600 font-light">{date}</span>
-      <span className="text-sm text-stone-600 font-light">{`Session duration: ${duration}`}</span>
+    <div className={cn("flex justify-between items-center w-full text-text-subtle ", className)} {...props}>
+      <span className="text-sm font-light">{date}</span>
+      <span className="text-sm  font-light">{`Session duration: ${duration}`}</span>
     </div>
   );
 }

@@ -58,7 +58,7 @@ export function SessionModal({ handleClick, activity }: { activity: Activity; ha
         </Button>
       )}
 
-      <DialogContent className="sm:max-w-[425px] w-full">
+      <DialogContent className="sm:max-w-[425px] w-full bg-card-bg text-text-main">
         <DialogHeader>
           <DialogTitle>Session ended – Duration: {sessionDuration || "N/A"}</DialogTitle>
           <DialogDescription>
@@ -70,11 +70,11 @@ export function SessionModal({ handleClick, activity }: { activity: Activity; ha
           <Textarea
             ref={textareaRef}
             placeholder="Write down your session report"
-            className="w-full resize-none break-words overflow-hidden"
+            className="w-full resize-none break-words overflow-hidden text-text-main"
           />
         </div>
         <DialogFooter>
-          <Button onClick={async () => handleConfirmStop()}>Confirm Stop</Button>
+          <Button variant="outline" onClick={async () => handleConfirmStop()}>Confirm Stop</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

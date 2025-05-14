@@ -33,21 +33,21 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const activities = useSelector((state: any) => state.activity.list);
   return (
     <Sidebar {...props}>
-      <SidebarHeader className="flex flex-col gap-4 p-4 border-b border-stone-200 bg-[#FAF0E6] shadow-sm rounded-b-xl">
+      <SidebarHeader className="flex flex-col gap-4 p-4  bg-card-bg shadow-sm ">
         <div className="flex items-center justify-between">
-          <h2 className="text-base font-semibold text-stone-700 truncate">
+          <h2 className="text-base font-semibold text-text-main truncate">
             {auth.currentUser?.displayName || "Welcome 👋"}
           </h2>
           <Button
             variant="ghost"
             size="sm"
             onClick={logOut}
-            className="text-xs text-stone-500 hover:text-stone-700 transition"
+            className="text-xs text-text-subtle hover:text-text-main cursor-pointer transition"
           >
             Log Out
           </Button>
         </div>
-        <SearchForm />
+        {/* <SearchForm /> */}
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
@@ -56,7 +56,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             <SidebarMenu>
               {activities.map((item: Activity) => (
                 <SidebarMenuItem key={item.id}>
-                  {/* <h1>{item.id}</h1> */}
                   <SidebarMenuButton
                     onClick={() => {
                       dispatch(setActiveId(item.id));
@@ -64,17 +63,19 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                     asChild
                     isActive={item.isActive}
                   >
-                    <article className="shadow-md flex items-center justify-between gap-3 px-4 py-3 bg-[#FAF0E6] rounded-xl border border-stone-200  hover:shadow-md transition-all duration-200">
+                    <article className="shadow-md flex items-center justify-between gap-3 px-4 py-3 bg-card-bg rounded-xl   hover:shadow-md transition-all duration-200">
                       <div className="flex items-center gap-3">
                         <img
                           src={item.icon || "/default-icon.png"}
                           alt={item.title + " icon"}
-                          className="w-8 h-8 rounded-md object-cover border border-stone-300"
+                          className="w-8 h-8 rounded-md object-cover border border-main-bg"
                         />
-                        <h2 className="text-sm font-medium text-stone-700">{item.title}</h2>
+                        <h2 className="text-sm font-medium text-text-main">{item.title}</h2>
                       </div>
 
-                      <p className="text-xs text-stone-500 font-medium">{activityService.convertSeconds(item.timeSpent)}</p>
+                      <p className="text-xs text-text-subtle font-medium">
+                        {activityService.convertSeconds(item.timeSpent)}
+                      </p>
                     </article>
                   </SidebarMenuButton>
                 </SidebarMenuItem>

@@ -40,15 +40,15 @@ export function AddActivityModal({ text }: { text: string }) {
       <DialogTrigger asChild>
         <Button
           variant="outline"
-          className="bg-[#FAF0E6] hover:bg-[#f2e7dc] text-gray-800 border-none shadow-sm px-5 py-2 rounded-xl transition-all duration-200"
+          className="bg-[#FAF0E6] cursor-pointer hover:bg-cta-btn text-text-main border-none shadow-sm px-5 py-2 rounded-xl transition-all duration-200"
         >
           {text}
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[500px] rounded-2xl bg-[#fffdf9] border border-stone-200 shadow-lg">
+      <DialogContent className="sm:max-w-[500px] rounded-2xl bg-card-bg shadow-lg">
         <DialogHeader>
-          <DialogTitle className="text-xl font-semibold text-stone-700">Add Activity</DialogTitle>
-          <DialogDescription className="text-stone-500">
+          <DialogTitle className="text-xl font-semibold text-text-main">Add Activity</DialogTitle>
+          <DialogDescription className="text-text-main">
             Create a new activity to track. Keep it ✨ aesthetic ✨.
           </DialogDescription>
         </DialogHeader>
@@ -61,7 +61,7 @@ export function AddActivityModal({ text }: { text: string }) {
             { label: "Description", key: "description", placeholder: "Write a short description..." },
           ].map(({ label, key, placeholder }) => (
             <div key={key} className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor={key} className="text-right text-stone-600 font-medium">
+              <Label htmlFor={key} className="text-right text-text-main font-medium">
                 {label}
               </Label>
               <Input
@@ -74,7 +74,7 @@ export function AddActivityModal({ text }: { text: string }) {
                     [key]: e.target.value,
                   }))
                 }
-                className="col-span-3 bg-white border border-stone-300 focus:ring-stone-400 focus:border-stone-400 rounded-lg"
+                className="col-span-3 focus:ring-stone-400 rounded-lg"
               />
             </div>
           ))}
@@ -84,7 +84,7 @@ export function AddActivityModal({ text }: { text: string }) {
           <Button
             type="submit"
             onClick={handleSubmit}
-            className="bg-stone-700 hover:bg-stone-800 text-white font-medium rounded-lg px-6 py-2 transition-all duration-200"
+            className="bg-cta-btn hover:bg-cta-hover cursor-pointer text-text-main font-medium rounded-lg px-6 py-2 transition-all duration-200"
           >
             Add
           </Button>
