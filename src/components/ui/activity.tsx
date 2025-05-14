@@ -74,13 +74,13 @@ function NoAchivements({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       className={cn(
-        "flex flex-col items-center justify-center text-center p-6 rounded-2xl border border-muted shadow-sm gap-4",
+        "flex flex-col items-center justify-center text-center p-6 rounded-2xl shadow-sm gap-4",
         className
       )}
       {...props}
     >
-      <h2 className="text-xl font-semibold text-muted-foreground">No Achievements Yet</h2>
-      <p className="text-sm text-muted-foreground">You haven’t added any trophies. Let’s change that.</p>
+      <h2 className="text-xl font-semibold text-text-main">No Achievements Yet</h2>
+      <p className="text-sm text-text-subtle">You haven’t added any trophies. Let’s change that.</p>
       <AddAchievementsModal />
     </div>
   );
