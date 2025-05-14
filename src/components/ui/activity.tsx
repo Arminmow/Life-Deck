@@ -60,7 +60,7 @@ function ActivityBanner({
 
 function ActivityStat({ icon, label, value }: { icon?: React.ReactNode; label: string; value?: string | number }) {
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex items-center gap-2 text-text-main">
       {icon}
       <div className="flex flex-col leading-tight">
         <span className="text-sm text-text-main">{label}</span>

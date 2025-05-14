@@ -95,6 +95,31 @@
   --ctaActive: #2563eb;
 }
 
+.light {
+  --sidebarBg: #f9f9f9;
+  --mainBg: #ffffff;
+  --cardBg: #f0f0f0;
+  --textMain: #1a1a1d;
+  --textSubtle: #6b6b6b;
+  --ctaBtn: #d4af37;
+  --ctaHover: #b9982f;
+  --ctaActive: #1d4ed8;
+}
+
+.love {
+  --sidebarBg: #f8d7e0;  /* Soft blush pink, like a gentle touch */
+  --mainBg: #fff5f7;  /* Light pastel pink, calm and soothing */
+  --cardBg: #f1c6d9;  /* Muted rose, gentle warmth for the cards */
+  --textMain: #3e2a47;  /* Deep plum for readable, but soft text */
+  --textSubtle: #9b7b96;  /* Dusty lavender for secondary text */
+  --ctaBtn: #e57373;  /* Warm coral pink, still soft but noticeable */
+  --ctaHover: #ef5350;  /* Slightly deeper coral pink for hover */
+  --ctaActive: #c62828;  /* Bold red-pink for active, like a passionate click */
+}
+
+
+
+
 @layer base {
 
   body {
