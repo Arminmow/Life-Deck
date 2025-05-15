@@ -258,14 +258,14 @@ function AcievementListItem({ achievement }: { achievement: Achievement }) {
         {achievement.locked ? (
           <button
             className="cursor-pointer hover:scale-105  px-3 py-1 text-sm rounded-md bg-btn-bg text-text-main hover:bg-btn-hover transition"
-            onClick={() => handleComplete(achievement.id)}
+         
           >
             Complete
           </button>
         ) : (
           <button
             className="cursor-pointer hover:scale-105  px-3 py-1 text-sm rounded-md bg-btn-warn hover:bg-btn-warn-hover text-text-main  transition"
-            onClick={() => handleComplete(achievement.id)}
+   
           >
             Undo Complete
           </button>
@@ -273,7 +273,7 @@ function AcievementListItem({ achievement }: { achievement: Achievement }) {
 
         <button
           className="px-3 py-1 text-sm rounded-md bg-cta-active text-white cursor-pointer hover:scale-105 transition"
-          onClick={() => handleEdit(achievement.id)}
+
         >
           Edit
         </button>
