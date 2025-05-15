@@ -72,9 +72,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                         <h2 className="text-sm font-medium text-text-main">{item.title}</h2>
                       </div>
 
-                      <span className="text-xs text-text-subtle font-medium">
+                      <p className="text-xs text-text-subtle font-medium">
                         {activityService.convertSeconds(item.timeSpent)}
-                      </span>
+                      </p>
                     </article>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
