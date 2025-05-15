@@ -72,7 +72,7 @@ export function AddActivityModal({ text }: { text: string }) {
                     [key]: e.target.value,
                   }))
                 }
-                className="border border-stone-300 focus:ring-2 focus:ring-stone-400 focus:border-stone-400 rounded-lg px-4 py-2 transition"
+                className="text-text-main border border-stone-300 focus:ring-2 focus:ring-stone-400 focus:border-stone-400 rounded-lg px-4 py-2 transition"
               />
             </div>
           ))}
