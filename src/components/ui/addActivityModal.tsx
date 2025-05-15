@@ -26,8 +26,6 @@ export function AddActivityModal({ text }: { text: string }) {
   const userId = useSelector((state: RootState) => state.user.id);
 
   const handleSubmit = async () => {
-   
-    
     if (!userId) return;
 
     const activityBuilt = activityService.buildActivityFromUserInput(activity);
@@ -53,14 +51,14 @@ export function AddActivityModal({ text }: { text: string }) {
           </DialogDescription>
         </DialogHeader>
 
-        <div className="grid gap-6 py-4">
+        <div className="grid gap-5">
           {[
             { label: "Name", key: "title", placeholder: "Eg. Chess (You should learn chess)" },
             { label: "Banner URL", key: "banner", placeholder: "https://yourbanner.com/image.jpg" },
             { label: "Icon URL", key: "icon", placeholder: "https://youricon.com/icon.png" },
             { label: "Description", key: "description", placeholder: "Write a short description..." },
           ].map(({ label, key, placeholder }) => (
-            <div key={key} className="grid grid-cols-4 items-center gap-4">
+            <div key={key} className="space-y-2">
               <Label htmlFor={key} className="text-right text-text-main font-medium">
                 {label}
               </Label>
@@ -74,7 +72,7 @@ export function AddActivityModal({ text }: { text: string }) {
                     [key]: e.target.value,
                   }))
                 }
-                className="col-span-3 focus:ring-stone-400 rounded-lg"
+                className="border border-stone-300 focus:ring-2 focus:ring-stone-400 focus:border-stone-400 rounded-lg px-4 py-2 transition"
               />
             </div>
           ))}
