@@ -22,17 +22,18 @@ export function AddAchievementsModal() {
   const formatted = date.getDate() + " " + date.toLocaleString("en-US", { month: "short" }).toUpperCase();
   const activeId = useSelector((state: RootState) => state.user.activeId);
 
-  const [achievement, setAchievement] = useState({
+  const [achievement, setAchievement] = useState<Achievement>({
     title: "",
     description: "",
     icon: "",
+    locked: true,
     createDate: formatted,
     unlockDate: "",
-  } as Achievement);
+  });
 
   const handleSubmit = async () => {
-    await activityService.addAchievement({achievement : achievement , activityId : activeId})
-    alert("Added , chill")
+    await activityService.addAchievement({ achievement: achievement, activityId: activeId });
+    alert("Added , chill");
   };
 
   return (

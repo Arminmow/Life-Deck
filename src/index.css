@@ -47,6 +47,10 @@
   --color-cta-btn: var(--ctaBtn);
   --color-cta-hover: var(--ctaHover);
   --color-cta-active: var(--ctaActive);
+  --color-btn-bg: var(--btnBg);
+  --color-btn-hover: var(--btnHover);
+  --color-btn-warn: var(--btnWarnBg);
+  --color-btn-warn-hover: var(--btnWarnHover);
 }
 
 :root {
@@ -93,6 +97,10 @@
   --ctaBtn: #d4af37;
   --ctaHover: #e3c56b;
   --ctaActive: #2563eb;
+  --btnBg: #2c2c30;
+  --btnHover: #3a3a3f;
+  --btnWarnBg: #4a1f1f;
+  --btnWarnHover: #5c2626;
 }
 
 .light {
@@ -107,21 +115,17 @@
 }
 
 .love {
-  --sidebarBg: #f8d7e0;  /* Soft blush pink, like a gentle touch */
-  --mainBg: #fff5f7;  /* Light pastel pink, calm and soothing */
-  --cardBg: #f1c6d9;  /* Muted rose, gentle warmth for the cards */
-  --textMain: #3e2a47;  /* Deep plum for readable, but soft text */
-  --textSubtle: #9b7b96;  /* Dusty lavender for secondary text */
-  --ctaBtn: #e57373;  /* Warm coral pink, still soft but noticeable */
-  --ctaHover: #ef5350;  /* Slightly deeper coral pink for hover */
-  --ctaActive: #c62828;  /* Bold red-pink for active, like a passionate click */
+  --sidebarBg: #f8d7e0; /* Soft blush pink, like a gentle touch */
+  --mainBg: #fff5f7; /* Light pastel pink, calm and soothing */
+  --cardBg: #f1c6d9; /* Muted rose, gentle warmth for the cards */
+  --textMain: #3e2a47; /* Deep plum for readable, but soft text */
+  --textSubtle: #9b7b96; /* Dusty lavender for secondary text */
+  --ctaBtn: #e57373; /* Warm coral pink, still soft but noticeable */
+  --ctaHover: #ef5350; /* Slightly deeper coral pink for hover */
+  --ctaActive: #c62828; /* Bold red-pink for active, like a passionate click */
 }
 
-
-
-
 @layer base {
-
   body {
     @apply bg-background text-foreground;
   }

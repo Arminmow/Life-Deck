@@ -73,10 +73,7 @@ function ActivityStat({ icon, label, value }: { icon?: React.ReactNode; label: s
 function NoAchivements({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
-      className={cn(
-        "flex flex-col items-center justify-center text-center p-6 rounded-2xl shadow-sm gap-4",
-        className
-      )}
+      className={cn("flex flex-col items-center justify-center text-center p-6 rounded-2xl shadow-sm gap-4", className)}
       {...props}
     >
       <h2 className="text-xl font-semibold text-text-main">No Achievements Yet</h2>
@@ -250,14 +247,37 @@ function AcievementListItem({ achievement }: { achievement: Achievement }) {
         />
       </div>
 
-      {/* Right: Title and Description beside the icon */}
+      {/* Middle: Title and Description beside the icon */}
       <div className="flex flex-col">
         <h1 className="text-xl font-semibold text-text-main">{achievement.title}</h1>
         <p className="text-sm text-text-subtle">{achievement.description}</p>
       </div>
 
-      {/* Right: Date */}
-      <div className="ml-auto text-sm text-text-subtle">{achievement.createDate}</div>
+      {/* Right: Buttons */}
+      <div className="ml-auto flex gap-2">
+        {achievement.locked ? (
+          <button
+            className="cursor-pointer hover:scale-105  px-3 py-1 text-sm rounded-md bg-btn-bg text-text-main hover:bg-btn-hover transition"
+            onClick={() => handleComplete(achievement.id)}
+          >
+            Complete
+          </button>
+        ) : (
+          <button
+            className="cursor-pointer hover:scale-105  px-3 py-1 text-sm rounded-md bg-btn-warn hover:bg-btn-warn-hover text-text-main  transition"
+            onClick={() => handleComplete(achievement.id)}
+          >
+            Undo Complete
+          </button>
+        )}
+
+        <button
+          className="px-3 py-1 text-sm rounded-md bg-cta-active text-white cursor-pointer hover:scale-105 transition"
+          onClick={() => handleEdit(achievement.id)}
+        >
+          Edit
+        </button>
+      </div>
     </div>
   );
 }
